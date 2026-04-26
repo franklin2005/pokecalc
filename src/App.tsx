@@ -5,7 +5,7 @@
 
 import { useState, useMemo } from 'react'
 import { Generations } from '@smogon/calc'
-import type { CalcCardState, EVs, FieldState, SideConditions } from './types/calc'
+import type { CalcCardState, StatPoints, FieldState, SideConditions } from './types/calc'
 import { CalcCard } from './components/CalcCard/CalcCard'
 import { FieldConditions } from './components/FieldConditions/FieldConditions'
 import { ResultsPanel } from './components/ResultsPanel/ResultsPanel'
@@ -14,7 +14,7 @@ import { useDarkMode } from './hooks/useDarkMode'
 import { useCalculation } from './hooks/useCalculation'
 import './App.css'
 
-const DEFAULT_EVS: EVs = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 }
+const DEFAULT_SPS: StatPoints = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 }
 
 const DEFAULT_CARD_STATE: CalcCardState = {
   species: null,
@@ -22,7 +22,7 @@ const DEFAULT_CARD_STATE: CalcCardState = {
   item: undefined,
   ability: undefined,
   nature: 'Hardy',
-  evs: DEFAULT_EVS,
+  sps: DEFAULT_SPS,
   move: null,
 }
 
@@ -52,6 +52,7 @@ function App() {
   const [field, setField] = useState<FieldState>(DEFAULT_FIELD)
 
   const result = useCalculation(gen, attacker, defender, field)
+  const hasSelection = Boolean(attacker.species && defender.species && attacker.move)
 
   const handleSwap = () => {
     const temp = attacker
@@ -80,7 +81,7 @@ function App() {
         </div>
 
         <div className="calc-layout__results">
-          <ResultsPanel result={result} onSwap={handleSwap} />
+          <ResultsPanel result={result} onSwap={handleSwap} hasSelection={hasSelection} />
           <FieldConditions field={field} onFieldChange={setField} />
         </div>
 

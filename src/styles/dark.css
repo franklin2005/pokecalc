@@ -83,6 +83,10 @@
   --red-500: #ef4444;
   --red-600: #fca5a5;
 
+  /* --- Nature Effect Colors (dark mode) --- */
+  --nature-boosted: #4ade80;
+  --nature-hindered: #f87171;
+
   /* --- Shadows (dark mode — lighter, more diffuse) --- */
   --shadow-sm: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.2);
   --shadow-md: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.3),

@@ -1,23 +1,24 @@
 /**
  * PokeCalc — CalcCard Component
- * Main card component that assembles species selection, stats, EVs, nature,
+ * Main card component that assembles species selection, stats, Stat Points, nature,
  * ability, item, and move selection for attacker or defender.
  */
 
+import { useState, useEffect, useRef } from 'react'
 import { toID, Generations } from '@smogon/calc'
 import type { CalcCardState, StatName } from '../../types/calc'
-import { CHAMPIONS_EV_TOTAL_MAX, CHAMPIONS_EV_MAX_PER_STAT } from '../../types/calc'
+import { CHAMPIONS_SP_TOTAL_MAX, CHAMPIONS_SP_MAX_PER_STAT } from '../../types/calc'
 import type { TypeName, BaseStats } from '../../types/pokemon'
 import { TypeBadge } from '../TypeBadge/TypeBadge'
 import { StatBar } from '../StatBar/StatBar'
 import { SpeciesSelect } from '../SpeciesSelect/SpeciesSelect'
-import { EVSlider } from '../EVSlider/EVSlider'
 import { NatureSelect } from '../NatureSelect/NatureSelect'
 import { AbilitySelect } from '../AbilitySelect/AbilitySelect'
 import { ItemSelect } from '../ItemSelect/ItemSelect'
 import { MoveSelect } from '../MoveSelect/MoveSelect'
-import { computeStats, getStatBarMax } from '../../utils/calc-stats'
-import { totalEVs } from '../../data/ev-presets'
+import { Spinner } from '../Spinner/Spinner'
+import { computeStats, getStatBarMax, getNatureEffect } from '../../utils/calc-stats'
+import { totalSPs } from '../../data/sp-presets'
 import { getSpriteUrl } from '../../data/species-to-id'
 import './CalcCard.css'
 
@@ -41,12 +42,12 @@ interface CalcCardProps {
 
 export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
   const isAttacker = role === 'attacker'
+  const [isImageLoading, setIsImageLoading] = useState(true)
+  const imgRef = useRef<HTMLImageElement>(null)
 
-  // Get species data from calc
   const speciesName = state.forme ? `${state.species}-${state.forme}` : state.species
   const speciesData = state.species ? gen.species.get(toID(speciesName)) : null
 
-  // Get base stats
   const baseStats: BaseStats | null = speciesData?.baseStats
     ? {
         hp: speciesData.baseStats.hp,
@@ -58,23 +59,30 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
       }
     : null
 
-  // Compute final stats
   const stats = baseStats
-    ? computeStats(baseStats, state.evs, state.nature)
+    ? computeStats(baseStats, state.sps, state.nature)
     : null
 
-  // Get types
   const types: TypeName[] = speciesData?.types
     ? (speciesData.types as unknown as TypeName[])
     : []
 
-  // Sprite URL
   const spriteUrl = speciesName ? getSpriteUrl(speciesName) : null
 
-  // Total EVs
-  const evTotal = totalEVs(state.evs)
+  // Reset loading state when species changes.
+  // Also handles the case where the image is already cached
+  // (e.g. loaded by SpeciesSelect's small sprite) — onLoad
+  // would fire before React attaches the handler, so we
+  // check img.complete.
+  useEffect(() => {
+    setIsImageLoading(true)
+    if (imgRef.current?.complete) {
+      setIsImageLoading(false)
+    }
+  }, [spriteUrl])
 
-  // Handle species selection
+  const spTotal = totalSPs(state.sps)
+
   const handleSpeciesChange = (species: string | null, forme: string | null) => {
     const newState: CalcCardState = {
       ...state,
@@ -84,7 +92,6 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
       move: null,
     }
 
-    // Auto-select primary ability
     if (species) {
       const sp = gen.species.get(toID(species))
       if (sp?.abilities?.['0']) {
@@ -95,25 +102,23 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
     onStateChange(newState)
   }
 
-  // Handle EV change with Champions cap enforcement
-  const handleEVChange = (stat: StatName, value: number) => {
-    const newEVs = { ...state.evs, [stat]: value }
-    const newTotal = totalEVs(newEVs)
+  const handleSPChange = (stat: StatName, value: number) => {
+    const newSPs = { ...state.sps, [stat]: value }
+    const newTotal = totalSPs(newSPs)
 
-    if (newTotal > CHAMPIONS_EV_TOTAL_MAX) {
+    if (newTotal > CHAMPIONS_SP_TOTAL_MAX) {
       return
     }
 
-    if (value > CHAMPIONS_EV_MAX_PER_STAT) {
+    if (value > CHAMPIONS_SP_MAX_PER_STAT) {
       return
     }
 
-    onStateChange({ ...state, evs: newEVs })
+    onStateChange({ ...state, sps: newSPs })
   }
 
   return (
     <article className={`calc-card calc-card--${role}`}>
-      {/* Header */}
       <header className="calc-card__header">
         <h2 className="calc-card__title">{isAttacker ? 'Attacker' : 'Defender'}</h2>
         <span className={`calc-card__badge calc-card__badge--${role}`}>
@@ -121,7 +126,6 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
         </span>
       </header>
 
-      {/* Species Selection */}
       <div className="calc-card__section">
         <SpeciesSelect
           value={state.species}
@@ -132,16 +136,21 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
 
       {speciesData && (
         <>
-          {/* Sprite and Types */}
           <div className="calc-card__sprite-section">
             <div className="calc-card__sprite-wrapper">
               {spriteUrl ? (
-                <img
-                  className="calc-card__sprite"
-                  src={spriteUrl}
-                  alt={speciesName || ''}
-                  loading="lazy"
-                />
+                <>
+                  {isImageLoading && <Spinner size="small" />}
+                  <img
+                    ref={imgRef}
+                    className="calc-card__sprite"
+                    src={spriteUrl}
+                    alt={speciesName || ''}
+                    onLoad={() => setIsImageLoading(false)}
+                    onError={() => setIsImageLoading(false)}
+                    style={{ visibility: isImageLoading ? 'hidden' : 'visible' }}
+                  />
+                </>
               ) : (
                 <div className="calc-card__sprite-placeholder">
                   <span className="material-symbols-outlined">image</span>
@@ -157,7 +166,6 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
             )}
           </div>
 
-          {/* Stats Display */}
           {stats && (
             <div className="calc-card__stats">
               {STAT_CONFIG.map(({ key, label, colorClass }) => {
@@ -165,17 +173,22 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
                 return (
                   <StatBar
                     key={key}
+                    statKey={key}
                     label={label}
                     value={stats[key]}
                     maxValue={maxValue}
                     colorClass={colorClass}
+                    spValue={state.sps[key]}
+                    spMax={CHAMPIONS_SP_MAX_PER_STAT}
+                    spTotal={spTotal}
+                    onSPChange={(value: number) => handleSPChange(key, value)}
+                    natureEffect={getNatureEffect(key, state.nature)}
                   />
                 )
               })}
             </div>
           )}
 
-          {/* Controls: Nature, Ability, Item */}
           <div className="calc-card__controls">
             <NatureSelect
               value={state.nature}
@@ -191,40 +204,15 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
               value={state.item}
               onChange={(item: string | undefined) => onStateChange({ ...state, item })}
             />
-          </div>
-
-          {/* Move Select (Attacker only) */}
-          {isAttacker && (
-            <div className="calc-card__section">
+            {isAttacker && (
               <MoveSelect
                 species={state.species}
                 value={state.move}
                 onChange={(move: string | null) => onStateChange({ ...state, move })}
                 gen={gen}
               />
-            </div>
-          )}
-
-          {/* EV Section */}
-          <details className="calc-card__evs">
-            <summary className="calc-card__evs-summary">
-              <span>EV Distribution</span>
-              <span className={`calc-card__evs-total ${evTotal >= CHAMPIONS_EV_TOTAL_MAX ? 'calc-card__evs-total--full' : ''}`}>
-                {evTotal}/{CHAMPIONS_EV_TOTAL_MAX}
-              </span>
-            </summary>
-            <div className="calc-card__evs-grid">
-              {STAT_CONFIG.map(({ key }) => (
-                <EVSlider
-                  key={key}
-                  statName={key}
-                  value={state.evs[key]}
-                  totalEVs={evTotal}
-                  onChange={(value: number) => handleEVChange(key, value)}
-                />
-              ))}
-            </div>
-          </details>
+            )}
+          </div>
         </>
       )}
     </article>

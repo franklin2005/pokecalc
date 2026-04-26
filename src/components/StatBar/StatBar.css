@@ -12,6 +12,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .stat-bar__label {
@@ -20,6 +22,7 @@
   color: var(--on-surface-variant);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  min-width: 3.2rem;
 }
 
 .stat-bar__value {
@@ -27,6 +30,87 @@
   font-weight: 800;
   color: var(--on-surface);
   font-size: 1.6rem;
+  min-width: 3.6rem;
+  text-align: right;
+}
+
+.stat-bar__nature {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: var(--font-headline);
+  min-width: 4rem;
+  text-align: center;
+}
+
+.stat-bar__nature--boosted {
+  color: var(--nature-boosted);
+}
+
+.stat-bar__nature--hindered {
+  color: var(--nature-hindered);
+}
+
+.stat-bar__nature--neutral {
+  color: var(--outline-variant);
+}
+
+.stat-bar__sp-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.stat-bar__sp-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--surface-container);
+  outline: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.stat-bar__sp-input:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.stat-bar__sp-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s;
+}
+
+.stat-bar__sp-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.stat-bar__sp-input::-moz-range-thumb {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
+}
+
+.stat-bar__sp-count {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  font-family: var(--font-headline);
+  min-width: 3.2rem;
+  text-align: right;
 }
 
 .stat-bar__track {

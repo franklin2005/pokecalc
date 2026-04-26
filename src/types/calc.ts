@@ -9,14 +9,19 @@ import type { Result } from '@smogon/calc'
 export type StatName = 'hp' | 'atk' | 'def' | 'spa' | 'spd' | 'spe'
 
 /**
- * Champions-specific EV constraints:
+ * Champions-specific Stat Point constraints:
  * - Max 32 per stat
  * - Total max 66
  */
-export const CHAMPIONS_EV_MAX_PER_STAT = 32
-export const CHAMPIONS_EV_TOTAL_MAX = 66
+export const CHAMPIONS_SP_MAX_PER_STAT = 32
+export const CHAMPIONS_SP_TOTAL_MAX = 66
 export const CHAMPIONS_IV = 31
 export const CHAMPIONS_LEVEL = 50
+
+/** @deprecated Use CHAMPIONS_SP_MAX_PER_STAT instead */
+export const CHAMPIONS_EV_MAX_PER_STAT = CHAMPIONS_SP_MAX_PER_STAT
+/** @deprecated Use CHAMPIONS_SP_TOTAL_MAX instead */
+export const CHAMPIONS_EV_TOTAL_MAX = CHAMPIONS_SP_TOTAL_MAX
 
 /** State for a single CalcCard (attacker or defender) */
 export interface CalcCardState {
@@ -25,12 +30,12 @@ export interface CalcCardState {
   item: string | undefined
   ability: string | undefined
   nature: string
-  evs: EVs
+  sps: StatPoints
   move: string | null
 }
 
-/** EV distribution — Champions: max 32/stat, total ≤ 66 */
-export interface EVs {
+/** Stat Point distribution — Champions: max 32/stat, total ≤ 66 */
+export interface StatPoints {
   hp: number
   atk: number
   def: number
@@ -38,6 +43,9 @@ export interface EVs {
   spd: number
   spe: number
 }
+
+/** @deprecated Use StatPoints instead */
+export type EVs = StatPoints
 
 /** Move state for the attacker */
 export interface MoveState {

@@ -4,15 +4,38 @@
  */
 
 import type { CalcResult } from '../../types/calc'
+import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
 import './ResultsPanel.css'
 
 interface ResultsPanelProps {
   result: CalcResult | null
   onSwap: () => void
+  hasSelection: boolean
 }
 
-export function ResultsPanel({ result, onSwap }: ResultsPanelProps) {
+export function ResultsPanel({ result, onSwap, hasSelection }: ResultsPanelProps) {
   if (!result) {
+    if (hasSelection) {
+      return (
+        <div className="results-panel">
+          <h3 className="results-panel__title">Results</h3>
+          <ErrorDisplay
+            message="Unable to calculate damage. Check your Pokémon and move selection."
+          />
+          <button
+            className="results-panel__swap-btn results-panel__swap-btn--disabled"
+            type="button"
+            onClick={onSwap}
+            aria-label="Swap attacker and defender"
+            disabled
+          >
+            <span className="material-symbols-outlined">swap_horiz</span>
+            Swap
+          </button>
+        </div>
+      )
+    }
+
     return (
       <div className="results-panel">
         <h3 className="results-panel__title">Results</h3>

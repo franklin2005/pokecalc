@@ -1,0 +1,104 @@
+/* ============================================
+   PokeCalc — ErrorDisplay Component
+   Inline DOM error message with optional retry.
+   ============================================ */
+
+/* --- ErrorDisplay Block --- */
+.error-display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 1.6rem;
+  background-color: var(--error-container);
+  color: var(--on-error-container);
+  border-radius: 1.6rem;
+  animation: error-display-fade-in 0.3s ease forwards;
+}
+
+@keyframes error-display-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- Inline Variant (default) --- */
+.error-display--inline {
+  /* compact — inherits block defaults */
+}
+
+/* --- Banner Variant (full-width) --- */
+.error-display--banner {
+  width: 100%;
+  padding: 1.6rem 2rem;
+}
+
+/* --- Icon --- */
+.error-display__icon {
+  color: var(--error);
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+/* --- Content Area --- */
+.error-display__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* --- Message Text --- */
+.error-display__message {
+  font-size: 1.4rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* --- Retry Button --- */
+.error-display__retry {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.error-display__retry:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.error-display__retry:active {
+  transform: scale(0.97);
+}
+
+/* --- Dark mode adjustments --- */
+@media (prefers-color-scheme: dark) {
+  .error-display__retry:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* --- Responsive adjustments --- */
+@media (max-width: 767px) {
+  .error-display {
+    padding: 1rem 1.2rem;
+    gap: 0.8rem;
+  }
+
+  .error-display--banner {
+    padding: 1.2rem 1.6rem;
+  }
+
+  .error-display__message {
+    font-size: 1.3rem;
+  }
+}

@@ -123,6 +123,10 @@
   --type-fairy-bg: rgba(236, 72, 153, 0.1);
   --type-fairy-text: #db2777;
 
+  /* --- Nature Effect Colors --- */
+  --nature-boosted: #16a34a;
+  --nature-hindered: #dc2626;
+
   /* --- Neutral Colors --- */
   --neutral-100: #f5f5f5;
   --neutral-400: #a3a3a3;

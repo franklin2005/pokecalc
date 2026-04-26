@@ -5,10 +5,11 @@
  */
 
 import { useMemo } from 'react'
-import { calculate, Pokemon, Move, Field } from '@smogon/calc'
+import { calculate, Pokemon, Move, Field, toID } from '@smogon/calc'
 import type { Generations, Result } from '@smogon/calc'
-import type { CalcCardState, FieldState, CalcResult } from '../types/calc'
+import type { CalcCardState, FieldState, CalcResult, StatPoints } from '../types/calc'
 import { CHAMPIONS_IV, CHAMPIONS_LEVEL } from '../types/calc'
+import { spToEV } from '../utils/calc-stats'
 
 type Generation = ReturnType<typeof Generations.get>
 
@@ -42,6 +43,22 @@ function buildPokemon(
   state: CalcCardState
 ): Pokemon {
   const speciesName = state.forme ? `${state.species}-${state.forme}` : state.species
+  const speciesData = state.species ? gen.species.get(toID(speciesName!)) : null
+
+  let evs: StatPoints
+  if (speciesData?.baseStats) {
+    evs = spToEV(state.sps, speciesData.baseStats, state.nature)
+  } else {
+    // Fallback: no species data available, use naive conversion (SPs × 4)
+    evs = {
+      hp: state.sps.hp * 4,
+      atk: state.sps.atk * 4,
+      def: state.sps.def * 4,
+      spa: state.sps.spa * 4,
+      spd: state.sps.spd * 4,
+      spe: state.sps.spe * 4,
+    }
+  }
 
   return new Pokemon(gen, speciesName!, {
     level: CHAMPIONS_LEVEL,
@@ -53,14 +70,7 @@ function buildPokemon(
       spd: CHAMPIONS_IV,
       spe: CHAMPIONS_IV,
     },
-    evs: {
-      hp: state.evs.hp,
-      atk: state.evs.atk,
-      def: state.evs.def,
-      spa: state.evs.spa,
-      spd: state.evs.spd,
-      spe: state.evs.spe,
-    },
+    evs,
     nature: state.nature,
     item: state.item || undefined,
     ability: state.ability || undefined,

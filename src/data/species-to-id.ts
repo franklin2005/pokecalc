@@ -1,20 +1,16 @@
 /**
  * PokeCalc — Species to Pokédex ID Mapping
- * Maps @smogon/calc species names to national Pokédex numbers for sprite URLs.
+ * Maps @smogon/calc species names to national Pokédex numbers.
  *
- * Sprite URL format:
- * https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{id}.png
- *
- * Since @smogon/calc species objects don't expose a .num property,
- * this module provides a lookup table for base species and handles
- * forme variants by stripping suffixes.
+ * The SPECIES_TO_ID table is used for species search/display purposes.
+ * Sprite URLs now use Pokémon Showdown sprites (see getSpriteUrl).
  */
 
 /**
  * Base species name → national Pokédex number.
  * Covers all species through Gen 9 (Pecharunt #1025).
- * Forme variants (e.g., "Charizard-Mega-X") are resolved by
- * stripping the suffix and looking up the base species.
+ * Forme variants (e.g., "Charizard-Mega-X") fall back to base species ID
+ * by stripping suffixes (e.g., "Charizard").
  */
 const SPECIES_TO_ID: Record<string, number> = {
   // Gen 1 (1-151)
@@ -249,11 +245,13 @@ const SPECIES_TO_ID: Record<string, number> = {
 
 /**
  * Map a species name (as used by @smogon/calc) to its national Pokédex number.
- * Handles forme variants by stripping suffixes (e.g., "Charizard-Mega-X" → 6).
+ * Lookup order:
+ * 1. Direct lookup in SPECIES_TO_ID (base species)
+ * 2. Strip suffix and lookup base species (fallback for unknown formes)
+ * 3. Special cases handling (Mr-Mime, Nidoran-F, etc.)
  * Returns null if the species is not found.
  */
 export function getSpeciesId(speciesName: string): number | null {
-  // Direct lookup
   if (speciesName in SPECIES_TO_ID) {
     return SPECIES_TO_ID[speciesName]
   }
@@ -297,12 +295,26 @@ export function getSpeciesId(speciesName: string): number | null {
 }
 
 /**
- * Get the official artwork sprite URL for a species.
- * Returns the PokeAPI URL for the species' national dex number.
- * Returns null if the species is not found.
+ * Convert a @smogon/calc species name to the Showdown sprite filename format.
+ * Handles the Mega-X/Y naming difference:
+ * - @smogon/calc: "Charizard-Mega-X" → Showdown: "charizard-megax"
+ * - @smogon/calc: "Mewtwo-Mega-Y" → Showdown: "mewtwo-megay"
+ * - @smogon/calc: "Gengar-Mega" → Showdown: "gengar-mega"
+ */
+function toShowdownSpriteName(speciesName: string): string {
+  const lower = speciesName.toLowerCase()
+  // Showdown uses "megax"/"megay" instead of "mega-x"/"mega-y"
+  return lower.replace(/-mega-x$/, '-megax').replace(/-mega-y$/, '-megay')
+}
+
+/**
+ * Get the sprite URL for a species using Pokémon Showdown HOME sprites.
+ * These are higher quality (~20-40 KiB) than the dex sprites (~3-15 KiB).
+ * Covers ALL species and formes including Mega Evolutions, Primal forms,
+ * and Champions-exclusive Megas (ZA_PATCH).
  */
 export function getSpriteUrl(speciesName: string): string | null {
-  const id = getSpeciesId(speciesName)
-  if (id === null) return null
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+  if (!speciesName) return null
+  const formattedName = toShowdownSpriteName(speciesName)
+  return `https://play.pokemonshowdown.com/sprites/home/${formattedName}.png`
 }
