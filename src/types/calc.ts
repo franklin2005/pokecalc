@@ -1,0 +1,92 @@
+/**
+ * PokeCalc — Calculation Types
+ * Types for the @smogon/calc integration and UI state.
+ */
+
+import type { Result } from '@smogon/calc'
+
+/** Stat names used throughout the application */
+export type StatName = 'hp' | 'atk' | 'def' | 'spa' | 'spd' | 'spe'
+
+/**
+ * Champions-specific EV constraints:
+ * - Max 32 per stat
+ * - Total max 66
+ */
+export const CHAMPIONS_EV_MAX_PER_STAT = 32
+export const CHAMPIONS_EV_TOTAL_MAX = 66
+export const CHAMPIONS_IV = 31
+export const CHAMPIONS_LEVEL = 50
+
+/** State for a single CalcCard (attacker or defender) */
+export interface CalcCardState {
+  species: string | null
+  forme: string | null
+  item: string | undefined
+  ability: string | undefined
+  nature: string
+  evs: EVs
+  move: string | null
+}
+
+/** EV distribution — Champions: max 32/stat, total ≤ 66 */
+export interface EVs {
+  hp: number
+  atk: number
+  def: number
+  spa: number
+  spd: number
+  spe: number
+}
+
+/** Move state for the attacker */
+export interface MoveState {
+  name: string
+  type: string
+  category: 'Physical' | 'Special' | 'Status'
+}
+
+/** Result from @smogon/calc wrapped for UI display */
+export interface CalcResult {
+  /** Damage range as percentages, e.g. [11.2, 13.3] */
+  damageRange: [number, number]
+  /** Smogon KO description, e.g. "guaranteed 2HKO" */
+  koText: string
+  /** Effectiveness: 'super-effective' | 'not-very-effective' | 'neutral' */
+  effectiveness: 'super-effective' | 'not-very-effective' | 'neutral'
+  /** Raw @smogon/calc result for advanced access */
+  raw: Result
+}
+
+/** Field conditions state */
+export interface FieldState {
+  weather: Weather | null
+  terrain: Terrain | null
+  attackerSide: SideConditions
+  defenderSide: SideConditions
+}
+
+export type Weather =
+  | 'Sun'
+  | 'Rain'
+  | 'Sand'
+  | 'Hail'
+  | 'Harsh Sunshine'
+  | 'Heavy Rain'
+  | 'Strong Winds'
+
+export type Terrain =
+  | 'Electric'
+  | 'Grassy'
+  | 'Misty'
+  | 'Psychic'
+
+export interface SideConditions {
+  stealthRock: boolean
+  spikes: number // 0–3
+  reflect: boolean
+  lightScreen: boolean
+  auroraVeil: boolean
+  tailwind: boolean
+  helpingHand: boolean
+}

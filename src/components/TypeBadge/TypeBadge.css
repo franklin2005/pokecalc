@@ -1,0 +1,14 @@
+/* ============================================
+   TypeBadge Component Styles
+   ============================================ */
+
+.type-badge {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}

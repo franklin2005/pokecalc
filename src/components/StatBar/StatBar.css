@@ -1,0 +1,55 @@
+/* ============================================
+   StatBar Component Styles
+   ============================================ */
+
+.stat-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.stat-bar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-bar__label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stat-bar__value {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  color: var(--on-surface);
+  font-size: 1.6rem;
+}
+
+.stat-bar__track {
+  height: 0.8rem;
+  width: 100%;
+  background-color: var(--surface-container);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.stat-bar__fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease, filter 0.2s;
+}
+
+.stat-bar:hover .stat-bar__fill {
+  filter: brightness(1.1);
+}
+
+.stat-bar__fill--hp { background-color: var(--tertiary); }
+.stat-bar__fill--attack { background-color: var(--primary); }
+.stat-bar__fill--defense { background-color: var(--secondary-container); }
+.stat-bar__fill--sp-attack { background-color: var(--primary-container); }
+.stat-bar__fill--sp-defense { background-color: var(--tertiary-container); }
+.stat-bar__fill--speed { background-color: var(--secondary); }

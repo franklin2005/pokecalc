@@ -1,0 +1,94 @@
+/* ============================================
+   PokeCalc — Calculator Layout
+   3-column grid: Attacker | Results | Defender
+   Responsive: desktop → tablet → mobile
+   ============================================ */
+
+/* --- Calc Layout Block --- */
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.4rem;
+  padding: 2.4rem;
+  max-width: 144rem;
+  margin: 0 auto;
+}
+
+.calc-layout__attacker {
+  min-width: 0;
+}
+
+.calc-layout__results {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.6rem;
+}
+
+.calc-layout__defender {
+  min-width: 0;
+}
+
+/* --- Tablet: 768px – 1023px --- */
+/* 2 columns: cards side by side, results below */
+@media (min-width: 768px) {
+  .calc-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "attacker defender"
+      "results results";
+    gap: 3.2rem;
+  }
+
+  .calc-layout__attacker {
+    grid-area: attacker;
+  }
+
+  .calc-layout__defender {
+    grid-area: defender;
+  }
+
+  .calc-layout__results {
+    grid-area: results;
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+/* --- Desktop: 1024px+ --- */
+/* 3 columns: Attacker | Results | Defender */
+@media (min-width: 1024px) {
+  .calc-layout {
+    grid-template-columns: 2fr 1fr 2fr;
+    grid-template-areas: "attacker results defender";
+    gap: 3.2rem;
+    padding: 3.2rem;
+  }
+
+  .calc-layout__attacker {
+    grid-area: attacker;
+  }
+
+  .calc-layout__results {
+    grid-area: results;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: sticky;
+    top: 8rem;
+    align-self: start;
+  }
+
+  .calc-layout__defender {
+    grid-area: defender;
+  }
+}
+
+/* --- Large Desktop: 1280px+ --- */
+@media (min-width: 1280px) {
+  .calc-layout {
+    gap: 4rem;
+    padding: 4rem;
+  }
+}

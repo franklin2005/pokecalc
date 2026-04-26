@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Vite
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Vitest
+coverage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# SDD artifacts (project-level, not for repo)
+sdd/
+
+# Logs
+*.log
+npm-debug.log*

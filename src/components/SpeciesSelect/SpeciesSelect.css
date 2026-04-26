@@ -1,0 +1,129 @@
+/* ============================================
+   SpeciesSelect Component Styles
+   ============================================ */
+
+.species-select {
+  position: relative;
+  width: 100%;
+}
+
+.species-select__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.species-select__input {
+  width: 100%;
+  height: 5.6rem;
+  padding: 0 1.6rem;
+  background-color: var(--surface-container-high);
+  border: 2px solid transparent;
+  border-radius: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--on-surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.species-select__input::placeholder {
+  color: rgba(142, 112, 110, 0.6);
+}
+
+.species-select__input:focus {
+  border-color: rgba(176, 37, 40, 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(176, 37, 40, 0.1);
+}
+
+.species-select__sprite {
+  position: absolute;
+  right: 1.6rem;
+  width: 4.8rem;
+  height: 4.8rem;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.species-select__dropdown {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  right: 0;
+  max-height: 28rem;
+  overflow-y: auto;
+  background-color: var(--surface-container-lowest);
+  border-radius: 1.6rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+  padding: 0.8rem 0;
+}
+
+.species-select__option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.6rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.species-select__option:hover {
+  background-color: var(--surface-container);
+}
+
+.species-select__option--selected {
+  background-color: var(--surface-container);
+  font-weight: 600;
+}
+
+.species-select__option-name {
+  font-size: 1.6rem;
+  color: var(--on-surface);
+}
+
+.species-select__option-dex {
+  font-size: 1.2rem;
+  color: var(--on-surface-variant);
+  opacity: 0.6;
+}
+
+/* Forme selector */
+.species-select__forme {
+  margin-top: 1.2rem;
+}
+
+.species-select__forme-label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+
+.species-select__forme-options {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.species-select__forme-btn {
+  padding: 0.6rem 1.6rem;
+  border-radius: 9999px;
+  background-color: var(--surface-container-high);
+  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.species-select__forme-btn:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.species-select__forme-btn--active {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}

@@ -1,0 +1,97 @@
+/* ============================================
+   PokeCalc — Dark Mode Overrides
+   [data-theme="dark"] surface token overrides
+   Type colors remain unchanged
+   ============================================ */
+
+[data-theme="dark"] {
+  /* --- Surface Hierarchy (inverted for dark) --- */
+  --surface: #1a1110;
+  --surface-bright: #2c1e1d;
+  --surface-dim: #1a1110;
+  --surface-tint: #ffb3ae;
+  --surface-variant: #4e3533;
+  --surface-container: #241716;
+  --surface-container-low: #201312;
+  --surface-container-high: #2f201f;
+  --surface-container-lowest: #140c0b;
+  --surface-container-highest: #3a2b2a;
+
+  /* --- On-Surface Text (light on dark) --- */
+  --on-surface: #ffedeb;
+  --on-surface-variant: #d4b2af;
+
+  /* --- Background --- */
+  --background: #1a1110;
+  --on-background: #ffedeb;
+
+  /* --- Outline --- */
+  --outline: #a0807e;
+  --outline-variant: #4e3533;
+
+  /* --- Inverse --- */
+  --inverse-surface: #ffedeb;
+  --inverse-on-surface: #3d2c2b;
+  --inverse-primary: #b02528;
+
+  /* --- Primary (adjusted for dark) --- */
+  --primary: #ffb3ae;
+  --primary-container: #d23e3e;
+  --primary-fixed: #910816;
+  --primary-fixed-dim: #b02528;
+  --on-primary: #690006;
+  --on-primary-container: #ffdad7;
+  --on-primary-fixed: #ffdad7;
+  --on-primary-fixed-variant: #ffb3ae;
+
+  /* --- Secondary (adjusted for dark) --- */
+  --secondary: #9ecaff;
+  --secondary-container: #00497d;
+  --secondary-fixed: #00497d;
+  --secondary-fixed-dim: #9ecaff;
+  --on-secondary: #003258;
+  --on-secondary-container: #d1e4ff;
+  --on-secondary-fixed: #d1e4ff;
+  --on-secondary-fixed-variant: #9ecaff;
+
+  /* --- Tertiary (adjusted for dark) --- */
+  --tertiary: #78dc77;
+  --tertiary-container: #005313;
+  --tertiary-fixed: #005313;
+  --tertiary-fixed-dim: #78dc77;
+  --on-tertiary: #00390b;
+  --on-tertiary-container: #94f990;
+  --on-tertiary-fixed: #94f990;
+  --on-tertiary-fixed-variant: #78dc77;
+
+  /* --- Error (adjusted for dark) --- */
+  --error: #ffb4ab;
+  --error-container: #93000a;
+  --on-error: #690005;
+  --on-error-container: #ffdad6;
+
+  /* --- Neutral Colors (dark mode) --- */
+  --neutral-100: #171717;
+  --neutral-400: #737373;
+  --neutral-500: #a3a3a3;
+  --neutral-600: #c2c2c2;
+  --neutral-900: #f5f5f5;
+
+  /* --- Red Accent (dark mode) --- */
+  --red-50: #1a0a0a;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #fca5a5;
+
+  /* --- Shadows (dark mode — lighter, more diffuse) --- */
+  --shadow-sm: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.3),
+               0 0.2rem 0.4rem -0.2rem rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 1rem 1.5rem -0.3rem rgba(0, 0, 0, 0.4),
+               0 0.4rem 0.6rem -0.4rem rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 2rem 2.5rem -0.5rem rgba(0, 0, 0, 0.5),
+               0 0.8rem 1rem -0.6rem rgba(0, 0, 0, 0.5);
+
+  /* --- Type Colors — UNCHANGED (fire is still orange in dark mode) --- */
+  /* No overrides needed — type colors inherit from tokens.css */
+}

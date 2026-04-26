@@ -1,0 +1,1865 @@
+/* ============================================
+   THE LIVING ENCYCLOPEDIA — Pokédex Design System
+   CSS3 Nativo · Metodología BEM
+   ============================================ */
+
+/* ===========================================
+   1. CUSTOM PROPERTIES
+   =========================================== */
+
+:root {
+  /* --- Material Design Color Tokens --- */
+  --primary: #b02528;
+  --primary-container: #d23e3e;
+  --primary-fixed: #ffdad7;
+  --primary-fixed-dim: #ffb3ae;
+  --on-primary: #ffffff;
+  --on-primary-container: #fffbff;
+  --on-primary-fixed: #410004;
+  --on-primary-fixed-variant: #910816;
+
+  --secondary: #0061a4;
+  --secondary-container: #33a0fd;
+  --secondary-fixed: #d1e4ff;
+  --secondary-fixed-dim: #9ecaff;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #00355c;
+  --on-secondary-fixed: #001d36;
+  --on-secondary-fixed-variant: #00497d;
+
+  --tertiary: #006b1b;
+  --tertiary-container: #1e862d;
+  --tertiary-fixed: #94f990;
+  --tertiary-fixed-dim: #78dc77;
+  --on-tertiary: #ffffff;
+  --on-tertiary-container: #f7fff1;
+  --on-tertiary-fixed: #002204;
+  --on-tertiary-fixed-variant: #005313;
+
+  --error: #ba1a1a;
+  --error-container: #ffdad6;
+  --on-error: #ffffff;
+  --on-error-container: #93000a;
+
+  --surface: #fff8f7;
+  --surface-bright: #fff8f7;
+  --surface-dim: #eed4d2;
+  --surface-tint: #b3272a;
+  --surface-variant: #f7dcda;
+  --surface-container: #ffe9e7;
+  --surface-container-low: #fff0ef;
+  --surface-container-high: #fde2e0;
+  --surface-container-lowest: #ffffff;
+  --surface-container-highest: #f7dcda;
+
+  --on-surface: #261817;
+  --on-surface-variant: #5a413f;
+
+  --background: #fff8f7;
+  --on-background: #261817;
+
+  --outline: #8e706e;
+  --outline-variant: #e2bebb;
+
+  --inverse-surface: #3d2c2b;
+  --inverse-on-surface: #ffedeb;
+  --inverse-primary: #ffb3ae;
+
+  /* --- Pokémon Type Colors --- */
+  --type-fire: #f97316;
+  --type-fire-bg: rgba(249, 115, 22, 0.1);
+  --type-fire-text: #ea580c;
+  --type-water: #3b82f6;
+  --type-water-bg: rgba(59, 130, 246, 0.1);
+  --type-water-text: #2563eb;
+  --type-grass: #22c55e;
+  --type-grass-bg: rgba(34, 197, 94, 0.1);
+  --type-grass-text: #16a34a;
+  --type-electric: #facc15;
+  --type-electric-bg: rgba(250, 204, 21, 0.1);
+  --type-electric-text: #ca8a04;
+  --type-psychic: #a855f7;
+  --type-psychic-bg: rgba(168, 85, 247, 0.1);
+  --type-psychic-text: #9333ea;
+  --type-flying: #93c5fd;
+  --type-flying-bg: rgba(147, 197, 253, 0.1);
+  --type-flying-text: #2563eb;
+  --type-ice: #22d3ee;
+  --type-ice-bg: rgba(34, 211, 238, 0.1);
+  --type-ice-text: #0891b2;
+  --type-dragon: #6366f1;
+  --type-dragon-bg: rgba(99, 102, 241, 0.1);
+  --type-dragon-text: #4f46e5;
+  --type-ghost: #7e22ce;
+  --type-ghost-bg: rgba(126, 34, 206, 0.1);
+  --type-ghost-text: #6b21a8;
+  --type-poison: #a855f7;
+  --type-poison-bg: rgba(168, 85, 247, 0.1);
+  --type-poison-text: #9333ea;
+  --type-normal: #a3a3a3;
+  --type-normal-bg: rgba(163, 163, 163, 0.1);
+  --type-normal-text: #737373;
+  --type-fighting: #dc2626;
+  --type-fighting-bg: rgba(220, 38, 38, 0.1);
+  --type-fighting-text: #b91c1c;
+  --type-ground: #d97706;
+  --type-ground-bg: rgba(217, 119, 6, 0.1);
+  --type-ground-text: #92400e;
+  --type-rock: #78716c;
+  --type-rock-bg: rgba(120, 113, 108, 0.1);
+  --type-rock-text: #57534e;
+  --type-bug: #65a30d;
+  --type-bug-bg: rgba(101, 163, 13, 0.1);
+  --type-bug-text: #4d7c0f;
+  --type-steel: #94a3b8;
+  --type-steel-bg: rgba(148, 163, 184, 0.1);
+  --type-steel-text: #64748b;
+  --type-dark: #44403c;
+  --type-dark-bg: rgba(68, 64, 60, 0.1);
+  --type-dark-text: #292524;
+  --type-fairy: #ec4899;
+  --type-fairy-bg: rgba(236, 72, 153, 0.1);
+  --type-fairy-text: #db2777;
+
+  /* Detail page type colors (custom hex) */
+  --type-fire-detail: #ff4422;
+  --type-fire-detail-bg: rgba(255, 68, 34, 0.1);
+  --type-flying-detail: #8899ff;
+  --type-flying-detail-bg: rgba(136, 153, 255, 0.1);
+
+  /* Favorites type badge colors */
+  --type-fire-fav-bg: #ffedd5;
+  --type-fire-fav-text: #c2410c;
+  --type-water-fav-bg: #dbeafe;
+  --type-water-fav-text: #1d4ed8;
+
+  /* --- Neutral Colors --- */
+  --neutral-100: #f5f5f5;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-900: #171717;
+
+  /* --- Red Accent --- */
+  --red-50: #fef2f2;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+
+  /* --- Typography --- */
+  --font-headline: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.1),
+               0 0.2rem 0.4rem -0.2rem rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 1rem 1.5rem -0.3rem rgba(0, 0, 0, 0.1),
+               0 0.4rem 0.6rem -0.4rem rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 2rem 2.5rem -0.5rem rgba(0, 0, 0, 0.1),
+               0 0.8rem 1rem -0.6rem rgba(0, 0, 0, 0.1);
+  --shadow-bottom-nav: 0 -0.4rem 2rem rgba(0, 0, 0, 0.05);
+}
+
+/* ===========================================
+   2. RESET & BASE
+   =========================================== */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: var(--font-body);
+  color: var(--on-surface);
+  background-color: var(--background);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--primary-fixed);
+  color: var(--on-primary-fixed);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ===========================================
+   3. MATERIAL SYMBOLS
+   =========================================== */
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* ===========================================
+   4. POKÉBALL WATERMARK
+   =========================================== */
+
+.pokeball-watermark {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0C22.3858 0 0 22.3858 0 50C0 77.6142 22.3858 100 50 100C77.6142 100 100 77.6142 100 50C100 22.3858 77.6142 0 50 0ZM50 10C70.081 10 86.697 24.819 89.658 44H61.815C59.394 36.96 52.736 32 45 32C37.264 32 30.606 36.96 28.185 44H10.342C13.303 24.819 29.919 10 50 10ZM10.342 56H28.185C30.606 63.04 37.264 68 45 68C52.736 68 59.394 63.04 61.815 56H89.658C86.697 75.181 70.081 90 50 90C29.919 90 13.303 75.181 10.342 56Z' fill='%23b02528' fill-opacity='0.05'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 30rem;
+}
+
+/* ===========================================
+   5. HEADER (bloque compartido)
+   =========================================== */
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(2.4rem);
+  -webkit-backdrop-filter: blur(2.4rem);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s ease;
+}
+
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.4rem;
+  height: 6.4rem;
+  width: 100%;
+  max-width: 153.6rem;
+  margin: 0 auto;
+}
+
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.header__logo {
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--red-600);
+  font-family: var(--font-headline);
+  letter-spacing: -0.025em;
+}
+
+.header__nav {
+  display: none;
+  align-items: center;
+  gap: 3.2rem;
+}
+
+.header__nav-link {
+  color: var(--neutral-500);
+  font-weight: 500;
+  transition: color 0.2s, background-color 0.2s;
+  padding: 0.4rem 1.2rem;
+  border-radius: 0.8rem;
+}
+
+.header__nav-link:hover {
+  background-color: rgba(245, 245, 245, 0.5);
+}
+
+.header__nav-link--active {
+  color: var(--red-600);
+  font-weight: 600;
+  background-color: transparent;
+}
+
+.header__nav-link--active:hover {
+  background-color: transparent;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.header__action-btn {
+  padding: 0.8rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__action-btn:hover {
+  background-color: rgba(245, 245, 245, 0.5);
+}
+
+.header__action-btn:active {
+  transform: scale(0.95);
+}
+
+.header__action-btn .material-symbols-outlined {
+  color: var(--neutral-600);
+  font-size: 2.4rem;
+}
+
+/* Variante del header para detalle (con nav inline) */
+.header--detail .header__brand {
+  gap: 3.2rem;
+}
+
+.header--detail .header__nav {
+  margin-left: 3.2rem;
+  gap: 2.4rem;
+}
+
+/* Variante del header para favoritos */
+.header--favorites .header__brand {
+  gap: 3.2rem;
+}
+
+/* ===========================================
+   6. BOTTOM NAV (bloque compartido móvil)
+   =========================================== */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4.8rem);
+  -webkit-backdrop-filter: blur(4.8rem);
+  box-shadow: var(--shadow-bottom-nav);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.8rem 1.6rem 2.4rem;
+  border-radius: 2.4rem 2.4rem 0 0;
+  border-top: 1px solid rgba(245, 245, 245, 0.1);
+}
+
+.bottom-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 2rem;
+  color: var(--neutral-400);
+  transition: transform 0.2s, color 0.2s;
+}
+
+.bottom-nav__item:hover {
+  color: var(--red-500);
+}
+
+.bottom-nav__item:active {
+  transform: scale(0.9);
+}
+
+.bottom-nav__item--active {
+  color: var(--red-600);
+  background-color: var(--red-50);
+  border-radius: 1.6rem;
+}
+
+.bottom-nav__icon {
+  font-size: 2.4rem;
+}
+
+.bottom-nav__label {
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.4rem;
+}
+
+/* ===========================================
+   7. MAIN CONTENT
+   =========================================== */
+
+.main {
+  padding-top: 9.6rem;
+  max-width: 153.6rem;
+  margin: 0 auto;
+}
+
+.main--listado {
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
+  padding-bottom: 12.8rem;
+  min-height: 100vh;
+}
+
+.main--detail {
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
+  padding-bottom: 12.8rem;
+  max-width: 128rem;
+  position: relative;
+}
+
+.main--favorites {
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
+  padding-bottom: 12.8rem;
+  min-height: 100vh;
+}
+
+/* ===========================================
+   8. SEARCH SECTION (listado)
+   =========================================== */
+
+.search-section {
+  margin-bottom: 4.8rem;
+}
+
+.search-section__row {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  align-items: flex-end;
+  margin-bottom: 3.2rem;
+}
+
+.search-bar {
+  flex: 1;
+  width: 100%;
+}
+
+.search-bar__label {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  margin-left: 0.4rem;
+  margin-bottom: 0.8rem;
+  font-family: var(--font-body);
+}
+
+.search-bar__wrapper {
+  position: relative;
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: 1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--outline);
+  transition: color 0.2s;
+  font-size: 2.4rem;
+}
+
+.search-bar__wrapper:focus-within .search-bar__icon {
+  color: var(--primary);
+}
+
+.search-bar__input {
+  width: 100%;
+  height: 5.6rem;
+  padding-left: 4.8rem;
+  padding-right: 1.6rem;
+  background-color: var(--surface-container-high);
+  border: 2px solid transparent;
+  border-radius: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--on-surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.search-bar__input::placeholder {
+  color: rgba(142, 112, 110, 0.6);
+}
+
+.search-bar__input:focus {
+  border-color: rgba(176, 37, 40, 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(176, 37, 40, 0.1);
+}
+
+/* ===========================================
+   9. REGION SELECT (listado)
+   =========================================== */
+
+.region-select {
+  width: 100%;
+}
+
+.region-select__label {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  margin-left: 0.4rem;
+  margin-bottom: 0.8rem;
+  font-family: var(--font-body);
+}
+
+.region-select__wrapper {
+  position: relative;
+}
+
+.region-select__select {
+  width: 100%;
+  height: 5.6rem;
+  padding-left: 1.6rem;
+  padding-right: 4rem;
+  background-color: var(--surface-container-high);
+  border: 2px solid transparent;
+  border-radius: 1.6rem;
+  font-weight: 500;
+  color: var(--on-surface);
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.region-select__select:focus {
+  border-color: rgba(176, 37, 40, 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(176, 37, 40, 0.1);
+}
+
+.region-select__icon {
+  position: absolute;
+  right: 1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--outline);
+}
+
+/* ===========================================
+   10. FILTER CHIPS (listado)
+   =========================================== */
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.filter__chip {
+  padding: 0.8rem 2rem;
+  border-radius: 9999px;
+  background-color: var(--surface-container-lowest);
+  color: var(--on-surface-variant);
+  border: 1px solid rgba(226, 190, 187, 0.15);
+  font-weight: 500;
+  font-size: 1.4rem;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+}
+
+.filter__chip:hover {
+  background-color: var(--surface-container);
+}
+
+.filter__chip:active {
+  transform: scale(0.95);
+}
+
+.filter__chip--active {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-weight: 700;
+  border-color: transparent;
+}
+
+.filter__chip--active:hover {
+  background-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.filter__chip-dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.filter__chip-dot--fire { background-color: var(--type-fire); }
+.filter__chip-dot--water { background-color: var(--type-water); }
+.filter__chip-dot--grass { background-color: var(--type-grass); }
+.filter__chip-dot--electric { background-color: var(--type-electric); }
+.filter__chip-dot--psychic { background-color: var(--type-psychic); }
+.filter__chip-dot--ice { background-color: var(--type-ice); }
+.filter__chip-dot--dragon { background-color: var(--type-dragon); }
+.filter__chip-dot--ghost { background-color: var(--type-ghost); }
+.filter__chip-dot--poison { background-color: var(--type-poison); }
+.filter__chip-dot--flying { background-color: var(--type-flying); }
+.filter__chip-dot--normal { background-color: var(--type-normal); }
+.filter__chip-dot--fighting { background-color: var(--type-fighting); }
+.filter__chip-dot--ground { background-color: var(--type-ground); }
+.filter__chip-dot--rock { background-color: var(--type-rock); }
+.filter__chip-dot--bug { background-color: var(--type-bug); }
+.filter__chip-dot--steel { background-color: var(--type-steel); }
+.filter__chip-dot--dark { background-color: var(--type-dark); }
+.filter__chip-dot--fairy { background-color: var(--type-fairy); }
+
+/* ===========================================
+   11. POKEMON GRID (listado)
+   =========================================== */
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.2rem;
+  margin-bottom: 6.4rem;
+}
+
+/* ===========================================
+   12. POKEMON CARD (listado)
+   =========================================== */
+
+.pokemon-card {
+  position: relative;
+  background-color: var(--surface-container-lowest);
+  border-radius: 3.2rem;
+  padding: 2.4rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pokemon-card:hover {
+  transform: translateY(-0.8rem);
+}
+
+.pokemon-card__image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 17.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.15));
+  z-index: 1;
+}
+
+.pokemon-card:hover .pokemon-card__image-wrapper {
+  transform: scale(1.1);
+}
+
+.pokemon-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pokemon-card__number {
+  position: absolute;
+  left: 2.4rem;
+  top: 2.4rem;
+  font-size: 3.6rem;
+  font-weight: 900;
+  color: rgba(38, 24, 23, 0.05);
+  letter-spacing: -0.05em;
+  z-index: 0;
+}
+
+.pokemon-card__info {
+  margin-top: 3.2rem;
+}
+
+.pokemon-card__name {
+  font-size: 2.4rem;
+  font-weight: 700;
+  font-family: var(--font-headline);
+  color: var(--on-surface);
+  margin-bottom: 1.6rem;
+}
+
+.pokemon-card__types {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.6rem;
+}
+
+.pokemon-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.6rem;
+}
+
+.pokemon-card__category {
+  font-size: 1.4rem;
+  color: var(--on-surface-variant);
+  font-style: italic;
+}
+
+.pokemon-card__capture-btn {
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 1.6rem;
+  background-color: var(--surface-container-high);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  transition: background-color 0.2s, color 0.2s, transform 0.1s;
+}
+
+.pokemon-card__capture-btn:hover {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.pokemon-card__capture-btn:active {
+  transform: scale(0.9);
+}
+
+/* ===========================================
+   13. TYPE BADGE (utilidad compartida)
+   =========================================== */
+
+.type-badge {
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+.type-badge--fire { background-color: var(--type-fire-bg); color: var(--type-fire-text); }
+.type-badge--water { background-color: var(--type-water-bg); color: var(--type-water-text); }
+.type-badge--grass { background-color: var(--type-grass-bg); color: var(--type-grass-text); }
+.type-badge--electric { background-color: var(--type-electric-bg); color: var(--type-electric-text); }
+.type-badge--psychic { background-color: var(--type-psychic-bg); color: var(--type-psychic-text); }
+.type-badge--flying { background-color: var(--type-flying-bg); color: var(--type-flying-text); }
+.type-badge--ice { background-color: var(--type-ice-bg); color: var(--type-ice-text); }
+.type-badge--dragon { background-color: var(--type-dragon-bg); color: var(--type-dragon-text); }
+.type-badge--ghost { background-color: var(--type-ghost-bg); color: var(--type-ghost-text); }
+.type-badge--poison { background-color: var(--type-poison-bg); color: var(--type-poison-text); }
+.type-badge--normal { background-color: var(--type-normal-bg); color: var(--type-normal-text); }
+.type-badge--fighting { background-color: var(--type-fighting-bg); color: var(--type-fighting-text); }
+.type-badge--ground { background-color: var(--type-ground-bg); color: var(--type-ground-text); }
+.type-badge--rock { background-color: var(--type-rock-bg); color: var(--type-rock-text); }
+.type-badge--bug { background-color: var(--type-bug-bg); color: var(--type-bug-text); }
+.type-badge--steel { background-color: var(--type-steel-bg); color: var(--type-steel-text); }
+.type-badge--dark { background-color: var(--type-dark-bg); color: var(--type-dark-text); }
+.type-badge--fairy { background-color: var(--type-fairy-bg); color: var(--type-fairy-text); }
+
+/* Variante para la página de detalle (colores custom) */
+.type-badge--fire-detail {
+  background-color: var(--type-fire-detail-bg);
+  color: var(--type-fire-detail);
+  padding: 0.6rem 2.4rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+}
+
+.type-badge--flying-detail {
+  background-color: var(--type-flying-detail-bg);
+  color: var(--type-flying-detail);
+  padding: 0.6rem 2.4rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+}
+
+/* Variante para la página de favoritos */
+.type-badge--fire-fav {
+  background-color: var(--type-fire-fav-bg);
+  color: var(--type-fire-fav-text);
+  padding: 0.4rem 1.6rem;
+}
+
+.type-badge--water-fav {
+  background-color: var(--type-water-fav-bg);
+  color: var(--type-water-fav-text);
+  padding: 0.4rem 1.6rem;
+}
+
+/* ===========================================
+   14. SPINNER (listado)
+   =========================================== */
+
+.spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4.8rem 0;
+  gap: 1.6rem;
+}
+
+.spinner__circle {
+  position: relative;
+  width: 4.8rem;
+  height: 4.8rem;
+}
+
+.spinner__circle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 0.4rem solid rgba(176, 37, 40, 0.2);
+  border-radius: 9999px;
+}
+
+.spinner__circle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 0.4rem solid var(--primary);
+  border-top-color: transparent;
+  border-radius: 9999px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner__text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  font-family: var(--font-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ===========================================
+   15. DETAIL HEADER (detalle)
+   =========================================== */
+
+.detail-header {
+  margin-bottom: 4.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.detail-header__top {
+  display: flex;
+  align-items: baseline;
+  gap: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.detail-header__number {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 2.4rem;
+  letter-spacing: -0.05em;
+  color: var(--on-surface-variant);
+  opacity: 0.4;
+}
+
+.detail-header__title {
+  font-size: 4.8rem;
+  font-family: var(--font-headline);
+  font-weight: 800;
+  color: var(--on-surface);
+  letter-spacing: -0.05em;
+}
+
+.detail-header__types {
+  display: flex;
+  gap: 1.2rem;
+}
+
+/* ===========================================
+   16. DETAIL LAYOUT (detalle)
+   =========================================== */
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.2rem;
+  align-items: start;
+}
+
+/* ===========================================
+   17. DETAIL HERO (detalle)
+   =========================================== */
+
+.detail-hero {
+  position: relative;
+}
+
+.detail-hero__background {
+  position: absolute;
+  inset: -1.6rem;
+  background-color: var(--surface-container);
+  border-radius: 4rem;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.detail-hero__background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(176, 37, 40, 0.05), transparent);
+}
+
+.detail-hero__image-wrapper {
+  position: relative;
+  padding: 1.6rem 1.6rem 3.2rem;
+}
+
+.detail-hero__image {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2rem 5rem rgba(176, 37, 40, 0.25));
+  transition: transform 0.5s ease-out;
+}
+
+.detail-hero:hover .detail-hero__image {
+  transform: scale(1.05);
+}
+
+.detail-hero__capture-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 9999px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1rem 1.5rem rgba(176, 37, 40, 0.3);
+  transition: transform 0.2s;
+  overflow: hidden;
+}
+
+.detail-hero__capture-btn:active {
+  transform: scale(0.9);
+}
+
+.detail-hero__capture-btn .material-symbols-outlined {
+  font-size: 3rem;
+}
+
+.detail-hero__capture-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.detail-hero__capture-btn:hover .detail-hero__capture-overlay {
+  opacity: 1;
+}
+
+/* ===========================================
+   18. DETAIL SIDEBAR (detalle)
+   =========================================== */
+
+.detail-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+
+/* ===========================================
+   19. STATS CARD (detalle)
+   =========================================== */
+
+.stats-card {
+  background-color: var(--surface-container-lowest);
+  padding: 3.2rem;
+  border-radius: 2.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.stats-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 3.2rem;
+}
+
+.stats-card__header .material-symbols-outlined {
+  color: var(--primary);
+}
+
+.stats-card__title {
+  font-size: 2rem;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.stats-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+/* ===========================================
+   20. STAT BAR (detalle)
+   =========================================== */
+
+.stat-bar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.stat-bar__label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stat-bar__value {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  color: var(--on-surface);
+  font-size: 1.6rem;
+}
+
+.stat-bar__track {
+  height: 0.8rem;
+  width: 100%;
+  background-color: var(--surface-container);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.stat-bar__fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease, filter 0.2s;
+}
+
+.stat-bar:hover .stat-bar__fill {
+  filter: brightness(1.1);
+}
+
+.stat-bar__fill--hp { background-color: var(--tertiary); }
+.stat-bar__fill--attack { background-color: var(--primary); }
+.stat-bar__fill--defense { background-color: var(--secondary-container); }
+.stat-bar__fill--sp-attack { background-color: var(--primary-container); }
+.stat-bar__fill--sp-defense { background-color: var(--tertiary-container); }
+.stat-bar__fill--speed { background-color: var(--secondary); }
+
+/* ===========================================
+   21. EVOLUTION CHAIN (detalle)
+   =========================================== */
+
+.evolution-chain {
+  background-color: var(--surface-container-low);
+  padding: 3.2rem;
+  border-radius: 3.2rem;
+}
+
+.evolution-chain__header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 4rem;
+}
+
+.evolution-chain__header .material-symbols-outlined {
+  color: var(--primary);
+}
+
+.evolution-chain__title {
+  font-size: 2rem;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.evolution-chain__stages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.evolution-chain__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.evolution-chain__image-wrapper {
+  width: 9.6rem;
+  height: 9.6rem;
+  background-color: var(--surface-container-lowest);
+  border-radius: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+}
+
+.evolution-chain__stage:hover .evolution-chain__image-wrapper {
+  transform: translateY(-0.4rem);
+}
+
+.evolution-chain__stage--current .evolution-chain__image-wrapper {
+  background-color: var(--primary-container);
+  box-shadow: var(--shadow-md);
+}
+
+.evolution-chain__image {
+  width: 8rem;
+  height: 8rem;
+  object-fit: contain;
+}
+
+.evolution-chain__stage--current .evolution-chain__image {
+  filter: brightness(1.1);
+}
+
+.evolution-chain__name {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+}
+
+.evolution-chain__stage--current .evolution-chain__name {
+  color: var(--primary);
+}
+
+.evolution-chain__connector {
+  display: none;
+  align-items: center;
+  flex: 1;
+  height: 0.2rem;
+  background-color: var(--outline-variant);
+  position: relative;
+  margin: 0 1.6rem;
+}
+
+.evolution-chain__connector-label {
+  position: absolute;
+  top: -1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  background-color: var(--surface-container-high);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.evolution-chain__arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.evolution-chain__arrow .material-symbols-outlined {
+  color: var(--outline-variant);
+}
+
+/* ===========================================
+   22. INFO GRID (detalle)
+   =========================================== */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem;
+}
+
+.info-grid__item {
+  background-color: var(--surface-container-highest);
+  padding: 2.4rem;
+  border-radius: 2.4rem;
+  text-align: center;
+}
+
+.info-grid__label {
+  display: block;
+  font-size: 1rem;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.info-grid__value {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 2.4rem;
+  color: var(--on-surface);
+}
+
+/* ===========================================
+   23. BLOB DECORATION (detalle)
+   =========================================== */
+
+.blob-decoration {
+  position: fixed;
+  border-radius: 9999px;
+  z-index: -20;
+  pointer-events: none;
+}
+
+.blob-decoration--top-right {
+  top: 0;
+  right: 0;
+  width: 50rem;
+  height: 50rem;
+  background-color: rgba(176, 37, 40, 0.05);
+  filter: blur(10rem);
+  transform: translateX(50%) translateY(-25%);
+}
+
+.blob-decoration--bottom-left {
+  bottom: 0;
+  left: 0;
+  width: 40rem;
+  height: 40rem;
+  background-color: rgba(51, 160, 253, 0.05);
+  filter: blur(10rem);
+  transform: translateX(-25%) translateY(25%);
+}
+
+/* ===========================================
+   24. FAVORITES HEADER (favoritos)
+   =========================================== */
+
+.favorites-header {
+  margin-bottom: 4.8rem;
+}
+
+.favorites-header__tag {
+  display: block;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.favorites-header__title {
+  font-size: 4.8rem;
+  font-family: var(--font-headline);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--on-surface);
+  margin-bottom: 1.6rem;
+}
+
+.favorites-header__description {
+  color: var(--on-surface-variant);
+  max-width: 67.2rem;
+  font-size: 1.8rem;
+  line-height: 1.7;
+}
+
+/* ===========================================
+   25. BENTO GRID (favoritos)
+   =========================================== */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.2rem;
+}
+
+/* ===========================================
+   26. BENTO CARD (favoritos)
+   =========================================== */
+
+.bento-card {
+  border-radius: 3.2rem;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+/* --- Featured (Charizard grande) --- */
+.bento-card--featured {
+  position: relative;
+  background-color: var(--surface-container-lowest);
+  padding: 3.2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.bento-card--featured:hover {
+  box-shadow: var(--shadow-xl);
+}
+
+.bento-card__glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25.6rem;
+  height: 25.6rem;
+  background-color: rgba(176, 37, 40, 0.05);
+  border-radius: 9999px;
+  margin-right: -8rem;
+  margin-top: -8rem;
+  filter: blur(4.8rem);
+  pointer-events: none;
+}
+
+.bento-card__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  align-items: center;
+}
+
+.bento-card__info {
+  flex: 1;
+}
+
+.bento-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.bento-card__id {
+  color: var(--on-surface-variant);
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+}
+
+.bento-card__name {
+  font-size: 6rem;
+  font-family: var(--font-headline);
+  font-weight: 800;
+  color: var(--on-surface);
+  margin-bottom: 1.6rem;
+}
+
+.bento-card__description {
+  color: var(--on-surface-variant);
+  margin-bottom: 3.2rem;
+  max-width: 38.4rem;
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+.bento-card__actions {
+  display: flex;
+  gap: 1.6rem;
+}
+
+.bento-card__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 3.2rem;
+  border-radius: 1.2rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: filter 0.2s, transform 0.1s, background-color 0.2s, color 0.2s;
+}
+
+.bento-card__btn:active {
+  transform: scale(0.95);
+}
+
+.bento-card__btn .material-symbols-outlined {
+  font-size: 1.4rem;
+}
+
+.bento-card__btn--primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.bento-card__btn--primary:hover {
+  filter: brightness(1.1);
+}
+
+.bento-card__btn--secondary {
+  background-color: var(--surface-container-high);
+  color: var(--on-surface-variant);
+}
+
+.bento-card__btn--secondary:hover {
+  background-color: var(--error-container);
+  color: var(--on-error-container);
+}
+
+.bento-card__image-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.bento-card__image--featured {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 1.6rem;
+  filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.1));
+  transform: rotate(3deg);
+  transition: transform 0.5s ease;
+}
+
+.bento-card--featured:hover .bento-card__image--featured {
+  transform: rotate(0deg);
+}
+
+/* --- Vertical (Blastoise) --- */
+.bento-card--vertical {
+  background-color: var(--surface-container-low);
+  padding: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bento-card__vertical-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4.8rem;
+}
+
+.bento-card__vertical-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-card__vertical-meta .type-badge {
+  margin-bottom: 1.6rem;
+}
+
+.bento-card__vertical-name {
+  font-size: 3rem;
+  font-family: var(--font-headline);
+  font-weight: 700;
+}
+
+.bento-card__vertical-id {
+  color: var(--on-surface-variant);
+  font-family: var(--font-body);
+  opacity: 0.5;
+}
+
+.bento-card__vertical-image-container {
+  margin-bottom: 3.2rem;
+  overflow: hidden;
+  border-radius: 1.6rem;
+}
+
+.bento-card__image--vertical {
+  width: 100%;
+  height: 19.2rem;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.bento-card--vertical:hover .bento-card__image--vertical {
+  transform: scale(1.1);
+}
+
+.bento-card__release-btn {
+  width: 100%;
+  border: 2px solid var(--outline-variant);
+  color: var(--on-surface-variant);
+  padding: 1.6rem;
+  border-radius: 1.2rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.bento-card__release-btn:hover {
+  background-color: var(--error-container);
+  border-color: var(--error-container);
+  color: var(--on-error-container);
+}
+
+/* --- Compact (Pikachu, Pidgeot) --- */
+.bento-card--compact {
+  background-color: var(--surface-container);
+  padding: 2.4rem;
+}
+
+.bento-card--compact:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.bento-card__compact-row {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin-bottom: 2.4rem;
+}
+
+.bento-card__thumb {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 1.2rem;
+  object-fit: cover;
+  box-shadow: var(--shadow-md);
+}
+
+.bento-card__compact-name {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.bento-card__compact-subtitle {
+  font-size: 1.2rem;
+  font-family: var(--font-body);
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+}
+
+.bento-card__compact-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.bento-card__compact-release {
+  flex: 1;
+  padding: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  color: var(--error);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.bento-card__compact-release:hover {
+  background-color: var(--error);
+  color: var(--on-error);
+}
+
+.bento-card__compact-stats {
+  padding: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.8rem;
+  color: var(--neutral-500);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bento-card__compact-stats:hover {
+  color: var(--primary);
+}
+
+/* --- Add Specimen --- */
+.bento-card--add {
+  border: 2px dashed var(--outline-variant);
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.bento-card--add:hover {
+  background-color: var(--surface-container-low);
+}
+
+.bento-card__add-icon {
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 9999px;
+  background-color: var(--surface-container-high);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.6rem;
+  transition: transform 0.2s;
+}
+
+.bento-card--add:hover .bento-card__add-icon {
+  transform: scale(1.1);
+}
+
+.bento-card__add-icon .material-symbols-outlined {
+  color: var(--primary);
+  font-size: 3rem;
+}
+
+.bento-card__add-title {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.bento-card__add-subtitle {
+  font-size: 1.2rem;
+  color: var(--on-surface-variant);
+  font-family: var(--font-body);
+  text-transform: uppercase;
+}
+
+/* ===========================================
+   27. EMPTY STATE (favoritos)
+   =========================================== */
+
+.empty-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 9.6rem 0;
+  text-align: center;
+}
+
+.empty-state--visible {
+  display: flex;
+}
+
+.empty-state__icon-wrapper {
+  width: 12.8rem;
+  height: 12.8rem;
+  background-color: var(--surface-container);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3.2rem;
+}
+
+.empty-state__icon-wrapper .material-symbols-outlined {
+  color: var(--outline);
+  font-size: 6rem;
+}
+
+.empty-state__title {
+  font-size: 3rem;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  margin-bottom: 1.6rem;
+}
+
+.empty-state__text {
+  color: var(--on-surface-variant);
+  max-width: 38.4rem;
+  margin-bottom: 3.2rem;
+}
+
+.empty-state__btn {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  padding: 1.6rem 4rem;
+  border-radius: 1.2rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  box-shadow: 0 1rem 1.5rem rgba(176, 37, 40, 0.2);
+  transition: transform 0.2s;
+}
+
+.empty-state__btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===========================================
+   28. FAB (favoritos)
+   =========================================== */
+
+.fab {
+  position: fixed;
+  right: 2.4rem;
+  bottom: 9.6rem;
+  width: 6.4rem;
+  height: 6.4rem;
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
+  border-radius: 1.6rem;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  transition: transform 0.2s;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab .material-symbols-outlined {
+  font-size: 3rem;
+  transition: transform 0.3s ease;
+}
+
+.fab:hover .material-symbols-outlined {
+  transform: rotate(90deg);
+}
+
+/* ===========================================
+   29. RESPONSIVE — MEDIA QUERIES
+   =========================================== */
+
+/* --- sm: 640px --- */
+@media (min-width: 640px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-section__row {
+    flex-direction: row;
+  }
+
+  .evolution-chain__stages {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .evolution-chain__connector {
+    display: flex;
+  }
+
+  .evolution-chain__arrow {
+    display: none;
+  }
+}
+
+/* --- md: 768px --- */
+@media (min-width: 768px) {
+  .header__nav {
+    display: flex;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  .main--detail {
+    padding-left: 3.2rem;
+    padding-right: 3.2rem;
+  }
+
+  .detail-header__title {
+    font-size: 7.2rem;
+  }
+
+  .bento-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .bento-card--featured {
+    grid-column: span 8;
+  }
+
+  .bento-card--featured .bento-card__content {
+    flex-direction: row;
+  }
+
+  .bento-card__image-wrapper {
+    width: 50%;
+  }
+
+  .bento-card--vertical {
+    grid-column: span 4;
+  }
+
+  .bento-card--compact {
+    grid-column: span 4;
+  }
+
+  .bento-card--add {
+    grid-column: span 4;
+  }
+
+  .favorites-header__title {
+    font-size: 6rem;
+  }
+
+  .fab {
+    bottom: 4.8rem;
+  }
+}
+
+/* --- lg: 1024px --- */
+@media (min-width: 1024px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .detail-layout {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+/* --- xl: 1280px --- */
+@media (min-width: 1280px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

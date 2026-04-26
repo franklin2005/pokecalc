@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Enciclopedia Viviente — Pokédex</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header">
+    <nav class="header__inner">
+      <div class="header__brand">
+        <span class="header__logo">La Enciclopedia Viviente</span>
+      </div>
+      <div class="header__nav">
+        <a class="header__nav-link header__nav-link--active" href="index.html">Pokédex</a>
+        <a class="header__nav-link" href="#">Generaciones</a>
+        <a class="header__nav-link" href="favorites.html">Favoritos</a>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="Favoritos">
+          <span class="material-symbols-outlined">favorite</span>
+        </button>
+        <button class="header__action-btn" aria-label="Modo oscuro">
+          <span class="material-symbols-outlined">dark_mode</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main main--listado pokeball-watermark">
+
+    <!-- Sección de búsqueda y filtros -->
+    <section class="search-section">
+      <div class="search-section__row">
+        <div class="search-bar">
+          <label class="search-bar__label" for="pokemon-search">Búsqueda global</label>
+          <div class="search-bar__wrapper">
+            <span class="material-symbols-outlined search-bar__icon">search</span>
+            <input class="search-bar__input" id="pokemon-search" type="text" placeholder="Buscar por nombre o ID...">
+          </div>
+        </div>
+        <div class="region-select">
+          <label class="region-select__label" for="region-filter">Región</label>
+          <div class="region-select__wrapper">
+            <select class="region-select__select" id="region-filter">
+              <option>Todas las generaciones</option>
+              <option>Gen I (Kanto)</option>
+              <option>Gen II (Johto)</option>
+              <option>Gen III (Hoenn)</option>
+              <option>Gen IV (Sinnoh)</option>
+            </select>
+            <span class="material-symbols-outlined region-select__icon">expand_more</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter">
+        <button class="filter__chip filter__chip--active">Todos los tipos</button>
+        <button class="filter__chip">
+          <span class="filter__chip-dot filter__chip-dot--fire"></span> Fuego
+        </button>
+        <button class="filter__chip">
+          <span class="filter__chip-dot filter__chip-dot--water"></span> Agua
+        </button>
+        <button class="filter__chip">
+          <span class="filter__chip-dot filter__chip-dot--grass"></span> Planta
+        </button>
+        <button class="filter__chip">
+          <span class="filter__chip-dot filter__chip-dot--electric"></span> Eléctrico
+        </button>
+        <button class="filter__chip">
+          <span class="filter__chip-dot filter__chip-dot--psychic"></span> Psíquico
+        </button>
+      </div>
+    </section>
+
+    <!-- Grid de Pokémon -->
+    <div class="pokemon-grid">
+
+      <!-- Card: Charizard -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Charizard" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png">
+        </div>
+        <span class="pokemon-card__number">#006</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Charizard</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--fire">Fuego</span>
+            <span class="type-badge type-badge--flying">Volador</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Llama</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Venusaur -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Venusaur" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png">
+        </div>
+        <span class="pokemon-card__number">#003</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Venusaur</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--grass">Planta</span>
+            <span class="type-badge type-badge--poison">Veneno</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Semilla</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Blastoise -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Blastoise" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png">
+        </div>
+        <span class="pokemon-card__number">#009</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Blastoise</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--water">Agua</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Marisco</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Pikachu -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Pikachu" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+        </div>
+        <span class="pokemon-card__number">#025</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Pikachu</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--electric">Eléctrico</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Ratón</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Lapras -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Lapras" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/131.png">
+        </div>
+        <span class="pokemon-card__number">#131</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Lapras</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--water">Agua</span>
+            <span class="type-badge type-badge--ice">Hielo</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Transporte</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Mewtwo -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Mewtwo" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png">
+        </div>
+        <span class="pokemon-card__number">#150</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Mewtwo</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--psychic">Psíquico</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Genético</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Dragonite -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Dragonite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/149.png">
+        </div>
+        <span class="pokemon-card__number">#149</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Dragonite</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--dragon">Dragón</span>
+            <span class="type-badge type-badge--flying">Volador</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Dragón</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Gengar -->
+      <article class="pokemon-card">
+        <div class="pokemon-card__image-wrapper">
+          <img class="pokemon-card__image" alt="Gengar" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png">
+        </div>
+        <span class="pokemon-card__number">#094</span>
+        <div class="pokemon-card__info">
+          <h3 class="pokemon-card__name">Gengar</h3>
+          <div class="pokemon-card__types">
+            <span class="type-badge type-badge--ghost">Fantasma</span>
+            <span class="type-badge type-badge--poison">Veneno</span>
+          </div>
+          <div class="pokemon-card__footer">
+            <p class="pokemon-card__category">El Pokémon Sombra</p>
+            <button class="pokemon-card__capture-btn" aria-label="Capturar">
+              <span class="material-symbols-outlined">capture</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Spinner de carga -->
+    <div class="spinner">
+      <div class="spinner__circle"></div>
+      <p class="spinner__text">Escaneando más entradas...</p>
+    </div>
+
+  </main>
+
+  <!-- ========== BOTTOM NAV (móvil) ========== -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav__item bottom-nav__item--active" href="index.html">
+      <span class="material-symbols-outlined bottom-nav__icon">capture</span>
+      <span class="bottom-nav__label">Pokédex</span>
+    </a>
+    <a class="bottom-nav__item" href="#">
+      <span class="material-symbols-outlined bottom-nav__icon">layers</span>
+      <span class="bottom-nav__label">Generaciones</span>
+    </a>
+    <a class="bottom-nav__item" href="favorites.html">
+      <span class="material-symbols-outlined bottom-nav__icon">star</span>
+      <span class="bottom-nav__label">Favoritos</span>
+    </a>
+    <a class="bottom-nav__item" href="#">
+      <span class="material-symbols-outlined bottom-nav__icon">account_circle</span>
+      <span class="bottom-nav__label">Perfil</span>
+    </a>
+  </nav>
+
+</body>
+</html>

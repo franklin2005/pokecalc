@@ -1,0 +1,78 @@
+/* ============================================
+   EVSlider Component Styles
+   ============================================ */
+
+.ev-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ev-slider--maxed .ev-slider__value {
+  color: var(--primary);
+}
+
+.ev-slider__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ev-slider__label {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ev-slider__value {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--on-surface);
+  transition: color 0.2s;
+}
+
+.ev-slider__input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 0.6rem;
+  border-radius: 9999px;
+  background: var(--surface-container);
+  outline: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ev-slider__input:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ev-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s;
+}
+
+.ev-slider__input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.ev-slider__input::-moz-range-thumb {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
+}

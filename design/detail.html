@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Enciclopedia Viviente — Charizard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header header--detail">
+    <nav class="header__inner">
+      <div class="header__brand">
+        <a class="header__logo" href="index.html">La Enciclopedia Viviente</a>
+        <div class="header__nav">
+          <a class="header__nav-link header__nav-link--active" href="index.html">Pokédex</a>
+          <a class="header__nav-link" href="#">Generaciones</a>
+          <a class="header__nav-link" href="favorites.html">Favoritos</a>
+        </div>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="Favoritos">
+          <span class="material-symbols-outlined">favorite</span>
+        </button>
+        <button class="header__action-btn" aria-label="Modo oscuro">
+          <span class="material-symbols-outlined">dark_mode</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main main--detail">
+
+    <!-- Cabecera del Pokémon -->
+    <header class="detail-header">
+      <div class="detail-header__top">
+        <span class="detail-header__number">#0006</span>
+        <h1 class="detail-header__title">Charizard</h1>
+      </div>
+      <div class="detail-header__types">
+        <span class="type-badge type-badge--fire-detail">Fuego</span>
+        <span class="type-badge type-badge--flying-detail">Volador</span>
+      </div>
+    </header>
+
+    <!-- Layout principal bento -->
+    <div class="detail-layout">
+
+      <!-- Lado izquierdo: Hero Artwork -->
+      <section class="detail-hero">
+        <div class="detail-hero__background pokeball-watermark"></div>
+        <div class="detail-hero__image-wrapper">
+          <img class="detail-hero__image" alt="Charizard" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png">
+        </div>
+        <button class="detail-hero__capture-btn" aria-label="Capturar Charizard">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">capture</span>
+          <div class="detail-hero__capture-overlay"></div>
+        </button>
+      </section>
+
+      <!-- Lado derecho: Stats e info -->
+      <div class="detail-sidebar">
+
+        <!-- Estadísticas de combate -->
+        <section class="stats-card">
+          <div class="stats-card__header">
+            <span class="material-symbols-outlined">analytics</span>
+            <h2 class="stats-card__title">Estadísticas base</h2>
+          </div>
+          <div class="stats-card__list">
+            <div class="stat-bar">
+              <div class="stat-bar__header">
+                <span class="stat-bar__label">PS</span>
+                <span class="stat-bar__value">78</span>
+              </div>
+              <div class="stat-bar__track">
+                <div class="stat-bar__fill stat-bar__fill--hp" style="width: 31%;"></div>
+              </div>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-bar__header">
+                <span class="stat-bar__label">Ataque</span>
+                <span class="stat-bar__value">84</span>
+              </div>
+              <div class="stat-bar__track">
+                <div class="stat-bar__fill stat-bar__fill--attack" style="width: 34%;"></div>
+              </div>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-bar__header">
+                <span class="stat-bar__label">Defensa</span>
+                <span class="stat-bar__value">78</span>
+              </div>
+              <div class="stat-bar__track">
+                <div class="stat-bar__fill stat-bar__fill--defense" style="width: 31%;"></div>
+              </div>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-bar__header">
+                <span class="stat-bar__label">At. Especial</span>
+                <span class="stat-bar__value">109</span>
+              </div>
+              <div class="stat-bar__track">
+                <div class="stat-bar__fill stat-bar__fill--sp-attack" style="width: 43%;"></div>
+              </div>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-bar__header">
+                <span class="stat-bar__label">Velocidad</span>
+                <span class="stat-bar__value">100</span>
+              </div>
+              <div class="stat-bar__track">
+                <div class="stat-bar__fill stat-bar__fill--speed" style="width: 40%;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cadena evolutiva -->
+        <section class="evolution-chain">
+          <div class="evolution-chain__header">
+            <span class="material-symbols-outlined">auto_awesome</span>
+            <h2 class="evolution-chain__title">Cadena evolutiva</h2>
+          </div>
+          <div class="evolution-chain__stages">
+
+            <!-- Etapa 1 -->
+            <div class="evolution-chain__stage">
+              <div class="evolution-chain__image-wrapper">
+                <img class="evolution-chain__image" alt="Charmander" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png">
+              </div>
+              <span class="evolution-chain__name">Charmander</span>
+            </div>
+
+            <!-- Conector desktop -->
+            <div class="evolution-chain__connector">
+              <span class="evolution-chain__connector-label">NVL 16</span>
+            </div>
+            <!-- Flecha móvil -->
+            <div class="evolution-chain__arrow">
+              <span class="material-symbols-outlined">keyboard_arrow_down</span>
+            </div>
+
+            <!-- Etapa 2 -->
+            <div class="evolution-chain__stage">
+              <div class="evolution-chain__image-wrapper">
+                <img class="evolution-chain__image" alt="Charmeleon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png">
+              </div>
+              <span class="evolution-chain__name">Charmeleon</span>
+            </div>
+
+            <!-- Conector desktop -->
+            <div class="evolution-chain__connector">
+              <span class="evolution-chain__connector-label">NVL 36</span>
+            </div>
+            <!-- Flecha móvil -->
+            <div class="evolution-chain__arrow">
+              <span class="material-symbols-outlined">keyboard_arrow_down</span>
+            </div>
+
+            <!-- Etapa 3 (actual) -->
+            <div class="evolution-chain__stage evolution-chain__stage--current">
+              <div class="evolution-chain__image-wrapper">
+                <img class="evolution-chain__image" alt="Charizard" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png">
+              </div>
+              <span class="evolution-chain__name">Charizard</span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Info adicional: altura y peso -->
+        <div class="info-grid">
+          <div class="info-grid__item">
+            <span class="info-grid__label">Altura</span>
+            <span class="info-grid__value">1.7 m</span>
+          </div>
+          <div class="info-grid__item">
+            <span class="info-grid__label">Peso</span>
+            <span class="info-grid__value">90.5 kg</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========== BOTTOM NAV (móvil) ========== -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav__item bottom-nav__item--active" href="index.html">
+      <span class="material-symbols-outlined bottom-nav__icon" style="font-variation-settings: 'FILL' 1;">capture</span>
+      <span class="bottom-nav__label">Pokédex</span>
+    </a>
+    <a class="bottom-nav__item" href="#">
+      <span class="material-symbols-outlined bottom-nav__icon">layers</span>
+      <span class="bottom-nav__label">Generaciones</span>
+    </a>
+    <a class="bottom-nav__item" href="favorites.html">
+      <span class="material-symbols-outlined bottom-nav__icon">star</span>
+      <span class="bottom-nav__label">Favoritos</span>
+    </a>
+    <a class="bottom-nav__item" href="#">
+      <span class="material-symbols-outlined bottom-nav__icon">account_circle</span>
+      <span class="bottom-nav__label">Perfil</span>
+    </a>
+  </nav>
+
+  <!-- Decoración de fondo -->
+  <div class="blob-decoration blob-decoration--top-right"></div>
+  <div class="blob-decoration blob-decoration--bottom-left"></div>
+
+</body>
+</html>

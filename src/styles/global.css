@@ -1,0 +1,64 @@
+/* ============================================
+   PokeCalc — Global Styles
+   Imports tokens, sets body defaults
+   ============================================ */
+
+@import './tokens.css';
+
+/* Body defaults */
+body {
+  font-family: var(--font-body);
+  color: var(--on-surface);
+  background-color: var(--background);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Link resets */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+/* Button resets */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  line-height: inherit;
+}
+
+/* Image resets */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--primary-fixed);
+  color: var(--on-primary-fixed);
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 0.2rem solid var(--primary);
+  outline-offset: 0.2rem;
+}

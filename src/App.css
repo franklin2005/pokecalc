@@ -1,0 +1,11 @@
+/* ============================================
+   PokeCalc — App Styles
+   App-specific styles. Layout and component styles
+   are imported via their respective modules.
+   ============================================ */
+
+.app {
+  max-width: 144rem;
+  margin: 0 auto;
+  padding: 2.4rem;
+}

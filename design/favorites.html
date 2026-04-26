@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Colección Pokéball | La Enciclopedia Viviente</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header header--favorites">
+    <nav class="header__inner">
+      <div class="header__brand">
+        <span class="header__logo">La Enciclopedia Viviente</span>
+        <div class="header__nav">
+          <a class="header__nav-link" href="index.html">Pokédex</a>
+          <a class="header__nav-link" href="#">Generaciones</a>
+          <a class="header__nav-link header__nav-link--active" href="favorites.html">Favoritos</a>
+          <a class="header__nav-link" href="#">Perfil</a>
+        </div>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="Favoritos">
+          <span class="material-symbols-outlined">favorite</span>
+        </button>
+        <button class="header__action-btn" aria-label="Modo oscuro">
+          <span class="material-symbols-outlined">dark_mode</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main main--favorites">
+
+    <!-- Cabecera editorial -->
+    <div class="favorites-header">
+      <span class="favorites-header__tag">Registro de capturas</span>
+      <h1 class="favorites-header__title">Mi Colección Pokéball</h1>
+      <p class="favorites-header__description">
+        Archivo personal de un investigador con especímenes rastreados y capturados exitosamente. Gestiona tu colección con precisión.
+      </p>
+    </div>
+
+    <!-- Grid de favoritos: estilo bento asimétrico -->
+    <div class="bento-grid">
+
+      <!-- Espécimen 01: Card destacada (Charizard) -->
+      <article class="bento-card bento-card--featured">
+        <div class="bento-card__glow"></div>
+        <div class="bento-card__content">
+          <div class="bento-card__info">
+            <div class="bento-card__meta">
+              <span class="type-badge type-badge--fire-fav">Fuego</span>
+              <span class="bento-card__id">#0006</span>
+            </div>
+            <h2 class="bento-card__name">Charizard</h2>
+            <p class="bento-card__description">
+              Una llama legendaria que nunca se extingue. Este espécimen fue capturado en las regiones volcánicas de Kanto.
+            </p>
+            <div class="bento-card__actions">
+              <button class="bento-card__btn bento-card__btn--primary">
+                <span class="material-symbols-outlined">visibility</span>
+                Ver detalles
+              </button>
+              <button class="bento-card__btn bento-card__btn--secondary">
+                <span class="material-symbols-outlined">logout</span>
+                Liberar
+              </button>
+            </div>
+          </div>
+          <div class="bento-card__image-wrapper">
+            <img class="bento-card__image bento-card__image--featured" alt="Charizard" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png">
+          </div>
+        </div>
+      </article>
+
+      <!-- Espécimen 02: Card vertical (Blastoise) -->
+      <article class="bento-card bento-card--vertical">
+        <div>
+          <div class="bento-card__vertical-header">
+            <div class="bento-card__vertical-meta">
+              <span class="type-badge type-badge--water-fav">Agua</span>
+              <h3 class="bento-card__vertical-name">Blastoise</h3>
+            </div>
+            <span class="bento-card__vertical-id">#0009</span>
+          </div>
+          <div class="bento-card__vertical-image-container">
+            <img class="bento-card__image bento-card__image--vertical" alt="Blastoise" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png">
+          </div>
+        </div>
+        <button class="bento-card__release-btn">
+          <span class="material-symbols-outlined">logout</span>
+          Liberar al hábitat
+        </button>
+      </article>
+
+      <!-- Espécimen 03: Card compacta (Pikachu) -->
+      <article class="bento-card bento-card--compact">
+        <div class="bento-card__compact-row">
+          <img class="bento-card__thumb" alt="Pikachu" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+          <div>
+            <h4 class="bento-card__compact-name">Pikachu</h4>
+            <span class="bento-card__compact-subtitle">Espécimen Eléctrico</span>
+          </div>
+        </div>
+        <div class="bento-card__compact-actions">
+          <button class="bento-card__compact-release">Liberar</button>
+          <button class="bento-card__compact-stats">
+            <span class="material-symbols-outlined">analytics</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Espécimen 04: Card compacta (Pidgeot) -->
+      <article class="bento-card bento-card--compact">
+        <div class="bento-card__compact-row">
+          <img class="bento-card__thumb" alt="Pidgeot" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/18.png">
+          <div>
+            <h4 class="bento-card__compact-name">Pidgeot</h4>
+            <span class="bento-card__compact-subtitle">Espécimen Aéreo</span>
+          </div>
+        </div>
+        <div class="bento-card__compact-actions">
+          <button class="bento-card__compact-release">Liberar</button>
+          <button class="bento-card__compact-stats">
+            <span class="material-symbols-outlined">analytics</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Espécimen 05: Card para añadir -->
+      <article class="bento-card bento-card--add">
+        <div class="bento-card__add-icon">
+          <span class="material-symbols-outlined">add</span>
+        </div>
+        <h5 class="bento-card__add-title">Añadir espécimen</h5>
+        <p class="bento-card__add-subtitle">Explorar el mundo</p>
+      </article>
+
+    </div>
+
+    <!-- Estado vacío (oculto por defecto) -->
+    <div class="empty-state">
+      <div class="empty-state__icon-wrapper">
+        <span class="material-symbols-outlined">capture</span>
+      </div>
+      <h2 class="empty-state__title">Archivos vacíos</h2>
+      <p class="empty-state__text">¡Aún no has capturado ningún Pokémon! Ve al explorador para comenzar tu viaje.</p>
+      <button class="empty-state__btn">Abrir explorador</button>
+    </div>
+
+  </main>
+
+  <!-- ========== BOTTOM NAV (móvil) ========== -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav__item" href="index.html">
+      <span class="material-symbols-outlined bottom-nav__icon">capture</span>
+      <span class="bottom-nav__label">Pokédex</span>
+    </a>
+    <a class="bottom-nav__item" href="#">
+      <span class="material-symbols-outlined bottom-nav__icon">layers</span>
+      <span class="bottom-nav__label">Generaciones</span>
+    </a>
+    <a class="bottom-nav__item bottom-nav__item--active" href="favorites.html">
+      <span class="material-symbols-outlined bottom-nav__icon" style="font-variation-settings: 'FILL' 1;">star</span>
+      <span class="bottom-nav__label">Favoritos</span>
+    </a>
+    <a class="bottom-nav__item" href="#">
+      <span class="material-symbols-outlined bottom-nav__icon">account_circle</span>
+      <span class="bottom-nav__label">Perfil</span>
+    </a>
+  </nav>
+
+  <!-- FAB de búsqueda -->
+  <button class="fab" aria-label="Buscar">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+
+</body>
+</html>
