@@ -1,14 +1,17 @@
 /**
  * PokeCalc — ItemSelect Component
- * Dropdown of Champions-allowed items, grouped by category.
+ * Text input with search/autocomplete for Champions-allowed items.
+ * Shows category labels in the dropdown.
  */
 
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { CHAMPIONS_ITEMS } from '../../data/champions-items'
 import './ItemSelect.css'
 
 interface ItemSelectProps {
   value: string | undefined
   onChange: (item: string | undefined) => void
+  disabled?: boolean
 }
 
 /** Categorize Champions items into logical groups */
@@ -53,56 +56,109 @@ function categorizeItem(item: string): string {
   return 'Battle Effect Items'
 }
 
-const CATEGORY_ORDER = [
-  'Choice Items',
-  'Offensive Items',
-  'Defensive Items',
-  'Berries',
-  'Battle Effect Items',
-  'Mega Stones',
-]
+export function ItemSelect({ value, onChange, disabled }: ItemSelectProps) {
+  const [query, setQuery] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
-export function ItemSelect({ value, onChange }: ItemSelectProps) {
-  // Group items by category
-  const grouped = new Map<string, string[]>()
-  for (const item of CHAMPIONS_ITEMS) {
-    const category = categorizeItem(item)
-    const existing = grouped.get(category) || []
-    existing.push(item)
-    grouped.set(category, existing)
-  }
+  // Filter items by query (case-insensitive substring match)
+  const filtered = useMemo(() => {
+    if (query.length === 0) return []
+    const lower = query.toLowerCase()
+    return CHAMPIONS_ITEMS
+      .filter((item) => item.toLowerCase().includes(lower))
+      .slice(0, 20)
+  }, [query])
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // Sync query with value when value changes externally
+  useEffect(() => {
+    if (value && !isOpen) {
+      setQuery(value)
+    }
+  }, [value, isOpen])
+
+  const handleSelect = useCallback((item: string | undefined) => {
+    if (item) {
+      setQuery(item)
+    } else {
+      setQuery('')
+    }
+    setIsOpen(false)
+    onChange(item)
+  }, [onChange])
 
   return (
-    <div className="item-select">
+    <div className="item-select" ref={wrapperRef}>
       <label className="item-select__label" htmlFor="item-select">
         Held Item
       </label>
       <div className="item-select__wrapper">
-        <select
-          className="item-select__select"
+        <input
+          className="item-select__input"
           id="item-select"
-          value={value ?? ''}
-          onChange={(e) => onChange(e.target.value || undefined)}
-        >
-          <option value="">No Item</option>
-          {CATEGORY_ORDER.map((category) => {
-            const items = grouped.get(category)
-            if (!items || items.length === 0) return null
-            return (
-              <optgroup key={category} label={category}>
-                {items.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </optgroup>
-            )
-          })}
-        </select>
+          type="text"
+          placeholder="Search items..."
+          value={query}
+          disabled={disabled}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setIsOpen(true)
+            if (!e.target.value) {
+              onChange(undefined)
+            }
+          }}
+          onFocus={() => !disabled && setIsOpen(true)}
+          autoComplete="off"
+        />
         <span className="item-select__icon material-symbols-outlined">
-          expand_more
+          {disabled ? 'lock' : 'expand_more'}
         </span>
       </div>
+
+      {isOpen && !disabled && (filtered.length > 0 || query.length > 0) && (
+        <ul className="item-select__dropdown" role="listbox">
+          <li
+            className="item-select__option item-select__option--no-item"
+            role="option"
+            aria-selected={value === undefined}
+            onMouseDown={(e) => {
+              e.preventDefault()
+              handleSelect(undefined)
+            }}
+          >
+            <span className="item-select__option-name">No Item</span>
+          </li>
+          {filtered.map((item) => {
+            const category = categorizeItem(item)
+            return (
+              <li
+                key={item}
+                className={`item-select__option ${item === value ? 'item-select__option--selected' : ''}`}
+                role="option"
+                aria-selected={item === value}
+                onMouseDown={(e) => {
+                  e.preventDefault()
+                  handleSelect(item)
+                }}
+              >
+                <span className="item-select__option-name">{item}</span>
+                <span className="item-select__option-category">{category}</span>
+              </li>
+            )
+          })}
+        </ul>
+      )}
     </div>
   )
 }

@@ -31,7 +31,8 @@ export interface CalcCardState {
   ability: string | undefined
   nature: string
   sps: StatPoints
-  move: string | null
+  moves: string[]
+  activeMoveIndex: number
 }
 
 /** Stat Point distribution — Champions: max 32/stat, total ≤ 66 */

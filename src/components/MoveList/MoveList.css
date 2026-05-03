@@ -1,0 +1,240 @@
+/* ============================================
+   MoveList Component Styles
+   Scrollable overlay panel for move selection
+   ============================================ */
+
+.move-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-container);
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+/* Header */
+.move-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.4rem;
+  background-color: var(--surface-container-high);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.move-list__title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: var(--font-headline);
+  color: var(--on-surface);
+}
+
+.move-list__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  color: var(--on-surface-variant);
+  transition: background-color 0.15s;
+}
+
+.move-list__close:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.move-list__close .material-symbols-outlined {
+  font-size: 2rem;
+}
+
+/* Table wrapper — scrollable */
+.move-list__table-wrapper {
+  max-height: 24rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--outline) transparent;
+}
+
+.move-list__table-wrapper::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.move-list__table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.move-list__table-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--outline);
+  border-radius: 9999px;
+}
+
+/* Table */
+.move-list__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.move-list__th {
+  padding: 0.8rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--on-surface-variant);
+  text-align: left;
+  border-bottom: 1px solid var(--outline-variant);
+  position: sticky;
+  top: 0;
+  background-color: var(--surface-container);
+  z-index: 1;
+}
+
+/* Column widths */
+.move-list__th--name { width: 22%; }
+.move-list__th--type { width: 12%; text-align: center; }
+.move-list__th--category { width: 10%; text-align: center; }
+.move-list__th--bp { width: 6%; text-align: center; }
+.move-list__th--accuracy { width: 8%; text-align: center; }
+.move-list__th--pp { width: 6%; text-align: center; }
+.move-list__th--desc { width: 36%; }
+
+.move-list__row {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.move-list__row:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.move-list__td {
+  padding: 0.6rem 1rem;
+  font-size: 1.3rem;
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--outline-variant);
+  vertical-align: middle;
+}
+
+/* Name column — allow truncation */
+.move-list__td--name {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 14rem;
+}
+
+/* Type column */
+.move-list__td--type {
+  text-align: center;
+}
+
+/* Category column — image centered */
+.move-list__td--category {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.move-list__category-img {
+  display: block;
+  margin: 0 auto;
+  width: 2.2rem;
+  height: 2.2rem;
+  object-fit: contain;
+}
+
+.move-list__category-img {
+  width: 3rem;
+  height: 2.4rem;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* BP column — centered */
+.move-list__td--bp {
+  text-align: center;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Accuracy column — centered */
+.move-list__td--accuracy {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* PP column — centered */
+.move-list__td--pp {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Description column — truncated with ellipsis */
+.move-list__td--desc {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20rem;
+  font-size: 1.1rem;
+  color: var(--on-surface-variant);
+}
+
+/* Loading state */
+.move-list__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 3rem 2rem;
+  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+}
+
+/* Empty state */
+.move-list__empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .move-list__table-wrapper {
+    max-height: 18rem;
+  }
+
+  .move-list__th,
+  .move-list__td {
+    padding: 0.5rem 0.6rem;
+    font-size: 1.1rem;
+  }
+
+  .move-list__th--desc,
+  .move-list__td--desc {
+    display: none;
+  }
+
+  .move-list__td--name {
+    max-width: 8rem;
+  }
+
+  .move-list__category-img {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .move-list__th--accuracy,
+  .move-list__td--accuracy,
+  .move-list__th--pp,
+  .move-list__td--pp {
+    display: none;
+  }
+}

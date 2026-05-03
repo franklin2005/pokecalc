@@ -18,6 +18,7 @@ interface StatBarProps {
   onSPChange: (value: number) => void
   natureEffect: 'boosted' | 'hindered' | 'neutral'
   statKey: StatName
+  baseValue?: number
 }
 
 export function StatBar({
@@ -30,7 +31,8 @@ export function StatBar({
   spTotal,
   onSPChange,
   natureEffect,
-  statKey,
+  statKey: _statKey,
+  baseValue,
 }: StatBarProps) {
   const percentage = maxValue > 0 ? Math.min((value / maxValue) * 100, 100) : 0
   const isSPDisabled = spTotal >= 66 && spValue === 0
@@ -42,9 +44,24 @@ export function StatBar({
     onSPChange(Number(e.target.value))
   }
 
+  const handleSPNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value
+    if (raw === '') {
+      onSPChange(0)
+      return
+    }
+    const num = Number(raw)
+    if (!isNaN(num)) {
+      onSPChange(Math.min(Math.max(num, 0), spMax))
+    }
+  }
+
   return (
     <div className="stat-bar">
       <div className="stat-bar__header">
+        {baseValue !== undefined && (
+          <span className="stat-bar__base-value">{baseValue}</span>
+        )}
         <span className="stat-bar__label">{label}</span>
         <span className="stat-bar__value">{value}</span>
         <span className={`stat-bar__nature stat-bar__nature--${natureEffect}`}>
@@ -60,6 +77,18 @@ export function StatBar({
             disabled={isSPDisabled}
             onChange={handleSPInput}
             aria-label={`${label} SPs`}
+          />
+          <input
+            className="stat-bar__sp-number"
+            type="number"
+            min={0}
+            max={spMax}
+            value={spValue}
+            disabled={isSPDisabled}
+            onChange={handleSPNumberChange}
+            inputMode="numeric"
+            pattern="[0-9]*"
+            aria-label={`${label} SP number input`}
           />
           <span className="stat-bar__sp-count">{spValue}/{spMax}</span>
         </div>

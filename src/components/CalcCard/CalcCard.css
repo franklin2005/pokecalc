@@ -55,18 +55,34 @@
   width: 100%;
 }
 
-/* Sprite Section */
+/* Sprite + Moves Row — side by side */
+.calc-card__sprite-moves-row {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Sprite Section — standalone, centered */
 .calc-card__sprite-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
-  padding: 1.6rem 0;
+  gap: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Move Slots — vertical column, full width */
+.calc-card__move-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
 }
 
 .calc-card__sprite-wrapper {
-  width: 16rem;
-  height: 16rem;
+  width: 10rem;
+  height: 10rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,21 +123,89 @@
   justify-content: center;
 }
 
-/* Stats */
+/* Mega toggle */
+.calc-card__mega-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--outline-variant);
+}
+
+.calc-card__mega-toggle:hover {
+  color: var(--primary);
+  background: var(--surface-container-highest);
+}
+
+.calc-card__mega-toggle--active {
+  color: var(--primary);
+}
+
+.calc-card__mega-sprite {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+
+.calc-card__mega-toggle--active .calc-card__mega-sprite {
+  opacity: 1;
+}
+
+.calc-card__mega-toggle .material-symbols-outlined {
+  font-size: 2rem;
+}
+
+/* Stats — full width */
 .calc-card__stats {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
-  padding: 1.2rem;
+  gap: 0.8rem;
+  padding: 1rem;
   background-color: var(--surface-container);
   border-radius: 2rem;
 }
 
-/* Controls — 2x2 Grid */
+/* Controls — horizontal row: Nature | Ability | Item */
 .calc-card__controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.calc-card__controls > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Smaller selectors inside controls */
+.calc-card__controls .nature-select,
+.calc-card__controls .ability-select,
+.calc-card__controls .item-select {
+  font-size: 1.2rem;
+}
+
+.calc-card__controls .nature-select__select,
+.calc-card__controls .ability-select__select,
+.calc-card__controls .item-select__input {
+  height: 3.2rem;
+  font-size: 1.2rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.calc-card__controls .nature-select__label,
+.calc-card__controls .ability-select__label,
+.calc-card__controls .item-select__label {
+  font-size: 1.1rem;
 }
 
 /* Responsive */
@@ -136,15 +220,20 @@
   }
 
   .calc-card__sprite-wrapper {
-    width: 12rem;
-    height: 12rem;
-  }
-
-  .calc-card__controls {
-    gap: 0.8rem;
+    width: 10rem;
+    height: 10rem;
   }
 
   .calc-card__stats {
     padding: 1rem;
+  }
+
+  .calc-card__sprite-moves-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .calc-card__controls {
+    flex-direction: column;
   }
 }

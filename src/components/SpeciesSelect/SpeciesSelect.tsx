@@ -1,7 +1,6 @@
 /**
  * PokeCalc — SpeciesSelect Component
  * Text input with search/autocomplete for Pokémon species selection.
- * Supports forme selection for Mega Evolutions.
  */
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
@@ -21,8 +20,9 @@ interface SpeciesSelectProps {
 /**
  * Get forme variants for a species.
  * Checks species.otherFormes and filters to Champions-relevant forms (Mega).
+ * Exported for use by CalcCard to compute available Mega formes.
  */
-function getFormes(species: Specie): string[] {
+export function getFormes(species: Specie): string[] {
   if (!species.otherFormes) return []
 
   const formes: string[] = []
@@ -44,7 +44,6 @@ function getFormes(species: Specie): string[] {
 export function SpeciesSelect({ value, onChange, gen }: SpeciesSelectProps) {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedForme, setSelectedForme] = useState<string | null>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   // Build species list from gen (cache in ref)
@@ -78,23 +77,14 @@ export function SpeciesSelect({ value, onChange, gen }: SpeciesSelectProps) {
   const handleSelect = useCallback((speciesName: string) => {
     setQuery(speciesName)
     setIsOpen(false)
-    setSelectedForme(null)
     onChange(speciesName, null)
   }, [onChange])
 
-  const handleFormeChange = useCallback((forme: string) => {
-    if (!value) return
-    setSelectedForme(forme || null)
-    onChange(value, forme || null)
-  }, [value, onChange])
-
-  // Get selected species for forme display
+  // Get selected species for sprite display
   const selectedSpecies = value ? gen.species.get(toID(value)) : null
-  const availableFormes = selectedSpecies ? getFormes(selectedSpecies) : []
 
-  // Get sprite URL
-  const displaySpecies = selectedForme && value ? `${value}-${selectedForme}` : value
-  const spriteUrl = displaySpecies ? getSpriteUrl(displaySpecies) : null
+  // Get sprite URL (base species only — forme sprites handled by CalcCard)
+  const spriteUrl = value ? getSpriteUrl(value) : null
 
   // Sync query with value
   useEffect(() => {
@@ -116,17 +106,16 @@ export function SpeciesSelect({ value, onChange, gen }: SpeciesSelectProps) {
             setIsOpen(true)
             if (!e.target.value) {
               onChange(null, null)
-              setSelectedForme(null)
             }
           }}
           onFocus={() => setIsOpen(true)}
           autoComplete="off"
         />
-        {spriteUrl && (
+        {spriteUrl && selectedSpecies && (
           <img
             className="species-select__sprite"
             src={spriteUrl}
-            alt={displaySpecies || ''}
+            alt={selectedSpecies.name}
             loading="lazy"
           />
         )}
@@ -146,31 +135,6 @@ export function SpeciesSelect({ value, onChange, gen }: SpeciesSelectProps) {
             </li>
           ))}
         </ul>
-      )}
-
-      {availableFormes.length > 0 && (
-        <div className="species-select__forme">
-          <label className="species-select__forme-label">Forme</label>
-          <div className="species-select__forme-options">
-            <button
-              className={`species-select__forme-btn ${!selectedForme ? 'species-select__forme-btn--active' : ''}`}
-              type="button"
-              onClick={() => handleFormeChange('')}
-            >
-              Base
-            </button>
-            {availableFormes.map((forme) => (
-              <button
-                key={forme}
-                className={`species-select__forme-btn ${selectedForme === forme ? 'species-select__forme-btn--active' : ''}`}
-                type="button"
-                onClick={() => handleFormeChange(forme)}
-              >
-                {forme}
-              </button>
-            ))}
-          </div>
-        </div>
       )}
     </div>
   )

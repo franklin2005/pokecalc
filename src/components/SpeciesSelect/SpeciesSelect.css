@@ -105,16 +105,16 @@
 
 .species-select__forme-options {
   display: flex;
-  gap: 0.8rem;
   flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
 .species-select__forme-btn {
-  padding: 0.6rem 1.6rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 9999px;
   background-color: var(--surface-container-high);
   color: var(--on-surface-variant);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   transition: background-color 0.2s, color 0.2s;
 }

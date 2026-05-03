@@ -23,7 +23,23 @@ const DEFAULT_CARD_STATE: CalcCardState = {
   ability: undefined,
   nature: 'Hardy',
   sps: DEFAULT_SPS,
-  move: null,
+  moves: ['', '', '', ''],
+  activeMoveIndex: 0,
+}
+
+/** Default matchup on first load — non-empty cards + a valid calc */
+const DEFAULT_ATTACKER: CalcCardState = {
+  ...DEFAULT_CARD_STATE,
+  species: 'Venusaur',
+  ability: 'Overgrow',
+  moves: ['Sludge Bomb', '', '', ''],
+  activeMoveIndex: 0,
+}
+
+const DEFAULT_DEFENDER: CalcCardState = {
+  ...DEFAULT_CARD_STATE,
+  species: 'Charizard',
+  ability: 'Blaze',
 }
 
 const DEFAULT_SIDE: SideConditions = {
@@ -47,12 +63,12 @@ function App() {
   const gen = useMemo(() => Generations.get(9), [])
   const [isDark, toggleTheme] = useDarkMode()
 
-  const [attacker, setAttacker] = useState<CalcCardState>(DEFAULT_CARD_STATE)
-  const [defender, setDefender] = useState<CalcCardState>(DEFAULT_CARD_STATE)
+  const [attacker, setAttacker] = useState<CalcCardState>(DEFAULT_ATTACKER)
+  const [defender, setDefender] = useState<CalcCardState>(DEFAULT_DEFENDER)
   const [field, setField] = useState<FieldState>(DEFAULT_FIELD)
 
   const result = useCalculation(gen, attacker, defender, field)
-  const hasSelection = Boolean(attacker.species && defender.species && attacker.move)
+  const hasSelection = Boolean(attacker.species && defender.species && attacker.moves[attacker.activeMoveIndex])
 
   const handleSwap = () => {
     const temp = attacker
@@ -71,27 +87,34 @@ function App() {
     <>
       <AppHeader isDark={isDark} onToggleTheme={toggleTheme} />
       <main className="calc-layout">
-        <div className="calc-layout__attacker">
-          <CalcCard
-            role="attacker"
-            state={attacker}
-            onStateChange={setAttacker}
-            gen={gen}
-          />
-        </div>
-
+        {/* Results — full width above */}
         <div className="calc-layout__results">
           <ResultsPanel result={result} onSwap={handleSwap} hasSelection={hasSelection} />
-          <FieldConditions field={field} onFieldChange={setField} />
         </div>
 
-        <div className="calc-layout__defender">
-          <CalcCard
-            role="defender"
-            state={defender}
-            onStateChange={setDefender}
-            gen={gen}
-          />
+        {/* Cards — attacker + defender side by side */}
+        <div className="calc-layout__cards">
+          <div className="calc-layout__attacker">
+            <CalcCard
+              role="attacker"
+              state={attacker}
+              onStateChange={setAttacker}
+              gen={gen}
+            />
+          </div>
+          <div className="calc-layout__defender">
+            <CalcCard
+              role="defender"
+              state={defender}
+              onStateChange={setDefender}
+              gen={gen}
+            />
+          </div>
+        </div>
+
+        {/* Field Conditions — full width below */}
+        <div className="calc-layout__field">
+          <FieldConditions field={field} onFieldChange={setField} />
         </div>
       </main>
     </>

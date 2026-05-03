@@ -113,14 +113,14 @@ export function useCalculation(
 ): CalcResult | null {
   return useMemo<CalcResult | null>(() => {
     // Guard: return null if required data is missing
-    if (!attacker.species || !defender.species || !attacker.move) {
+    if (!attacker.species || !defender.species || !attacker.moves[attacker.activeMoveIndex]) {
       return null
     }
 
     try {
       const attackerPokemon = buildPokemon(gen, attacker)
       const defenderPokemon = buildPokemon(gen, defender)
-      const move = new Move(gen, attacker.move)
+      const move = new Move(gen, attacker.moves[attacker.activeMoveIndex])
       const fieldConfig = buildField(field)
 
       const result = calculate(gen, attackerPokemon, defenderPokemon, move, fieldConfig)

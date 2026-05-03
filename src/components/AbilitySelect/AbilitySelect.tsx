@@ -1,11 +1,15 @@
 /**
  * PokeCalc — AbilitySelect Component
  * Dropdown of abilities for the selected species.
- * Note: @smogon/calc only exposes the primary ability (abilities['0']).
+ *
+ * Uses SPECIES_ABILITIES from our static data (generated from PokeAPI)
+ * because @smogon/calc only stores the primary ability per species.
+ * Falls back to calc's abilities if species not found in our mapping.
  */
 
 import { toID } from '@smogon/calc'
 import { Generations } from '@smogon/calc'
+import { getSpeciesAbilities } from '../../data/species-abilities'
 import './AbilitySelect.css'
 
 type Generation = ReturnType<typeof Generations.get>
@@ -18,13 +22,22 @@ interface AbilitySelectProps {
 }
 
 export function AbilitySelect({ species, value, onChange, gen }: AbilitySelectProps) {
-  // Get abilities from species data
-  // @smogon/calc only exposes primary ability in abilities['0']
-  const abilities: string[] = []
+  // Get abilities from our static mapping (has primary, secondary, hidden)
+  let abilities: string[] = []
+
   if (species) {
-    const sp = gen.species.get(toID(species))
-    if (sp?.abilities?.['0']) {
-      abilities.push(sp.abilities['0'])
+    const speciesId = toID(species)
+
+    // First try our comprehensive mapping from PokeAPI
+    abilities = getSpeciesAbilities(speciesId)
+
+    // Fallback: if not in our mapping, try calc's abilities
+    // (calc only has primary ability, but better than nothing)
+    if (abilities.length === 0) {
+      const sp = gen.species.get(speciesId)
+      if (sp?.abilities?.['0']) {
+        abilities = [sp.abilities['0']]
+      }
     }
   }
 

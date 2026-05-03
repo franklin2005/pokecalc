@@ -16,6 +16,15 @@
   flex-wrap: wrap;
 }
 
+.stat-bar__base-value {
+  font-size: 1.2rem;
+  color: var(--on-surface-variant);
+  font-weight: 500;
+  width: 2.5rem;
+  text-align: right;
+  margin-right: 0.4rem;
+}
+
 .stat-bar__label {
   font-size: 1.4rem;
   font-weight: 700;
@@ -67,7 +76,7 @@
   width: 8rem;
   height: 0.5rem;
   border-radius: 9999px;
-  background: var(--surface-container);
+  background: transparent;
   outline: none;
   cursor: pointer;
   transition: opacity 0.2s;
@@ -76,6 +85,25 @@
 .stat-bar__sp-input:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+/* Slider track — visible on both light and dark backgrounds */
+.stat-bar__sp-input::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--outline-variant);
+}
+
+.stat-bar__sp-input::-moz-range-track {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--outline-variant);
+}
+
+.stat-bar__sp-input::-moz-range-progress {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--primary);
 }
 
 .stat-bar__sp-input::-webkit-slider-thumb {
@@ -111,6 +139,40 @@
   font-family: var(--font-headline);
   min-width: 3.2rem;
   text-align: right;
+}
+
+/* Number input — synced with range slider */
+.stat-bar__sp-number {
+  width: 4rem;
+  height: 2.4rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: var(--font-headline);
+  color: var(--on-surface);
+  background: var(--surface-container-lowest);
+  border: 0.1rem solid var(--outline-variant);
+  border-radius: 0.4rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -moz-appearance: textfield;
+}
+
+.stat-bar__sp-number::-webkit-outer-spin-button,
+.stat-bar__sp-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.stat-bar__sp-number:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+.stat-bar__sp-number:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: var(--surface-container);
 }
 
 .stat-bar__track {
