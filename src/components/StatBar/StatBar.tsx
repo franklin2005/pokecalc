@@ -4,6 +4,7 @@
  * inline SP slider, track, and colored fill.
  */
 
+import type { ChangeEvent, CSSProperties } from 'react'
 import './StatBar.css'
 import type { StatName } from '../../types/calc'
 
@@ -35,16 +36,17 @@ export function StatBar({
   baseValue,
 }: StatBarProps) {
   const percentage = maxValue > 0 ? Math.min((value / maxValue) * 100, 100) : 0
+  const spFillPct = spMax > 0 ? Math.min(100, Math.max(0, (spValue / spMax) * 100)) : 0
   const isSPDisabled = spTotal >= 66 && spValue === 0
 
   const natureLabel =
     natureEffect === 'boosted' ? '↑+10%' : natureEffect === 'hindered' ? '↓−10%' : '—'
 
-  const handleSPInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSPInput = (e: ChangeEvent<HTMLInputElement>) => {
     onSPChange(Number(e.target.value))
   }
 
-  const handleSPNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSPNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value
     if (raw === '') {
       onSPChange(0)
@@ -77,6 +79,7 @@ export function StatBar({
             disabled={isSPDisabled}
             onChange={handleSPInput}
             aria-label={`${label} SPs`}
+            style={{ '--stat-sp-fill-pct': `${spFillPct}%` } as CSSProperties}
           />
           <input
             className="stat-bar__sp-number"

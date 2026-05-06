@@ -1,10 +1,10 @@
 /**
  * PokeCalc — TypeBadge Component
- * Renders a pill-shaped badge for a Pokémon type.
+ * Renders a type badge image from bundled assets.
  */
 
 import type { TypeName } from '../../types/pokemon'
-import { TYPE_COLORS } from '../../data/type-colors'
+import { getTypeBadgeSrc } from '../../data/type-badge-urls'
 import './TypeBadge.css'
 
 interface TypeBadgeProps {
@@ -12,17 +12,12 @@ interface TypeBadgeProps {
 }
 
 export function TypeBadge({ type }: TypeBadgeProps) {
-  const colors = TYPE_COLORS[type] ?? TYPE_COLORS.Normal
-
   return (
-    <span
+    <img
       className="type-badge"
-      style={{
-        backgroundColor: colors.bg,
-        color: colors.text,
-      }}
-    >
-      {type}
-    </span>
+      src={getTypeBadgeSrc(type)}
+      alt={type}
+      title={type}
+    />
   )
 }
