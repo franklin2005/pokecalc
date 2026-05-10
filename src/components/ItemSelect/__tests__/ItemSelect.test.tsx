@@ -15,10 +15,10 @@ describe('ItemSelect', () => {
   })
 
   it('should show selected item value in input', () => {
-    render(<ItemSelect value="Choice Specs" onChange={vi.fn()} />)
+    render(<ItemSelect value="Focus Sash" onChange={vi.fn()} />)
     const input = document.querySelector('.item-select__input') as HTMLInputElement
     // The component syncs query with value when value changes externally and dropdown is closed
-    expect(input.value).toBe('Choice Specs')
+    expect(input.value).toBe('Focus Sash')
   })
 
   it('should show empty input when value is undefined', () => {
@@ -30,31 +30,31 @@ describe('ItemSelect', () => {
   it('should open dropdown and show filtered items when typing', () => {
     render(<ItemSelect value={undefined} onChange={vi.fn()} />)
     const input = screen.getByPlaceholderText('Search items...')
-    fireEvent.change(input, { target: { value: 'Choice' } })
+    fireEvent.change(input, { target: { value: 'Berry' } })
     const dropdown = document.querySelector('.item-select__dropdown')
     expect(dropdown).toBeDefined()
     const options = document.querySelectorAll('.item-select__option')
-    // Should have "No Item" + filtered Choice items
+    // Should have "No Item" + filtered Berry items
     expect(options.length).toBeGreaterThan(1)
   })
 
   it('should filter items when typing', () => {
     render(<ItemSelect value={undefined} onChange={vi.fn()} />)
     const input = screen.getByPlaceholderText('Search items...')
-    fireEvent.change(input, { target: { value: 'Choice' } })
+    fireEvent.change(input, { target: { value: 'Berry' } })
     const options = document.querySelectorAll('.item-select__option-name')
-    // All visible item options (excluding "No Item") should contain "Choice"
+    // All visible item options (excluding "No Item") should contain "Berry"
     const itemOptions = Array.from(options).filter(
       (o) => o.textContent !== 'No Item'
     )
     expect(itemOptions.length).toBeGreaterThan(0)
     itemOptions.forEach((opt) => {
-      expect(opt.textContent?.toLowerCase()).toContain('choice')
+      expect(opt.textContent?.toLowerCase()).toContain('berry')
     })
   })
 
   it('should show lock icon when disabled', () => {
-    render(<ItemSelect value="Venusaurite" onChange={vi.fn()} disabled={true} />)
+    render(<ItemSelect value="Gengarite" onChange={vi.fn()} disabled={true} />)
     const icon = document.querySelector('.item-select__icon')
     expect(icon?.textContent?.trim()).toBe('lock')
   })
@@ -68,14 +68,14 @@ describe('ItemSelect', () => {
   it('should not open dropdown when disabled', () => {
     render(<ItemSelect value={undefined} onChange={vi.fn()} disabled={true} />)
     const input = screen.getByPlaceholderText('Search items...')
-    fireEvent.change(input, { target: { value: 'Choice' } })
+    fireEvent.change(input, { target: { value: 'Berry' } })
     const dropdown = document.querySelector('.item-select__dropdown')
     expect(dropdown).toBeNull()
   })
 
   it('should call onChange with undefined when input is cleared', () => {
     const onChange = vi.fn()
-    render(<ItemSelect value="Choice Specs" onChange={onChange} />)
+    render(<ItemSelect value="Focus Sash" onChange={onChange} />)
     const input = screen.getByPlaceholderText('Search items...')
     fireEvent.change(input, { target: { value: '' } })
     expect(onChange).toHaveBeenCalledWith(undefined)
@@ -85,14 +85,14 @@ describe('ItemSelect', () => {
     const onChange = vi.fn()
     render(<ItemSelect value={undefined} onChange={onChange} />)
     const input = screen.getByPlaceholderText('Search items...')
-    fireEvent.change(input, { target: { value: 'Choice Specs' } })
+    fireEvent.change(input, { target: { value: 'Focus Sash' } })
     // Get the option <li> elements (not the inner spans)
     const optionLis = document.querySelectorAll('.item-select__option')
     // Skip the first one which is "No Item"
     const itemOption = optionLis[1]
     if (itemOption) {
       fireEvent.mouseDown(itemOption)
-      expect(onChange).toHaveBeenCalledWith('Choice Specs')
+      expect(onChange).toHaveBeenCalledWith('Focus Sash')
     }
   })
 

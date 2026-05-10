@@ -5,55 +5,13 @@
  */
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { CHAMPIONS_ITEMS } from '../../data/champions-items'
+import { CHAMPIONS_ITEMS, getItemCategory } from '../../data/champions-items'
 import './ItemSelect.css'
 
 interface ItemSelectProps {
   value: string | undefined
   onChange: (item: string | undefined) => void
   disabled?: boolean
-}
-
-/** Categorize Champions items into logical groups */
-function categorizeItem(item: string): string {
-  // Mega Stones
-  if (item.endsWith('ite') || item === 'Mewtwonite X' || item === 'Mewtwonite Y') {
-    return 'Mega Stones'
-  }
-
-  // Choice items
-  if (item.startsWith('Choice')) {
-    return 'Choice Items'
-  }
-
-  // Berries
-  if (item.endsWith('Berry')) {
-    return 'Berries'
-  }
-
-  // Offensive items
-  const offensive = [
-    'Life Orb', 'Expert Belt', 'Muscle Band', 'Wise Glasses', 'Metronome',
-    'Black Glasses', 'Charcoal', 'Dragon Fang', 'Hard Stone', 'Magnet',
-    'Miracle Seed', 'Mystic Water', 'Never-Melt Ice', 'Poison Barb',
-    'Sharp Beak', 'Silk Scarf', 'Silver Powder', 'Soft Sand', 'Spell Tag',
-    'Twisted Spoon',
-  ]
-  if (offensive.includes(item)) {
-    return 'Offensive Items'
-  }
-
-  // Defensive items
-  const defensive = [
-    'Leftovers', 'Assault Vest', 'Focus Sash', 'Rocky Helmet', 'Black Sludge',
-    'Heavy-Duty Boots', 'Eviolite', 'Air Balloon', 'Covert Cloak', 'Clear Amulet',
-  ]
-  if (defensive.includes(item)) {
-    return 'Defensive Items'
-  }
-
-  // Everything else goes to Battle Effect
-  return 'Battle Effect Items'
 }
 
 export function ItemSelect({ value, onChange, disabled }: ItemSelectProps) {
@@ -140,7 +98,7 @@ export function ItemSelect({ value, onChange, disabled }: ItemSelectProps) {
             <span className="item-select__option-name">No Item</span>
           </li>
           {filtered.map((item) => {
-            const category = categorizeItem(item)
+            const category = getItemCategory(item)
             return (
               <li
                 key={item}

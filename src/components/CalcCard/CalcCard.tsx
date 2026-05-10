@@ -47,6 +47,7 @@ interface CalcCardProps {
 export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
   const isAttacker = role === 'attacker'
   const [isImageLoading, setIsImageLoading] = useState(true)
+  const [hasImageError, setHasImageError] = useState(false)
   const imgRef = useRef<HTMLImageElement>(null)
 
   // Move list overlay state
@@ -87,6 +88,7 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
   // check img.complete.
   useEffect(() => {
     setIsImageLoading(true)
+    setHasImageError(false)
     if (imgRef.current?.complete) {
       setIsImageLoading(false)
     }
@@ -195,7 +197,7 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
           <div className="calc-card__sprite-moves-row">
             <div className="calc-card__sprite-section">
               <div className="calc-card__sprite-wrapper">
-                {spriteUrl ? (
+                {spriteUrl && !hasImageError ? (
                   <>
                     {isImageLoading && <Spinner size="small" />}
                     <img
@@ -204,7 +206,17 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
                       src={spriteUrl}
                       alt={speciesName || ''}
                       onLoad={() => setIsImageLoading(false)}
-                      onError={() => setIsImageLoading(false)}
+                      onError={(e) => {
+                        const img = e.currentTarget as HTMLImageElement
+                        if (img.src.includes('/sprites/home/')) {
+                          // Champions megas don't have HOME sprites — fall back to DEX
+                          img.src = img.src.replace('/sprites/home/', '/sprites/dex/')
+                          return
+                        }
+                        // Both HOME and DEX failed
+                        setHasImageError(true)
+                        setIsImageLoading(false)
+                      }}
                       style={{ visibility: isImageLoading ? 'hidden' : 'visible' }}
                     />
                   </>
@@ -279,6 +291,7 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
           {/* Controls — Nature, Ability, Item in a horizontal row */}
           <div className="calc-card__controls">
             <NatureSelect
+              inputId={`calc-nature-${role}`}
               value={state.nature}
               onChange={(nature: string) => onStateChange({ ...state, nature })}
             />

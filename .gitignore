@@ -36,3 +36,5 @@ sdd/
 # Logs
 *.log
 npm-debug.log*
+
+AGENTS.MD

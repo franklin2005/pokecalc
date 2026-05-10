@@ -3,8 +3,9 @@
  * Maps species+forme keys to their corresponding mega stone item names.
  *
  * Key format: "SpeciesName-Mega" or "SpeciesName-Mega-X" / "SpeciesName-Mega-Y"
- * Value: exact item name from CHAMPIONS_ITEMS.
+ * Value: exact item name from CHAMPIONS_ITEM_CATEGORIES.megaStones.
  *
+ * Contains all 59 mega evolutions available in Pokémon Champions format.
  * Mega Rayquaza is excluded — it mega evolves via Dragon Ascent, not a stone.
  */
 
@@ -16,22 +17,32 @@ export const MEGA_STONE_MAP: Record<string, string> = {
   'Blastoise-Mega': 'Blastoisinite',
   'Beedrill-Mega': 'Beedrillite',
   'Pidgeot-Mega': 'Pidgeotite',
+  'Clefable-Mega': 'Clefablite',
+  'Alakazam-Mega': 'Alakazite',
+  'Victreebel-Mega': 'Victreebelite',
+  'Slowbro-Mega': 'Slowbronite',
+  'Gengar-Mega': 'Gengarite',
+  'Kangaskhan-Mega': 'Kangaskhanite',
+  'Starmie-Mega': 'Starminite',
+  'Pinsir-Mega': 'Pinsirite',
+  'Gyarados-Mega': 'Gyaradosite',
+  'Aerodactyl-Mega': 'Aerodactylite',
+  'Dragonite-Mega': 'Dragoninite',
 
   // Gen 2
-  'Slowbro-Mega': 'Slowbronite',
+  'Meganium-Mega': 'Meganiumite',
+  'Feraligatr-Mega': 'Feraligite',
+  'Ampharos-Mega': 'Ampharosite',
   'Steelix-Mega': 'Steelixite',
   'Scizor-Mega': 'Scizorite',
   'Heracross-Mega': 'Heracronite',
+  'Skarmory-Mega': 'Skarmorite',
   'Houndoom-Mega': 'Houndoominite',
   'Tyranitar-Mega': 'Tyranitarite',
 
   // Gen 3
-  'Sceptile-Mega': 'Sceptilite',
-  'Blaziken-Mega': 'Blazikenite',
-  'Swampert-Mega': 'Swampertite',
   'Gardevoir-Mega': 'Gardevoirite',
   'Sableye-Mega': 'Sablenite',
-  'Mawile-Mega': 'Mawilite',
   'Aggron-Mega': 'Aggronite',
   'Medicham-Mega': 'Medichamite',
   'Manectric-Mega': 'Manectite',
@@ -39,12 +50,9 @@ export const MEGA_STONE_MAP: Record<string, string> = {
   'Camerupt-Mega': 'Cameruptite',
   'Altaria-Mega': 'Altarianite',
   'Banette-Mega': 'Banettite',
+  'Chimecho-Mega': 'Chimechite',
   'Absol-Mega': 'Absolite',
   'Glalie-Mega': 'Glalitite',
-  'Salamence-Mega': 'Salamencite',
-  'Metagross-Mega': 'Metagrossite',
-  'Latias-Mega': 'Latiasite',
-  'Latios-Mega': 'Latiosite',
 
   // Gen 4
   'Lopunny-Mega': 'Lopunnite',
@@ -52,25 +60,26 @@ export const MEGA_STONE_MAP: Record<string, string> = {
   'Lucario-Mega': 'Lucarionite',
   'Abomasnow-Mega': 'Abomasite',
   'Gallade-Mega': 'Galladite',
+  'Froslass-Mega': 'Froslassite',
 
   // Gen 5
+  'Emboar-Mega': 'Emboarite',
+  'Excadrill-Mega': 'Excadrite',
   'Audino-Mega': 'Audinite',
+  'Chandelure-Mega': 'Chandelurite',
+  'Golurk-Mega': 'Golurkite',
 
   // Gen 6
-  'Diancie-Mega': 'Diancite',
-
-  // Special cases (Mega X/Y)
-  'Mewtwo-Mega-X': 'Mewtwonite X',
-  'Mewtwo-Mega-Y': 'Mewtwonite Y',
-
-  // Gen 3 (also has X/Y variants)
-  'Gengar-Mega': 'Gengarite',
-  'Kangaskhan-Mega': 'Kangaskhanite',
-  'Pinsir-Mega': 'Pinsirite',
-  'Gyarados-Mega': 'Gyaradosite',
-  'Aerodactyl-Mega': 'Aerodactylite',
-  'Alakazam-Mega': 'Alakazite',
-  'Ampharos-Mega': 'Ampharosite',
+  'Chesnaught-Mega': 'Chesnaughtite',
+  'Delphox-Mega': 'Delphoxite',
+  'Greninja-Mega': 'Greninjite',
+  'Floette-Mega': 'Floettite',
+  'Meowstic-Mega': 'Meowsticite',
+  'Hawlucha-Mega': 'Hawluchanite',
+  'Crabominable-Mega': 'Crabominite',
+  'Drampa-Mega': 'Drampanite',
+  'Scovillain-Mega': 'Scovillainite',
+  'Glimmora-Mega': 'Glimmoranite',
 }
 
 /**
