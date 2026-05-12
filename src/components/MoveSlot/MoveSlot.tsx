@@ -40,9 +40,11 @@ interface MoveSlotProps {
   learnset?: Record<string, string[]> | null
   /** @smogon/calc Generation for move data */
   gen: Generation
+  /** Radio group scoping: "left" or "right" */
+  slotId?: string
 }
 
-export function MoveSlot({ index, value, isActive, onMoveChange, onActivate, onSlotFocus, onInputChange, suppressDropdown, learnset, gen }: MoveSlotProps) {
+export function MoveSlot({ index, value, isActive, onMoveChange, onActivate, onSlotFocus, onInputChange, suppressDropdown, learnset, gen, slotId }: MoveSlotProps) {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -113,14 +115,14 @@ export function MoveSlot({ index, value, isActive, onMoveChange, onActivate, onS
       <input
         className="move-slot__radio"
         type="radio"
-        name="active-move"
-        id={`move-radio-${index}`}
+        name={`active-move-${slotId ?? 'default'}`}
+        id={`move-radio-${slotId ?? 'default'}-${index}`}
         checked={isActive}
         onChange={() => onActivate(index)}
       />
       <label
         className="move-slot__pokeball"
-        htmlFor={`move-radio-${index}`}
+        htmlFor={`move-radio-${slotId ?? 'default'}-${index}`}
         aria-label={`Activate move slot ${index + 1}`}
       >
         <span className="move-slot__pokeball-top" />

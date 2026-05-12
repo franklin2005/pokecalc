@@ -156,17 +156,17 @@ export function FieldConditions({ field, onFieldChange }: FieldConditionsProps) 
     })
   }
 
-  const handleAttackerSideChange = (conditions: SideConditions) => {
+  const handleLeftSideChange = (conditions: SideConditions) => {
     onFieldChange({
       ...field,
-      attackerSide: conditions,
+      leftSide: conditions,
     })
   }
 
-  const handleDefenderSideChange = (conditions: SideConditions) => {
+  const handleRightSideChange = (conditions: SideConditions) => {
     onFieldChange({
       ...field,
-      defenderSide: conditions,
+      rightSide: conditions,
     })
   }
 
@@ -218,14 +218,14 @@ export function FieldConditions({ field, onFieldChange }: FieldConditionsProps) 
         {/* Per-side conditions */}
         <div className="field-conditions__sides">
           <SideConditionFields
-            label="Attacker's Side"
-            conditions={field.attackerSide}
-            onChange={handleAttackerSideChange}
+            label="Left Side"
+            conditions={field.leftSide}
+            onChange={handleLeftSideChange}
           />
           <SideConditionFields
-            label="Defender's Side"
-            conditions={field.defenderSide}
-            onChange={handleDefenderSideChange}
+            label="Right Side"
+            conditions={field.rightSide}
+            onChange={handleRightSideChange}
           />
         </div>
       </div>

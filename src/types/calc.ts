@@ -71,8 +71,16 @@ export interface CalcResult {
 export interface FieldState {
   weather: Weather | null
   terrain: Terrain | null
-  attackerSide: SideConditions
-  defenderSide: SideConditions
+  leftSide: SideConditions
+  rightSide: SideConditions
+}
+
+/** Result from bidirectional damage calculation */
+export interface BidirectionalResult {
+  /** Damage dealt by left card to right card (null if left can't attack) */
+  leftResult: CalcResult | null
+  /** Damage dealt by right card to left card (null if right can't attack) */
+  rightResult: CalcResult | null
 }
 
 export type Weather =

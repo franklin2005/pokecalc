@@ -6,7 +6,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { toID, Generations } from '@smogon/calc'
-import type { CalcCardState, StatName } from '../../types/calc'
+import type { CalcCardState, StatName, CalcResult } from '../../types/calc'
 import { CHAMPIONS_SP_TOTAL_MAX, CHAMPIONS_SP_MAX_PER_STAT } from '../../types/calc'
 import type { TypeName, BaseStats } from '../../types/pokemon'
 import { TypeBadge } from '../TypeBadge/TypeBadge'
@@ -41,14 +41,14 @@ const STAT_CONFIG: { key: StatName; label: string; colorClass: string }[] = [
 ]
 
 interface CalcCardProps {
-  role: 'attacker' | 'defender'
+  slotId: 'left' | 'right'
   state: CalcCardState
   onStateChange: (state: CalcCardState) => void
   gen: Generation
+  result: CalcResult | null
 }
 
-export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
-  const isAttacker = role === 'attacker'
+export function CalcCard({ slotId, state, onStateChange, gen, result }: CalcCardProps) {
   const [isImageLoading, setIsImageLoading] = useState(true)
   const [hasImageError, setHasImageError] = useState(false)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -281,11 +281,10 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
   }, [state.species, state.forme, gen])
 
   return (
-    <article className={`calc-card calc-card--${role}`}>
+    <article className={`calc-card calc-card--${slotId}`}>
       <header className="calc-card__header">
-        <h2 className="calc-card__title">{isAttacker ? 'Attacker' : 'Defender'}</h2>
-        <span className={`calc-card__badge calc-card__badge--${role}`}>
-          {isAttacker ? 'ATK' : 'DEF'}
+        <span className={`calc-card__badge calc-card__badge--${slotId}`}>
+          {slotId === 'left' ? 'L' : 'R'}
         </span>
       </header>
 
@@ -375,13 +374,14 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
               )}
             </div>
 
-            <div className="calc-card__move-slots">
-              {[0, 1, 2, 3].map((i) => (
-                <MoveSlot
-                  key={i}
-                  index={i}
-                  value={state.moves[i] || ''}
-                  isActive={state.activeMoveIndex === i}
+              <div className="calc-card__move-slots">
+                {[0, 1, 2, 3].map((i) => (
+                  <MoveSlot
+                    key={i}
+                    index={i}
+                    value={state.moves[i] || ''}
+                    isActive={state.activeMoveIndex === i}
+                    slotId={slotId}
                   onMoveChange={(index: number, moveName: string) => {
                     const newMoves = [...state.moves]
                     newMoves[index] = moveName
@@ -411,7 +411,7 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
           {/* Controls — Nature, Ability, Item in a horizontal row */}
           <div className="calc-card__controls">
             <NatureSelect
-              inputId={`calc-nature-${role}`}
+              inputId={`calc-nature-${slotId}`}
               value={state.nature}
               onChange={(nature: string) => onStateChange({ ...state, nature })}
             />
@@ -464,8 +464,45 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
               onClose={handleItemClose}
             />
           ) : (
-            stats && (
-              <div className="calc-card__stats">
+            <>
+              {/* Inline result display */}
+              {result && (
+                <div className="calc-card__result">
+                  <span className="calc-card__result-range">
+                    {result.damageRange[0].toFixed(1)} — {result.damageRange[1].toFixed(1)}%
+                  </span>
+                  <div className="calc-card__result-bar">
+                    <div
+                      className="calc-card__result-bar-fill"
+                      style={{ width: `${Math.min(result.damageRange[1], 100)}%` }}
+                    />
+                  </div>
+                  <span className="calc-card__result-ko">{result.koText}</span>
+                  <span className={`calc-card__result-effectiveness calc-card__result-effectiveness--${result.effectiveness}`}>
+                    {result.effectiveness === 'super-effective' && (
+                      <>
+                        <span className="material-symbols-outlined">arrow_upward</span>
+                        Super Effective
+                      </>
+                    )}
+                    {result.effectiveness === 'not-very-effective' && (
+                      <>
+                        <span className="material-symbols-outlined">arrow_downward</span>
+                        Not Very Effective
+                      </>
+                    )}
+                    {result.effectiveness === 'neutral' && (
+                      <>
+                        <span className="material-symbols-outlined">remove</span>
+                        Neutral
+                      </>
+                    )}
+                  </span>
+                </div>
+              )}
+
+              {stats && (
+                <div className="calc-card__stats">
                 {STAT_CONFIG.map(({ key, label, colorClass }) => {
                   const maxValue = getStatBarMax(key)
                   return (
@@ -485,8 +522,9 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
                     />
                   )
                 })}
-              </div>
-            )
+                </div>
+              )}
+            </>
           )}
         </>
       )}

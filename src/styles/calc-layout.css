@@ -1,6 +1,6 @@
 /* ============================================
    PokeCalc — Calculator Layout
-   Full-width sections: Results > Cards > Field
+   Full-width sections: Cards > Field
    Responsive: cards stack on mobile
    ============================================ */
 
@@ -12,11 +12,6 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-}
-
-/* Results — full width */
-.calc-layout__results {
-  width: 100%;
 }
 
 /* Cards row — two columns */

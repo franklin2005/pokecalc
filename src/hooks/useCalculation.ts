@@ -1,13 +1,14 @@
 /**
  * PokeCalc — useCalculation Hook
  * Wraps @smogon/calc's calculate() function to produce damage results
- * from the current attacker, defender, move, and field state.
+ * from the current left card, right card, move, and field state.
+ * Computes both directions simultaneously.
  */
 
 import { useMemo } from 'react'
 import { calculate, Pokemon, Move, Field, toID } from '@smogon/calc'
 import type { Generations, Result } from '@smogon/calc'
-import type { CalcCardState, FieldState, CalcResult, StatPoints } from '../types/calc'
+import type { CalcCardState, FieldState, CalcResult, StatPoints, BidirectionalResult } from '../types/calc'
 import { CHAMPIONS_IV, CHAMPIONS_LEVEL } from '../types/calc'
 import { spToEV } from '../utils/calc-stats'
 
@@ -18,8 +19,6 @@ type Generation = ReturnType<typeof Generations.get>
  * Uses the type effectiveness multiplier from the result.
  */
 function getEffectiveness(result: Result): CalcResult['effectiveness'] {
-  // The calc result provides type effectiveness info through the description
-  // or we can check the damage multiplier relative to neutral
   const desc = result.desc()
 
   if (desc.includes('super effective') || desc.includes('Super Effective')) {
@@ -29,9 +28,6 @@ function getEffectiveness(result: Result): CalcResult['effectiveness'] {
     return 'not-very-effective'
   }
 
-  // Fallback: check the raw damage range relative to defender HP
-  // If the range is very low, it might be resisted
-  // This is a heuristic — the desc() method is more reliable
   return 'neutral'
 }
 
@@ -78,76 +74,90 @@ function buildPokemon(
 }
 
 /**
- * Build a Field object for the calculator.
+ * Build a Field object for the calculator given which side is attacking.
  */
-function buildField(field: FieldState): Field {
+function buildField(field: FieldState, attackerSide: 'left' | 'right'): Field {
+  const attackerConditions = attackerSide === 'left' ? field.leftSide : field.rightSide
+  const defenderConditions = attackerSide === 'left' ? field.rightSide : field.leftSide
+
   return new Field({
     weather: field.weather || undefined,
     terrain: field.terrain || undefined,
     attackerSide: {
-      isSR: field.attackerSide.stealthRock,
-      spikes: field.attackerSide.spikes,
-      isReflect: field.attackerSide.reflect,
-      isLightScreen: field.attackerSide.lightScreen,
-      isAuroraVeil: field.attackerSide.auroraVeil,
-      isTailwind: field.attackerSide.tailwind,
-      isHelpingHand: field.attackerSide.helpingHand,
+      isSR: attackerConditions.stealthRock,
+      spikes: attackerConditions.spikes,
+      isReflect: attackerConditions.reflect,
+      isLightScreen: attackerConditions.lightScreen,
+      isAuroraVeil: attackerConditions.auroraVeil,
+      isTailwind: attackerConditions.tailwind,
+      isHelpingHand: attackerConditions.helpingHand,
     },
     defenderSide: {
-      isSR: field.defenderSide.stealthRock,
-      spikes: field.defenderSide.spikes,
-      isReflect: field.defenderSide.reflect,
-      isLightScreen: field.defenderSide.lightScreen,
-      isAuroraVeil: field.defenderSide.auroraVeil,
-      isTailwind: field.defenderSide.tailwind,
-      isHelpingHand: field.defenderSide.helpingHand,
+      isSR: defenderConditions.stealthRock,
+      spikes: defenderConditions.spikes,
+      isReflect: defenderConditions.reflect,
+      isLightScreen: defenderConditions.lightScreen,
+      isAuroraVeil: defenderConditions.auroraVeil,
+      isTailwind: defenderConditions.tailwind,
+      isHelpingHand: defenderConditions.helpingHand,
     },
   })
 }
 
-export function useCalculation(
+/**
+ * Compute damage for one direction.
+ */
+function computeDirection(
   gen: Generation,
   attacker: CalcCardState,
   defender: CalcCardState,
-  field: FieldState
+  field: FieldState,
+  side: 'left' | 'right'
 ): CalcResult | null {
-  return useMemo<CalcResult | null>(() => {
-    // Guard: return null if required data is missing
-    if (!attacker.species || !defender.species || !attacker.moves[attacker.activeMoveIndex]) {
-      return null
+  if (!attacker.species || !defender.species || !attacker.moves[attacker.activeMoveIndex]) {
+    return null
+  }
+
+  try {
+    const attackerPokemon = buildPokemon(gen, attacker)
+    const defenderPokemon = buildPokemon(gen, defender)
+    const move = new Move(gen, attacker.moves[attacker.activeMoveIndex])
+    const fieldConfig = buildField(field, side)
+
+    const result = calculate(gen, attackerPokemon, defenderPokemon, move, fieldConfig)
+
+    const defenderMaxHP = defenderPokemon.stats.hp
+
+    const damageRange = result.range()
+    const minPct = defenderMaxHP > 0 ? (damageRange[0] / defenderMaxHP) * 100 : 0
+    const maxPct = defenderMaxHP > 0 ? (damageRange[1] / defenderMaxHP) * 100 : 0
+
+    const koText = result.desc()
+    const effectiveness = getEffectiveness(result)
+
+    return {
+      damageRange: [minPct, maxPct],
+      koText,
+      effectiveness,
+      raw: result,
     }
+  } catch {
+    return null
+  }
+}
 
-    try {
-      const attackerPokemon = buildPokemon(gen, attacker)
-      const defenderPokemon = buildPokemon(gen, defender)
-      const move = new Move(gen, attacker.moves[attacker.activeMoveIndex])
-      const fieldConfig = buildField(field)
+export function useCalculation(
+  gen: Generation,
+  leftCard: CalcCardState,
+  rightCard: CalcCardState,
+  field: FieldState
+): BidirectionalResult {
+  return useMemo<BidirectionalResult>(() => {
+    // Compute left→right
+    const leftResult = computeDirection(gen, leftCard, rightCard, field, 'left')
+    // Compute right→left
+    const rightResult = computeDirection(gen, rightCard, leftCard, field, 'right')
 
-      const result = calculate(gen, attackerPokemon, defenderPokemon, move, fieldConfig)
-
-      // Get defender's max HP for percentage calculation
-      const defenderMaxHP = defenderPokemon.stats.hp
-
-      // Get damage range
-      const damageRange = result.range()
-      const minPct = defenderMaxHP > 0 ? (damageRange[0] / defenderMaxHP) * 100 : 0
-      const maxPct = defenderMaxHP > 0 ? (damageRange[1] / defenderMaxHP) * 100 : 0
-
-      // Get KO text
-      const koText = result.desc()
-
-      // Determine effectiveness
-      const effectiveness = getEffectiveness(result)
-
-      return {
-        damageRange: [minPct, maxPct],
-        koText,
-        effectiveness,
-        raw: result,
-      }
-    } catch {
-      // Return null on any calculation error
-      return null
-    }
-  }, [gen, attacker, defender, field])
+    return { leftResult, rightResult }
+  }, [gen, leftCard, rightCard, field])
 }
