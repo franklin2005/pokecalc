@@ -196,7 +196,7 @@
 }
 
 .calc-card__controls .nature-select__select,
-.calc-card__controls .ability-select__select,
+.calc-card__controls .ability-select__input,
 .calc-card__controls .item-select__input {
   height: 3.2rem;
   font-size: 1.2rem;

@@ -1,63 +1,35 @@
 /**
  * PokeCalc — ItemSelect Component
- * Text input with search/autocomplete for Champions-allowed items.
- * Shows category labels in the dropdown.
+ * Text input that signals focus to CalcCard to open the ItemList overlay.
+ * The input is fully controlled by CalcCard via query/onQueryChange props.
+ * The toggle button shows/hides the overlay (mimicking NatureSelect pattern).
  */
 
-import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { CHAMPIONS_ITEMS, getItemCategory } from '../../data/champions-items'
 import './ItemSelect.css'
 
 interface ItemSelectProps {
   value: string | undefined
   onChange: (item: string | undefined) => void
   disabled?: boolean
+  onFocus: () => void
+  onToggle: () => void
+  isOpen: boolean
+  query: string
+  onQueryChange: (q: string) => void
 }
 
-export function ItemSelect({ value, onChange, disabled }: ItemSelectProps) {
-  const [query, setQuery] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
-  const wrapperRef = useRef<HTMLDivElement>(null)
-
-  // Filter items by query (case-insensitive substring match)
-  const filtered = useMemo(() => {
-    if (query.length === 0) return []
-    const lower = query.toLowerCase()
-    return CHAMPIONS_ITEMS
-      .filter((item) => item.toLowerCase().includes(lower))
-      .slice(0, 20)
-  }, [query])
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  // Sync query with value when value changes externally
-  useEffect(() => {
-    if (value && !isOpen) {
-      setQuery(value)
-    }
-  }, [value, isOpen])
-
-  const handleSelect = useCallback((item: string | undefined) => {
-    if (item) {
-      setQuery(item)
-    } else {
-      setQuery('')
-    }
-    setIsOpen(false)
-    onChange(item)
-  }, [onChange])
-
+export function ItemSelect({
+  value,
+  onChange,
+  disabled,
+  onFocus,
+  onToggle,
+  isOpen,
+  query,
+  onQueryChange,
+}: ItemSelectProps) {
   return (
-    <div className="item-select" ref={wrapperRef}>
+    <div className="item-select">
       <label className="item-select__label" htmlFor="item-select">
         Held Item
       </label>
@@ -67,56 +39,42 @@ export function ItemSelect({ value, onChange, disabled }: ItemSelectProps) {
           id="item-select"
           type="text"
           placeholder="Search items..."
-          value={query}
+          value={query.length > 0 ? query : (value || '')}
           disabled={disabled}
           onChange={(e) => {
-            setQuery(e.target.value)
-            setIsOpen(true)
+            onQueryChange(e.target.value)
             if (!e.target.value) {
               onChange(undefined)
             }
           }}
-          onFocus={() => !disabled && setIsOpen(true)}
+          onFocus={() => {
+            if (!disabled) {
+              onFocus()
+            }
+          }}
           autoComplete="off"
         />
-        <span className="item-select__icon material-symbols-outlined">
-          {disabled ? 'lock' : 'expand_more'}
-        </span>
-      </div>
-
-      {isOpen && !disabled && (filtered.length > 0 || query.length > 0) && (
-        <ul className="item-select__dropdown" role="listbox">
-          <li
-            className="item-select__option item-select__option--no-item"
-            role="option"
-            aria-selected={value === undefined}
+        {disabled ? (
+          <span className="item-select__icon material-symbols-outlined">
+            lock
+          </span>
+        ) : (
+          <button
+            type="button"
+            className={`item-select__toggle${isOpen ? ' item-select__toggle--open' : ''}`}
+            aria-label={isOpen ? 'Hide item list' : 'Show item list'}
+            aria-expanded={isOpen ? 'true' : 'false'}
             onMouseDown={(e) => {
               e.preventDefault()
-              handleSelect(undefined)
             }}
+            onClick={onToggle}
           >
-            <span className="item-select__option-name">No Item</span>
-          </li>
-          {filtered.map((item) => {
-            const category = getItemCategory(item)
-            return (
-              <li
-                key={item}
-                className={`item-select__option ${item === value ? 'item-select__option--selected' : ''}`}
-                role="option"
-                aria-selected={item === value}
-                onMouseDown={(e) => {
-                  e.preventDefault()
-                  handleSelect(item)
-                }}
-              >
-                <span className="item-select__option-name">{item}</span>
-                <span className="item-select__option-category">{category}</span>
-              </li>
-            )
-          })}
-        </ul>
-      )}
+            <span className="item-select__icon material-symbols-outlined" aria-hidden>
+              expand_more
+            </span>
+          </button>
+        )}
+      </div>
     </div>
   )
 }

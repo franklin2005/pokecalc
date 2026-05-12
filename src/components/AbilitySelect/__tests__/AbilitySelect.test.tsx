@@ -1,76 +1,108 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { AbilitySelect } from '../AbilitySelect'
 import { Generations } from '@smogon/calc'
 
 describe('AbilitySelect', () => {
   const gen = Generations.get(9)
+  const defaultProps = {
+    species: 'Venusaur' as const,
+    value: 'Overgrow' as const,
+    onChange: vi.fn(),
+    onFocus: vi.fn(),
+    query: '',
+    onQueryChange: vi.fn(),
+    gen,
+  }
 
   it('should render with label', () => {
-    render(<AbilitySelect species="Venusaur" value="Overgrow" onChange={vi.fn()} gen={gen} />)
+    render(<AbilitySelect {...defaultProps} />)
     expect(screen.getByText('Ability')).toBeDefined()
   })
 
-  it('should show abilities for species with 2+ abilities', () => {
-    render(<AbilitySelect species="Venusaur" value="Overgrow" onChange={vi.fn()} gen={gen} />)
-    const select = document.querySelector('.ability-select__select') as HTMLSelectElement
-    const options = Array.from(select.options).map((o) => o.text)
-    // Venusaur has Overgrow + Chlorophyll
-    expect(options).toContain('Overgrow')
-    expect(options).toContain('Chlorophyll')
-    expect(options.length).toBeGreaterThanOrEqual(2)
+  it('should render input with placeholder', () => {
+    render(<AbilitySelect {...defaultProps} />)
+    const input = screen.getByPlaceholderText('Search abilities...')
+    expect(input).toBeDefined()
   })
 
-  it('should show disabled message when no species selected', () => {
-    render(<AbilitySelect species={null} value={undefined} onChange={vi.fn()} gen={gen} />)
-    expect(screen.getByText('Select a species first')).toBeDefined()
+  it('should show disabled placeholder when no species selected', () => {
+    render(<AbilitySelect {...defaultProps} species={null} value={undefined} />)
+    const input = screen.getByPlaceholderText('Select a species first')
+    expect(input).toBeDefined()
   })
 
-  it('should show disabled state when species has no abilities', () => {
-    render(<AbilitySelect species={null} value={undefined} onChange={vi.fn()} gen={gen} />)
-    const select = document.querySelector('.ability-select__select')
-    expect((select as HTMLSelectElement)?.disabled).toBe(true)
+  it('should be disabled when no species selected', () => {
+    render(<AbilitySelect {...defaultProps} species={null} value={undefined} />)
+    const input = screen.getByPlaceholderText('Select a species first')
+    expect((input as HTMLInputElement).disabled).toBe(true)
   })
 
   it('should be enabled when species is selected', () => {
-    render(<AbilitySelect species="Venusaur" value="Overgrow" onChange={vi.fn()} gen={gen} />)
-    const select = document.querySelector('.ability-select__select')
-    expect((select as HTMLSelectElement)?.disabled).toBe(false)
+    render(<AbilitySelect {...defaultProps} />)
+    const input = screen.getByPlaceholderText('Search abilities...')
+    expect((input as HTMLInputElement).disabled).toBe(false)
   })
 
-  it('should render the expand_more icon', () => {
-    render(<AbilitySelect species="Venusaur" value="Overgrow" onChange={vi.fn()} gen={gen} />)
+  it('should call onFocus when input is focused', () => {
+    const onFocus = vi.fn()
+    render(<AbilitySelect {...defaultProps} onFocus={onFocus} />)
+    const input = screen.getByPlaceholderText('Search abilities...')
+    fireEvent.focus(input)
+    expect(onFocus).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not call onFocus when disabled', () => {
+    const onFocus = vi.fn()
+    render(<AbilitySelect {...defaultProps} species={null} value={undefined} onFocus={onFocus} />)
+    const input = screen.getByPlaceholderText('Select a species first')
+    fireEvent.focus(input)
+    expect(onFocus).not.toHaveBeenCalled()
+  })
+
+  it('should call onQueryChange when typing', () => {
+    const onQueryChange = vi.fn()
+    render(<AbilitySelect {...defaultProps} onQueryChange={onQueryChange} />)
+    const input = screen.getByPlaceholderText('Search abilities...')
+    fireEvent.change(input, { target: { value: 'chlor' } })
+    expect(onQueryChange).toHaveBeenCalledWith('chlor')
+  })
+
+  it('should call onChange with undefined when input is cleared', () => {
+    const onChange = vi.fn()
+    render(<AbilitySelect {...defaultProps} onChange={onChange} />)
+    const input = screen.getByPlaceholderText('Search abilities...')
+    fireEvent.change(input, { target: { value: '' } })
+    expect(onChange).toHaveBeenCalledWith(undefined)
+  })
+
+  it('should render the expand_more icon when enabled', () => {
+    render(<AbilitySelect {...defaultProps} />)
     const icon = document.querySelector('.ability-select__icon')
     expect(icon?.textContent?.trim()).toBe('expand_more')
   })
 
-  it('should call onChange when a different ability is selected', () => {
-    const onChange = vi.fn()
-    render(<AbilitySelect species="Venusaur" value="Overgrow" onChange={onChange} gen={gen} />)
-    const select = document.querySelector('.ability-select__select') as HTMLSelectElement
-    // Change to Chlorophyll
-    select.value = 'Chlorophyll'
-    select.dispatchEvent(new Event('change', { bubbles: true }))
-    expect(onChange).toHaveBeenCalledWith('Chlorophyll')
+  it('should render the lock icon when disabled', () => {
+    render(<AbilitySelect {...defaultProps} species={null} value={undefined} />)
+    const icon = document.querySelector('.ability-select__icon')
+    expect(icon?.textContent?.trim()).toBe('lock')
   })
 
-  it('should call onChange with undefined when empty option is selected', () => {
-    const onChange = vi.fn()
-    render(<AbilitySelect species={null} value="Overgrow" onChange={onChange} gen={gen} />)
-    const select = document.querySelector('.ability-select__select') as HTMLSelectElement
-    select.value = ''
-    select.dispatchEvent(new Event('change', { bubbles: true }))
-    expect(onChange).toHaveBeenCalledWith(undefined)
+  it('should display query value in input when provided', () => {
+    render(<AbilitySelect {...defaultProps} query="Chlorophyll" />)
+    const input = document.querySelector('.ability-select__input') as HTMLInputElement
+    expect(input.value).toBe('Chlorophyll')
   })
 
-  it('should use calc fallback for species not in our mapping', () => {
-    // Use an obscure species that might not be in our static mapping
-    // but exists in calc data
-    render(<AbilitySelect species="Mew" value={undefined} onChange={vi.fn()} gen={gen} />)
-    const select = document.querySelector('.ability-select__select') as HTMLSelectElement
-    // Mew has Synchronize as its ability in calc
-    const options = Array.from(select.options).map((o) => o.text)
-    // Should have at least the calc fallback ability or be disabled
-    expect(options.length).toBeGreaterThanOrEqual(1)
+  it('should display selected value when query is empty', () => {
+    render(<AbilitySelect {...defaultProps} value="Overgrow" query="" />)
+    const input = document.querySelector('.ability-select__input') as HTMLInputElement
+    expect(input.value).toBe('Overgrow')
+  })
+
+  it('should display empty string when disabled', () => {
+    render(<AbilitySelect {...defaultProps} species={null} value={undefined} query="test" />)
+    const input = document.querySelector('.ability-select__input') as HTMLInputElement
+    expect(input.value).toBe('')
   })
 })

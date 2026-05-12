@@ -1,0 +1,179 @@
+/* ============================================
+   ItemList Component Styles
+   Scrollable overlay panel for item selection
+   ============================================ */
+
+.item-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-container);
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+/* Header */
+.item-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.4rem;
+  background-color: var(--surface-container-high);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.item-list__title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: var(--font-headline);
+  color: var(--on-surface);
+}
+
+.item-list__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  color: var(--on-surface-variant);
+  transition: background-color 0.15s;
+}
+
+.item-list__close:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.item-list__close .material-symbols-outlined {
+  font-size: 2rem;
+}
+
+/* Scroll area */
+.item-list__scroll {
+  max-height: 24rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--outline) transparent;
+}
+
+.item-list__scroll::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.item-list__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.item-list__scroll::-webkit-scrollbar-thumb {
+  background-color: var(--outline);
+  border-radius: 9999px;
+}
+
+/* List items */
+.item-list__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.6rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.item-list__item:last-child {
+  border-bottom: none;
+}
+
+.item-list__item:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.item-list__item--selected {
+  background-color: rgba(176, 37, 40, 0.08);
+}
+
+/* No Item special style */
+.item-list__item--no-item {
+  font-style: italic;
+  color: var(--on-surface-variant);
+}
+
+.item-list__item-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.item-list__item-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  flex-shrink: 0;
+}
+
+.item-list__item-category {
+  font-size: 1.1rem;
+  color: var(--on-surface-variant);
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.item-list__item-desc {
+  font-size: 1.2rem;
+  color: var(--on-surface-variant);
+  opacity: 0.8;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Disabled state */
+.item-list__disabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 3rem 2rem;
+  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+}
+
+.item-list__disabled .material-symbols-outlined {
+  font-size: 2rem;
+}
+
+/* Empty state */
+.item-list__empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .item-list__scroll {
+    max-height: 18rem;
+  }
+
+  .item-list__item {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .item-list__item-name {
+    font-size: 1.3rem;
+  }
+
+  .item-list__item-desc {
+    font-size: 1.1rem;
+  }
+}

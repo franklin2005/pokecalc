@@ -17,11 +17,14 @@ import { AbilitySelect } from '../AbilitySelect/AbilitySelect'
 import { ItemSelect } from '../ItemSelect/ItemSelect'
 import { MoveSlot } from '../MoveSlot/MoveSlot'
 import { MoveList } from '../MoveList/MoveList'
+import { AbilityList } from '../AbilityList/AbilityList'
+import { ItemList } from '../ItemList/ItemList'
 import { Spinner } from '../Spinner/Spinner'
 import { getMegaStone } from '../../data/mega-stones'
 import { computeStats, getStatBarMax, getNatureEffect } from '../../utils/calc-stats'
 import { totalSPs } from '../../data/sp-presets'
 import { getSpriteUrl } from '../../data/species-to-id'
+import { getSpeciesAbilities } from '../../data/species-abilities'
 import { useLearnset } from '../../hooks/useLearnset'
 import megaButtonImg from '../../assets/megaButton.png'
 import './CalcCard.css'
@@ -53,6 +56,12 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
   // Move list overlay state
   const [activeMoveSlot, setActiveMoveSlot] = useState<number | null>(null)
   const [moveSearchQuery, setMoveSearchQuery] = useState('')
+
+  // Ability and item overlay state
+  type OverlayType = 'ability' | 'item' | null
+  const [activeOverlay, setActiveOverlay] = useState<OverlayType>(null)
+  const [abilitySearchQuery, setAbilitySearchQuery] = useState('')
+  const [itemSearchQuery, setItemSearchQuery] = useState('')
 
   const speciesName = state.forme ? `${state.species}-${state.forme}` : state.species
   const speciesData = state.species ? gen.species.get(toID(speciesName)) : null
@@ -111,14 +120,24 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
   // Compute available Mega formes for the selected species
   const availableMegaFormes = useMemo(() => {
     if (!state.species) return []
-    const sp = gen.species.get(toID(state.species))
+    let sp = gen.species.get(toID(state.species))
     if (!sp) return []
+    // If current species is itself a mega, use its base species to find other formes
+    if (sp.baseSpecies) {
+      const baseSp = gen.species.get(toID(sp.baseSpecies))
+      if (baseSp) sp = baseSp
+    }
     return getFormes(sp)
   }, [state.species, gen])
 
+  // Determine if a Mega forme is currently active.
+  // Works for both paths: toggle (state.forme set) and direct search
+  // (e.g. species="Venusaur-Mega" where state.forme is null).
+  const isMegaActive = !!state.forme || !!gen.species.get(toID(state.species))?.baseSpecies
+
   // Determine if item is locked due to Mega forme being selected
   // (Mega Rayquaza is excluded — it mega evolves via Dragon Ascent, not a stone)
-  const isMegaLocked = state.forme?.includes('Mega') && state.species !== 'Rayquaza'
+  const isMegaLocked = isMegaActive && state.species !== 'Rayquaza'
 
   const handleSpeciesChange = (species: string | null, forme: string | null) => {
     const newState: CalcCardState = {
@@ -157,6 +176,7 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
 
   // Move list overlay handlers
   const handleSlotFocus = useCallback((slotIndex: number) => {
+    setActiveOverlay(null)
     setActiveMoveSlot(slotIndex)
     setMoveSearchQuery(state.moves[slotIndex] || '')
   }, [state.moves])
@@ -173,6 +193,92 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
     setActiveMoveSlot(null)
     setMoveSearchQuery('')
   }, [])
+
+  // Ability overlay handlers
+  const handleAbilityFocus = useCallback(() => {
+    setActiveMoveSlot(null)
+    setActiveOverlay('ability')
+    setAbilitySearchQuery(state.ability || '')
+  }, [state.ability])
+
+  const handleAbilitySelect = useCallback((ability: string) => {
+    onStateChange({ ...state, ability })
+    setActiveOverlay(null)
+    setAbilitySearchQuery('')
+  }, [state, onStateChange])
+
+  const handleAbilityClose = useCallback(() => {
+    setActiveOverlay(null)
+    setAbilitySearchQuery('')
+  }, [])
+
+  // Item overlay handlers
+  const handleItemFocus = useCallback(() => {
+    setActiveMoveSlot(null)
+    setActiveOverlay('item')
+    setItemSearchQuery(state.item || '')
+  }, [state.item])
+
+  const handleItemSelect = useCallback((item: string | undefined) => {
+    onStateChange({ ...state, item })
+    setActiveOverlay(null)
+    setItemSearchQuery('')
+  }, [state, onStateChange])
+
+  const handleAbilityToggle = useCallback(() => {
+    if (activeOverlay === 'ability') {
+      setActiveOverlay(null)
+      setAbilitySearchQuery('')
+    } else {
+      setActiveMoveSlot(null)
+      setActiveOverlay('ability')
+      setAbilitySearchQuery(state.ability || '')
+    }
+  }, [activeOverlay, state.ability])
+
+  const handleItemClose = useCallback(() => {
+    setActiveOverlay(null)
+    setItemSearchQuery('')
+  }, [])
+
+  const handleItemToggle = useCallback(() => {
+    if (activeOverlay === 'item') {
+      setActiveOverlay(null)
+      setItemSearchQuery('')
+    } else {
+      setActiveMoveSlot(null)
+      setActiveOverlay('item')
+      setItemSearchQuery(state.item || '')
+    }
+  }, [activeOverlay, state.item])
+
+  // Compute abilities for the selected species (for AbilityList overlay)
+  const abilitiesForSpecies = useMemo(() => {
+    if (!state.species) return []
+    const lookupName = state.forme ? `${state.species}-${state.forme}` : state.species
+    const speciesId = toID(lookupName)
+
+    // For forme species (Megas, etc.), trust @smogon/calc's primary ability.
+    // Our static SPECIES_ABILITIES mapping has unreliable data for formes.
+    // Check baseSpecies: all formes have it, base species don't.
+    // This covers both toggle path (state.forme set) and direct-search path
+    // (e.g. "Venusaur-Mega" where state.forme is null but species is a forme).
+    const sp = gen.species.get(speciesId)
+    if (sp?.baseSpecies) {
+      if (sp.abilities?.['0']) {
+        return [sp.abilities['0']]
+      }
+      return []
+    }
+
+    // For base species, use our comprehensive mapping (primary + secondary + hidden)
+    const mapped = getSpeciesAbilities(speciesId)
+    if (mapped.length > 0) return mapped
+    if (sp?.abilities?.['0']) {
+      return [sp.abilities['0']]
+    }
+    return []
+  }, [state.species, state.forme, gen])
 
   return (
     <article className={`calc-card calc-card--${role}`}>
@@ -233,16 +339,30 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
                   ))}
                   {availableMegaFormes.length > 0 && (
                     <button
-                      className={`calc-card__mega-toggle ${state.forme ? 'calc-card__mega-toggle--active' : ''}`}
+                      className={`calc-card__mega-toggle ${isMegaActive ? 'calc-card__mega-toggle--active' : ''}`}
                       type="button"
                       onClick={() => {
-                        if (state.forme) {
-                          onStateChange({ ...state, forme: null, item: undefined })
+                        if (isMegaActive) {
+                          // Switching BACK to base
+                          const currentSp = gen.species.get(toID(speciesName))
+                          if (currentSp?.baseSpecies) {
+                            // Direct-search path: species itself is the mega (e.g. "Venusaur-Mega")
+                            const baseSp = gen.species.get(toID(currentSp.baseSpecies))
+                            onStateChange({ ...state, species: currentSp.baseSpecies, forme: null, item: undefined, ability: baseSp?.abilities?.['0'] || undefined })
+                          } else {
+                            // Toggle path: forme is set on base species
+                            const baseSp = gen.species.get(toID(state.species))
+                            onStateChange({ ...state, forme: null, item: undefined, ability: baseSp?.abilities?.['0'] || undefined })
+                          }
                         } else {
-                          onStateChange({ ...state, forme: availableMegaFormes[0] })
+                          // Switching TO mega — set ability to mega species default
+                          const megaForme = availableMegaFormes[0]
+                          const megaName = `${state.species}-${megaForme}`
+                          const megaSp = gen.species.get(toID(megaName))
+                          onStateChange({ ...state, forme: megaForme, ability: megaSp?.abilities?.['0'] || undefined })
                         }
                       }}
-                      title={state.forme ? 'Switch to base form' : `Switch to ${availableMegaFormes[0]} form`}
+                      title={isMegaActive ? 'Switch to base form' : `Switch to ${availableMegaFormes[0]} form`}
                     >
                       <img
                         src={megaButtonImg}
@@ -300,15 +420,25 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
               value={state.ability}
               onChange={(ability: string | undefined) => onStateChange({ ...state, ability })}
               gen={gen}
+              onFocus={handleAbilityFocus}
+              onToggle={handleAbilityToggle}
+              isOpen={activeOverlay === 'ability'}
+              query={abilitySearchQuery}
+              onQueryChange={setAbilitySearchQuery}
             />
             <ItemSelect
               value={state.item}
               onChange={(item: string | undefined) => onStateChange({ ...state, item })}
               disabled={isMegaLocked}
+              onFocus={handleItemFocus}
+              onToggle={handleItemToggle}
+              isOpen={activeOverlay === 'item'}
+              query={itemSearchQuery}
+              onQueryChange={setItemSearchQuery}
             />
           </div>
 
-          {/* Stats or Move List overlay */}
+          {/* Stats or overlay (MoveList / AbilityList / ItemList) */}
           {activeMoveSlot !== null ? (
             <MoveList
               slotIndex={activeMoveSlot}
@@ -317,6 +447,21 @@ export function CalcCard({ role, state, onStateChange, gen }: CalcCardProps) {
               isLoading={isLearnsetLoading}
               onSelect={handleMoveSelect}
               onClose={handleMoveListClose}
+            />
+          ) : activeOverlay === 'ability' ? (
+            <AbilityList
+              abilities={abilitiesForSpecies}
+              selectedAbility={state.ability}
+              onSelect={handleAbilitySelect}
+              onClose={handleAbilityClose}
+            />
+          ) : activeOverlay === 'item' ? (
+            <ItemList
+              query={itemSearchQuery}
+              selectedItem={state.item}
+              disabled={isMegaLocked}
+              onSelect={handleItemSelect}
+              onClose={handleItemClose}
             />
           ) : (
             stats && (

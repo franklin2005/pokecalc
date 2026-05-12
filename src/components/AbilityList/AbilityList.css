@@ -1,0 +1,135 @@
+/* ============================================
+   AbilityList Component Styles
+   Scrollable overlay panel for ability selection
+   ============================================ */
+
+.ability-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-container);
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+/* Header */
+.ability-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.4rem;
+  background-color: var(--surface-container-high);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.ability-list__title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: var(--font-headline);
+  color: var(--on-surface);
+}
+
+.ability-list__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  color: var(--on-surface-variant);
+  transition: background-color 0.15s;
+}
+
+.ability-list__close:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.ability-list__close .material-symbols-outlined {
+  font-size: 2rem;
+}
+
+/* Scroll area */
+.ability-list__scroll {
+  max-height: 24rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--outline) transparent;
+}
+
+.ability-list__scroll::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.ability-list__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ability-list__scroll::-webkit-scrollbar-thumb {
+  background-color: var(--outline);
+  border-radius: 9999px;
+}
+
+/* List items */
+.ability-list__item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.6rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.ability-list__item:last-child {
+  border-bottom: none;
+}
+
+.ability-list__item:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.ability-list__item--selected {
+  background-color: rgba(176, 37, 40, 0.08);
+}
+
+.ability-list__item-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.ability-list__item-desc {
+  font-size: 1.2rem;
+  color: var(--on-surface-variant);
+  opacity: 0.8;
+  margin-top: 0.2rem;
+}
+
+/* Empty state */
+.ability-list__empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .ability-list__scroll {
+    max-height: 18rem;
+  }
+
+  .ability-list__item {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .ability-list__item-name {
+    font-size: 1.3rem;
+  }
+
+  .ability-list__item-desc {
+    font-size: 1.1rem;
+  }
+}
