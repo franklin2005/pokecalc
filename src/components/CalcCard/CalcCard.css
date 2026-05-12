@@ -94,36 +94,6 @@
   font-weight: 600;
 }
 
-.calc-card__result-effectiveness {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 1rem;
-  border-radius: 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.calc-card__result-effectiveness .material-symbols-outlined {
-  font-size: 1.6rem;
-}
-
-.calc-card__result-effectiveness--super-effective {
-  background-color: var(--tertiary-fixed);
-  color: var(--on-tertiary-fixed);
-}
-
-.calc-card__result-effectiveness--not-very-effective {
-  background-color: var(--error-container);
-  color: var(--on-error-container);
-}
-
-.calc-card__result-effectiveness--neutral {
-  background-color: var(--surface-container-high);
-  color: var(--on-surface-variant);
-}
-
 /* Sections */
 .calc-card__section {
   width: 100%;

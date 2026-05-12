@@ -7,29 +7,12 @@
 
 import { useMemo } from 'react'
 import { calculate, Pokemon, Move, Field, toID } from '@smogon/calc'
-import type { Generations, Result } from '@smogon/calc'
+import type { Generations } from '@smogon/calc'
 import type { CalcCardState, FieldState, CalcResult, StatPoints, BidirectionalResult } from '../types/calc'
 import { CHAMPIONS_IV, CHAMPIONS_LEVEL } from '../types/calc'
 import { spToEV } from '../utils/calc-stats'
 
 type Generation = ReturnType<typeof Generations.get>
-
-/**
- * Determine effectiveness from the raw calc result.
- * Uses the type effectiveness multiplier from the result.
- */
-function getEffectiveness(result: Result): CalcResult['effectiveness'] {
-  const desc = result.desc()
-
-  if (desc.includes('super effective') || desc.includes('Super Effective')) {
-    return 'super-effective'
-  }
-  if (desc.includes('not very effective') || desc.includes('Not Very Effective')) {
-    return 'not-very-effective'
-  }
-
-  return 'neutral'
-}
 
 /**
  * Build a Pokemon object for the calculator.
@@ -133,12 +116,10 @@ function computeDirection(
     const maxPct = defenderMaxHP > 0 ? (damageRange[1] / defenderMaxHP) * 100 : 0
 
     const koText = result.desc()
-    const effectiveness = getEffectiveness(result)
 
     return {
       damageRange: [minPct, maxPct],
       koText,
-      effectiveness,
       raw: result,
     }
   } catch {

@@ -478,26 +478,6 @@ export function CalcCard({ slotId, state, onStateChange, gen, result }: CalcCard
                     />
                   </div>
                   <span className="calc-card__result-ko">{result.koText}</span>
-                  <span className={`calc-card__result-effectiveness calc-card__result-effectiveness--${result.effectiveness}`}>
-                    {result.effectiveness === 'super-effective' && (
-                      <>
-                        <span className="material-symbols-outlined">arrow_upward</span>
-                        Super Effective
-                      </>
-                    )}
-                    {result.effectiveness === 'not-very-effective' && (
-                      <>
-                        <span className="material-symbols-outlined">arrow_downward</span>
-                        Not Very Effective
-                      </>
-                    )}
-                    {result.effectiveness === 'neutral' && (
-                      <>
-                        <span className="material-symbols-outlined">remove</span>
-                        Neutral
-                      </>
-                    )}
-                  </span>
                 </div>
               )}
 

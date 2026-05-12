@@ -61,8 +61,6 @@ export interface CalcResult {
   damageRange: [number, number]
   /** Smogon KO description, e.g. "guaranteed 2HKO" */
   koText: string
-  /** Effectiveness: 'super-effective' | 'not-very-effective' | 'neutral' */
-  effectiveness: 'super-effective' | 'not-very-effective' | 'neutral'
   /** Raw @smogon/calc result for advanced access */
   raw: Result
 }
