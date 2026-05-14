@@ -61,6 +61,12 @@
   gap: 0.4rem;
 }
 
+/* HP Badge wrapper */
+.calc-card__hp-badge {
+  margin-top: 1rem;
+  width: 100%;
+}
+
 .calc-card__result-range {
   font-size: 1.6rem;
   font-weight: 700;

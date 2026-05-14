@@ -20,11 +20,13 @@ import { MoveList } from '../MoveList/MoveList'
 import { AbilityList } from '../AbilityList/AbilityList'
 import { ItemList } from '../ItemList/ItemList'
 import { Spinner } from '../Spinner/Spinner'
+import { ChampionsHpBadge } from '../ChampionsHpBadge'
 import { getMegaStone } from '../../data/mega-stones'
 import { computeStats, getStatBarMax, getNatureEffect } from '../../utils/calc-stats'
 import { totalSPs } from '../../data/sp-presets'
 import { getSpriteUrl } from '../../data/species-to-id'
 import { getSpeciesAbilities } from '../../data/species-abilities'
+import { getDefaultMoves } from '../../data/default-moves'
 import { useLearnset } from '../../hooks/useLearnset'
 import megaButtonImg from '../../assets/megaButton.png'
 import './CalcCard.css'
@@ -46,9 +48,10 @@ interface CalcCardProps {
   onStateChange: (state: CalcCardState) => void
   gen: Generation
   result: CalcResult | null
+  incomingResult: CalcResult | null
 }
 
-export function CalcCard({ slotId, state, onStateChange, gen, result }: CalcCardProps) {
+export function CalcCard({ slotId, state, onStateChange, gen, result, incomingResult }: CalcCardProps) {
   const [isImageLoading, setIsImageLoading] = useState(true)
   const [hasImageError, setHasImageError] = useState(false)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -112,6 +115,23 @@ export function CalcCard({ slotId, state, onStateChange, gen, result }: CalcCard
     const stone = getMegaStone(state.species, state.forme)
     if (stone && state.item !== stone) {
       onStateChange({ ...state, item: stone })
+    }
+  }, [state.species, state.forme])
+
+  // Auto-populate moves from Showdown sets when species is selected
+  // and all move slots are empty
+  useEffect(() => {
+    if (!state.species || state.moves.some(m => m !== '')) return
+
+    const defaultMoves = getDefaultMoves(state.species)
+    if (defaultMoves) {
+      // Pad to exactly 4 moves if fewer returned
+      const padded = [...defaultMoves, '', '', '', ''].slice(0, 4) as [string, string, string, string]
+      onStateChange({
+        ...state,
+        moves: padded,
+        activeMoveIndex: 0,
+      })
     }
   }, [state.species, state.forme])
 
@@ -407,6 +427,20 @@ export function CalcCard({ slotId, state, onStateChange, gen, result }: CalcCard
               ))}
             </div>
           </div>
+
+          {/* Champions HP Badge — shows incoming damage visualization */}
+          {incomingResult && speciesData && (
+            <div className="calc-card__hp-badge">
+              <ChampionsHpBadge
+                slotId={slotId}
+                pokemonName={speciesName}
+                spriteUrl={spriteUrl}
+                itemName={state.item}
+                maxHp={stats?.hp ?? 0}
+                damageRange={incomingResult.raw.range()}
+              />
+            </div>
+          )}
 
           {/* Controls — Nature, Ability, Item in a horizontal row */}
           <div className="calc-card__controls">

@@ -1,0 +1,16 @@
+.champions-hp-badge {
+  width: 100%;
+  max-width: 50rem;
+  display: block;
+  filter: drop-shadow(0 6px 4px rgba(0, 0, 0, 0.4));
+}
+
+.champions-hp-badge__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.champions-hp-badge__svg path {
+  shape-rendering: geometricPrecision;
+}

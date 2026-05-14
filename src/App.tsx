@@ -31,8 +31,6 @@ const DEFAULT_LEFT: CalcCardState = {
   ...DEFAULT_CARD_STATE,
   species: 'Venusaur',
   ability: 'Overgrow',
-  moves: ['Sludge Bomb', '', '', ''],
-  activeMoveIndex: 0,
 }
 
 const DEFAULT_RIGHT: CalcCardState = {
@@ -78,6 +76,7 @@ function App() {
             slotId="left"
             state={leftCard}
             result={leftResult}
+            incomingResult={rightResult}
             onStateChange={setLeftCard}
             gen={gen}
           />
@@ -85,6 +84,7 @@ function App() {
             slotId="right"
             state={rightCard}
             result={rightResult}
+            incomingResult={leftResult}
             onStateChange={setRightCard}
             gen={gen}
           />

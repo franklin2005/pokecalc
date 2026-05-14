@@ -1,0 +1,1 @@
+export { ChampionsHpBadge } from './ChampionsHpBadge'
