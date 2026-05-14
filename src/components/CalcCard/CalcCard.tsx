@@ -4,7 +4,7 @@
  * ability, item, and move selection for attacker or defender.
  */
 
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { toID, Generations } from '@smogon/calc'
 import type { CalcCardState, StatName, CalcResult } from '../../types/calc'
 import { CHAMPIONS_SP_TOTAL_MAX, CHAMPIONS_SP_MAX_PER_STAT } from '../../types/calc'
@@ -19,7 +19,6 @@ import { MoveSlot } from '../MoveSlot/MoveSlot'
 import { MoveList } from '../MoveList/MoveList'
 import { AbilityList } from '../AbilityList/AbilityList'
 import { ItemList } from '../ItemList/ItemList'
-import { Spinner } from '../Spinner/Spinner'
 import { ChampionsHpBadge } from '../ChampionsHpBadge'
 import { getMegaStone } from '../../data/mega-stones'
 import { computeStats, getStatBarMax, getNatureEffect } from '../../utils/calc-stats'
@@ -52,11 +51,7 @@ interface CalcCardProps {
 }
 
 export function CalcCard({ slotId, state, onStateChange, gen, result, incomingResult }: CalcCardProps) {
-  const [isImageLoading, setIsImageLoading] = useState(true)
-  const [hasImageError, setHasImageError] = useState(false)
-  const imgRef = useRef<HTMLImageElement>(null)
-
-  // Move list overlay state
+  // Auto-equip mega stone
   const [activeMoveSlot, setActiveMoveSlot] = useState<number | null>(null)
   const [moveSearchQuery, setMoveSearchQuery] = useState('')
 
@@ -92,19 +87,6 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
     : []
 
   const spriteUrl = speciesName ? getSpriteUrl(speciesName) : null
-
-  // Reset loading state when species changes.
-  // Also handles the case where the image is already cached
-  // (e.g. loaded by SpeciesSelect's small sprite) — onLoad
-  // would fire before React attaches the handler, so we
-  // check img.complete.
-  useEffect(() => {
-    setIsImageLoading(true)
-    setHasImageError(false)
-    if (imgRef.current?.complete) {
-      setIsImageLoading(false)
-    }
-  }, [spriteUrl])
 
   // Auto-equip mega stone when Mega forme is selected (except Mega Rayquaza)
   useEffect(() => {
@@ -321,36 +303,14 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
           {/* Sprite + Move Slots — side by side */}
           <div className="calc-card__sprite-moves-row">
             <div className="calc-card__sprite-section">
-              <div className="calc-card__sprite-wrapper">
-                {spriteUrl && !hasImageError ? (
-                  <>
-                    {isImageLoading && <Spinner size="small" />}
-                    <img
-                      ref={imgRef}
-                      className="calc-card__sprite"
-                      src={spriteUrl}
-                      alt={speciesName || ''}
-                      onLoad={() => setIsImageLoading(false)}
-                      onError={(e) => {
-                        const img = e.currentTarget as HTMLImageElement
-                        if (img.src.includes('/sprites/home/')) {
-                          // Champions megas don't have HOME sprites — fall back to DEX
-                          img.src = img.src.replace('/sprites/home/', '/sprites/dex/')
-                          return
-                        }
-                        // Both HOME and DEX failed
-                        setHasImageError(true)
-                        setIsImageLoading(false)
-                      }}
-                      style={{ visibility: isImageLoading ? 'hidden' : 'visible' }}
-                    />
-                  </>
-                ) : (
-                  <div className="calc-card__sprite-placeholder">
-                    <span className="material-symbols-outlined">image</span>
-                  </div>
-                )}
-              </div>
+              <ChampionsHpBadge
+                slotId={slotId}
+                pokemonName={speciesName}
+                spriteUrl={spriteUrl}
+                itemName={state.item}
+                maxHp={stats?.hp ?? 0}
+                damageRange={incomingResult?.raw?.range?.() ?? null}
+              />
               {types.length > 0 && (
                 <div className="calc-card__types">
                   {types.map((type) => (
@@ -427,20 +387,6 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
               ))}
             </div>
           </div>
-
-          {/* Champions HP Badge — shows incoming damage visualization */}
-          {incomingResult && speciesData && (
-            <div className="calc-card__hp-badge">
-              <ChampionsHpBadge
-                slotId={slotId}
-                pokemonName={speciesName}
-                spriteUrl={spriteUrl}
-                itemName={state.item}
-                maxHp={stats?.hp ?? 0}
-                damageRange={incomingResult.raw.range()}
-              />
-            </div>
-          )}
 
           {/* Controls — Nature, Ability, Item in a horizontal row */}
           <div className="calc-card__controls">

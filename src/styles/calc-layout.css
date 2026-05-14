@@ -22,9 +22,11 @@
   width: 100%;
 }
 
-/* Field — full width */
+/* Field — centered when collapsed */
 .calc-layout__field {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* Responsive: stack cards on mobile */

@@ -9,21 +9,50 @@
   border-radius: 1.6rem;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
+  width: fit-content;
+  min-width: 24rem;
+  max-width: 100%;
+  transition: width 0.3s ease, box-shadow 0.3s ease;
 }
 
 .field-conditions__summary {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 1.2rem 1.6rem;
-  font-size: 1.5rem;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.3rem;
   font-weight: 600;
   font-family: var(--font-headline);
-  color: var(--on-surface);
+  color: var(--on-primary);
   cursor: pointer;
   list-style: none;
   user-select: none;
-  transition: background-color 0.2s;
+  background: linear-gradient(135deg, var(--primary), var(--primary-container));
+  border-radius: 1.6rem;
+  transition: background 0.3s ease, border-radius 0.3s ease, padding 0.3s ease;
+}
+
+.field-conditions__summary .material-symbols-outlined {
+  font-size: 1.8rem;
+  color: var(--on-primary);
+}
+
+.field-conditions__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field-conditions[open] {
+  width: 100%;
+  box-shadow: var(--shadow-md);
+}
+
+.field-conditions[open] .field-conditions__summary {
+  padding: 1rem 1.6rem;
+  font-size: 1.5rem;
+  border-radius: 1.6rem 1.6rem 0 0;
+  border-bottom: 0.1rem solid var(--outline-variant);
 }
 
 .field-conditions__summary::-webkit-details-marker {
@@ -46,22 +75,6 @@
   transform: rotate(180deg);
 }
 
-.field-conditions__summary:hover {
-  background-color: var(--surface-container-high);
-}
-
-.field-conditions__summary .material-symbols-outlined {
-  font-size: 2rem;
-  color: var(--primary);
-}
-
-.field-conditions__content {
-  padding: 0 1.6rem 1.6rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-}
-
 /* --- Weather + Terrain Grid --- */
 .field-conditions__grid {
   display: grid;
@@ -80,9 +93,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--on-surface);
 }
 
 .field-conditions__select {
@@ -130,8 +143,8 @@
 }
 
 .field-conditions__side-title {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 700;
   font-family: var(--font-headline);
   color: var(--on-surface);
   padding: 0;
@@ -149,7 +162,8 @@
   align-items: center;
   gap: 0.8rem;
   font-size: 1.3rem;
-  color: var(--on-surface-variant);
+  font-weight: 600;
+  color: var(--on-surface);
   cursor: pointer;
   user-select: none;
 }

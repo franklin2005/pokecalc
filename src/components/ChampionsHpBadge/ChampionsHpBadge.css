@@ -1,6 +1,6 @@
 .champions-hp-badge {
   width: 100%;
-  max-width: 50rem;
+  max-width: 40rem;
   display: block;
   filter: drop-shadow(0 6px 4px rgba(0, 0, 0, 0.4));
 }

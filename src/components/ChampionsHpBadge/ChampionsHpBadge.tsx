@@ -193,20 +193,20 @@ export function ChampionsHpBadge({
           fill="rgba(0,0,0,0.35)"
         />
 
-        {/* HP bar fill (only when damageRange is not null) */}
-        {damageRange && (
-          <path
-            d={hpBarPath}
-            fill={
-              hpPercentage > 50
+        {/* HP bar fill */}
+        <path
+          d={hpBarPath}
+          fill={
+            damageRange
+              ? hpPercentage > 50
                 ? `url(#${prefix}-hpGreen)`
                 : hpPercentage > 20
                   ? `url(#${prefix}-hpYellow)`
                   : `url(#${prefix}-hpRed)`
-            }
-            clipPath={`url(#${prefix}-hpBarClip)`}
-          />
-        )}
+              : `url(#${prefix}-hpGreen)`
+          }
+          clipPath={`url(#${prefix}-hpBarClip)`}
+        />
 
         {/* Pokemon name */}
         <text
@@ -262,10 +262,10 @@ export function ChampionsHpBadge({
         {spriteUrl && (
           <image
             href={spriteUrl}
-            x="16"
-            y="28"
-            width="120"
-            height="120"
+            x="10"
+            y="22"
+            width="132"
+            height="132"
             preserveAspectRatio="xMidYMid meet"
           />
         )}

@@ -3,6 +3,7 @@
  * Collapsible panel for weather, terrain, and per-side field conditions.
  */
 
+import { useRef, useCallback } from 'react'
 import type { FieldState, Weather, Terrain, SideConditions } from '../../types/calc'
 import './FieldConditions.css'
 
@@ -142,6 +143,14 @@ function SideConditionFields({
 }
 
 export function FieldConditions({ field, onFieldChange }: FieldConditionsProps) {
+  const detailsRef = useRef<HTMLDetailsElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  const handleToggle = useCallback(() => {
+    if (detailsRef.current?.open && contentRef.current) {
+      contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [])
   const handleWeatherChange = (value: string) => {
     onFieldChange({
       ...field,
@@ -171,13 +180,13 @@ export function FieldConditions({ field, onFieldChange }: FieldConditionsProps) 
   }
 
   return (
-    <details className="field-conditions">
+    <details className="field-conditions" ref={detailsRef} onToggle={handleToggle}>
       <summary className="field-conditions__summary">
         <span className="material-symbols-outlined">grid_on</span>
-        Field Conditions
+        <span className="field-conditions__label">Field Conditions</span>
       </summary>
 
-      <div className="field-conditions__content">
+      <div className="field-conditions__content" ref={contentRef}>
         {/* Weather and Terrain */}
         <div className="field-conditions__grid">
           <div className="field-conditions__group">
