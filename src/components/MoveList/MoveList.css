@@ -143,12 +143,6 @@
 .move-list__category-img {
   display: block;
   margin: 0 auto;
-  width: 2.2rem;
-  height: 2.2rem;
-  object-fit: contain;
-}
-
-.move-list__category-img {
   width: 3rem;
   height: 2.4rem;
   object-fit: contain;

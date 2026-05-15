@@ -143,10 +143,6 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.move-slot__input.has-type {
-  padding-left: 2.8rem;
-}
-
 .move-slot__input::placeholder {
   color: rgba(142, 112, 110, 0.5);
   font-weight: 400;

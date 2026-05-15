@@ -36,7 +36,6 @@
 .spinner__circle--medium {
   width: 4rem;
   height: 4rem;
-  border-width: 0.4rem;
 }
 
 .spinner__circle--large {

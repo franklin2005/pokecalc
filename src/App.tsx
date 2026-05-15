@@ -11,7 +11,6 @@ import { FieldConditions } from './components/FieldConditions/FieldConditions'
 import { AppHeader } from './components/AppHeader/AppHeader'
 import { useDarkMode } from './hooks/useDarkMode'
 import { useCalculation } from './hooks/useCalculation'
-import './App.css'
 
 const DEFAULT_SPS: StatPoints = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 }
 

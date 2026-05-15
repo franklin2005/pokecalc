@@ -25,11 +25,6 @@
   }
 }
 
-/* --- Inline Variant (default) --- */
-.error-display--inline {
-  /* compact — inherits block defaults */
-}
-
 /* --- Banner Variant (full-width) --- */
 .error-display--banner {
   width: 100%;
@@ -81,10 +76,8 @@
 }
 
 /* --- Dark mode adjustments --- */
-@media (prefers-color-scheme: dark) {
-  .error-display__retry:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-  }
+[data-theme="dark"] .error-display__retry:hover {
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 /* --- Responsive adjustments --- */

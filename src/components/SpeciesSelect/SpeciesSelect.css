@@ -28,12 +28,12 @@
 }
 
 .species-select__input::placeholder {
-  color: rgba(142, 112, 110, 0.6);
+  color: rgba(142, 112, 110, 0.5);
 }
 
 .species-select__input:focus {
-  border-color: rgba(176, 37, 40, 0.2);
-  box-shadow: 0 0 0 0.2rem rgba(176, 37, 40, 0.1);
+  border-color: color-mix(in srgb, var(--primary) 20%, transparent);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .species-select__sprite {
@@ -80,50 +80,4 @@
 .species-select__option-name {
   font-size: 1.6rem;
   color: var(--on-surface);
-}
-
-.species-select__option-dex {
-  font-size: 1.2rem;
-  color: var(--on-surface-variant);
-  opacity: 0.6;
-}
-
-/* Forme selector */
-.species-select__forme {
-  margin-top: 1.2rem;
-}
-
-.species-select__forme-label {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--on-surface-variant);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.6rem;
-}
-
-.species-select__forme-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-.species-select__forme-btn {
-  padding: 0.3rem 0.8rem;
-  border-radius: 9999px;
-  background-color: var(--surface-container-high);
-  color: var(--on-surface-variant);
-  font-size: 1.2rem;
-  font-weight: 600;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.species-select__forme-btn:hover {
-  background-color: var(--surface-container-highest);
-}
-
-.species-select__forme-btn--active {
-  background-color: var(--primary);
-  color: var(--on-primary);
 }

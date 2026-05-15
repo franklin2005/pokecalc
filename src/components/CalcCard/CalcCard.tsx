@@ -283,7 +283,7 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
   }, [state.species, state.forme, gen])
 
   return (
-    <article className={`calc-card calc-card--${slotId}`}>
+    <article className="calc-card">
       <header className="calc-card__header">
         <span className={`calc-card__badge calc-card__badge--${slotId}`}>
           {slotId === 'left' ? 'L' : 'R'}
