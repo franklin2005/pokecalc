@@ -18,12 +18,13 @@
   --surface-container-highest: #3a2b2a;
 
   /* --- On-Surface Text (light on dark) --- */
-  --on-surface: #ffedeb;
-  --on-surface-variant: #d4b2af;
+  --on-surface: #fdf6f6;
+  --on-surface-variant: #fdf6f6;
+  
 
   /* --- Background --- */
   --background: #1a1110;
-  --on-background: #ffedeb;
+  --on-background: #ffffff;
 
   /* --- Outline --- */
   --outline: #a0807e;
