@@ -30,12 +30,12 @@
   cursor: pointer;
   flex-shrink: 0;
   overflow: hidden;
-  border: 1.5px solid var(--outline-variant);
+  border: 1.5px solid #e2bebb;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .move-slot__pokeball:hover {
-  border-color: var(--outline);
+  border-color: #8e706e;
 }
 
 /* Top half — red when active, gray when inactive */
@@ -45,18 +45,18 @@
   left: 0;
   right: 0;
   height: 50%;
-  background-color: var(--outline-variant);
+  background-color: #e2bebb;
   transition: background-color 0.2s;
 }
 
-/* Bottom half — white/gray */
+/* Bottom half — white */
 .move-slot__pokeball-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 50%;
-  background-color: var(--surface-container-lowest);
+  background-color: #ffffff;
   transition: background-color 0.2s;
 }
 
@@ -67,7 +67,7 @@
   left: 0;
   right: 0;
   height: 1.5px;
-  background-color: var(--outline-variant);
+  background-color: #e2bebb;
   transform: translateY(-50%);
   z-index: 1;
   transition: background-color 0.2s;
@@ -81,8 +81,8 @@
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 50%;
-  background-color: var(--surface-container-lowest);
-  border: 1.5px solid var(--outline-variant);
+  background-color: #ffffff;
+  border: 1.5px solid #e2bebb;
   transform: translate(-50%, -50%);
   z-index: 2;
   transition: border-color 0.2s, background-color 0.2s;
@@ -91,21 +91,21 @@
 /* --- Active (checked) pokeball --- */
 
 .move-slot__radio:checked + .move-slot__pokeball {
-  border-color: var(--primary);
+  border-color: #b02528;
   box-shadow: 0 0 0 0.2rem rgba(176, 37, 40, 0.15);
 }
 
 .move-slot__radio:checked + .move-slot__pokeball .move-slot__pokeball-top {
-  background-color: var(--primary);
+  background-color: #b02528;
 }
 
 .move-slot__radio:checked + .move-slot__pokeball .move-slot__pokeball-line {
-  background-color: var(--on-surface-variant);
+  background-color: #5a413f;
 }
 
 .move-slot__radio:checked + .move-slot__pokeball .move-slot__pokeball-button {
-  border-color: var(--on-surface-variant);
-  background-color: var(--surface-container-lowest);
+  border-color: #5a413f;
+  background-color: #ffffff;
 }
 
 /* --- Move Input --- */

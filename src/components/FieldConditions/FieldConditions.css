@@ -23,18 +23,18 @@
   font-size: 1.3rem;
   font-weight: 600;
   font-family: var(--font-headline);
-  color: var(--on-primary);
+  color: #ffffff;
   cursor: pointer;
   list-style: none;
   user-select: none;
-  background: linear-gradient(135deg, var(--primary), var(--primary-container));
+  background: linear-gradient(135deg, #b02528, #d23e3e);
   border-radius: 1.6rem;
-  transition: background 0.3s ease, border-radius 0.3s ease, padding 0.3s ease;
+  transition: border-radius 0.3s ease, padding 0.3s ease;
 }
 
 .field-conditions__summary .material-symbols-outlined {
   font-size: 1.8rem;
-  color: var(--on-primary);
+  color: #ffffff;
 }
 
 .field-conditions__label {
