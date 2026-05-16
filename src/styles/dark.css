@@ -23,12 +23,24 @@
   
 
   /* --- Background --- */
-  --background: #1a1110;
+  --background: #281a19;
   --on-background: #ffffff;
 
   /* --- Outline --- */
   --outline: #a0807e;
   --outline-variant: #4e3533;
+
+  /* --- Card --- */
+  --card-border: #fdf6f6;
+  --card-hover-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.2),
+                       0 0 1.2rem rgba(0, 0, 0, 0.3),
+                       0 0 2rem rgba(0, 0, 0, 0.15);
+  --sprite-width-cqi: 60;
+  --sprite-width-min: 30rem;
+  --sprite-width-max: 50rem;
+
+  /* --- Control Surfaces (inputs, dropdowns, result panels) --- */
+  --control-surface: #3e3434;
 
   /* --- Inverse --- */
   --inverse-surface: #ffedeb;

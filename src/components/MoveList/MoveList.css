@@ -9,6 +9,7 @@
   flex-direction: column;
   background-color: var(--surface-container);
   border-radius: 2rem;
+  border: 0.35rem solid var(--card-border);
   overflow: hidden;
 }
 
@@ -70,6 +71,7 @@
 .move-list__table-wrapper::-webkit-scrollbar-thumb {
   background-color: var(--outline);
   border-radius: 9999px;
+  
 }
 
 /* Table */

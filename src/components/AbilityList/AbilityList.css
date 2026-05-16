@@ -9,6 +9,7 @@
   flex-direction: column;
   background-color: var(--surface-container);
   border-radius: 2rem;
+  border: 0.35rem solid var(--card-border);
   overflow: hidden;
 }
 

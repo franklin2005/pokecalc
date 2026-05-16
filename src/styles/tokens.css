@@ -62,6 +62,18 @@
   --outline: #8e706e;
   --outline-variant: #e2bebb;
 
+  /* --- Card --- */
+  --card-border: #765f5d;
+  --card-hover-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.08),
+                       0 0 1.2rem rgba(0, 0, 0, 0.1),
+                       0 0 2rem rgba(0, 0, 0, 0.06);
+  --sprite-width-cqi: 60;
+  --sprite-width-min: 30rem;
+  --sprite-width-max: 50rem;
+
+  /* --- Control Surfaces (inputs, dropdowns, result panels) --- */
+  --control-surface: #fde2e0;
+
   /* --- Inverse --- */
   --inverse-surface: #3d2c2b;
   --inverse-on-surface: #ffedeb;

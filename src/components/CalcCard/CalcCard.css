@@ -4,17 +4,20 @@
 
 .calc-card {
   background-color: var(--surface-container-lowest);
+  border: 0.6rem solid var(--card-border);
   border-radius: 3.2rem;
   padding: 1.8rem;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  container-type: inline-size;
+  min-width: 0;
   transition: box-shadow 0.3s ease;
 }
 
 .calc-card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--card-hover-shadow);
 }
 
 /* Header */
@@ -53,8 +56,9 @@
 /* Result display — inline damage output */
 .calc-card__result {
   padding: 1rem;
-  background-color: var(--surface-container);
-  border-radius: 1rem;
+  background-color: var(--control-surface);
+  border-radius: 1.4rem;
+  border: 0.27rem solid var(--card-border);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,14 +112,13 @@
   width: 100%;
 }
 
-/* Sprite Section — dynamically sized */
+/* Sprite Section — dynamically sized, relative to card container */
 .calc-card__sprite-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
-  flex-shrink: 0;
-  width: clamp(25rem, 40cqi, 40rem);
+  width: clamp(var(--sprite-width-min), calc(var(--sprite-width-cqi) * 1cqi), var(--sprite-width-max));
 }
 
 /* Move Slots — take remaining space */
@@ -178,8 +181,9 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  background-color: var(--surface-container);
+  background-color: var(--control-surface);
   border-radius: 2rem;
+  border: 0.35rem solid var(--card-border);
 }
 
 /* Controls — horizontal row: Nature | Ability | Item */
@@ -216,7 +220,25 @@
   font-size: 1.1rem;
 }
 
-/* Responsive */
+/* Responsive: stack sprite + moves on narrow 2-column layout */
+@media (max-width: 1150px) {
+  .calc-card__sprite-moves-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .calc-card__sprite-section {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .calc-card__move-slots {
+    min-width: 0;
+  }
+}
+
+/* Responsive: single column on mobile */
 @media (max-width: 640px) {
   .calc-card {
     padding: 1.6rem;
