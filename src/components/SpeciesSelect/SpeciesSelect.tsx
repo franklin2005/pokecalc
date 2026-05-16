@@ -29,8 +29,8 @@ export function getFormes(species: Specie): string[] {
   const baseName = species.name
 
   for (const formeName of species.otherFormes) {
-    // Only include Mega forms for Champions
-    if (formeName.includes('Mega')) {
+    // Only include Mega forms for Champions, excluding Mega-Z (not yet in game)
+    if (formeName.includes('Mega') && !formeName.includes('Mega-Z')) {
       const suffix = formeName.replace(`${baseName}-`, '')
       if (suffix) {
         formes.push(suffix)
@@ -50,7 +50,10 @@ export function SpeciesSelect({ value, onChange, gen }: SpeciesSelectProps) {
   const speciesList = useRef<Specie[]>([])
   if (speciesList.current.length === 0) {
     for (const sp of gen.species) {
-      if (sp) speciesList.current.push(sp)
+      // Exclude Mega-Z formes not yet available in Pokémon Champions
+      if (sp && !sp.name.includes('-Mega-Z')) {
+        speciesList.current.push(sp)
+      }
     }
   }
 
