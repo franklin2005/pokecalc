@@ -36,7 +36,7 @@
 }
 
 .item-select__input::placeholder {
-  color: rgba(142, 112, 110, 0.5);
+  color: rgba(199, 175, 173, 0.5);
 }
 
 .item-select__input:focus {

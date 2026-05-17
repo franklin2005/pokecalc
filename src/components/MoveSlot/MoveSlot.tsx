@@ -85,8 +85,8 @@ export function MoveSlot({ index, value, isActive, onMoveChange, onActivate, onS
 
   // Sync query with value when not focused
   useEffect(() => {
-    if (value && !isOpen) {
-      setQuery(value)
+    if (!isOpen) {
+      setQuery(value || '')
     }
   }, [value, isOpen])
 
@@ -107,7 +107,6 @@ export function MoveSlot({ index, value, isActive, onMoveChange, onActivate, onS
   const selectedType = selectedMove?.type as TypeName | undefined
   const typeColor = selectedType ? TYPE_COLORS[selectedType] ?? TYPE_COLORS.Normal : null
 
-  const placeholder = `Move ${index + 1}`
 
   return (
     <div className="move-slot" ref={wrapperRef}>
@@ -143,7 +142,6 @@ export function MoveSlot({ index, value, isActive, onMoveChange, onActivate, onS
         <input
           className="move-slot__input"
           type="text"
-          placeholder={placeholder}
             value={query}
           onChange={(e) => {
             setQuery(e.target.value)
@@ -157,7 +155,8 @@ export function MoveSlot({ index, value, isActive, onMoveChange, onActivate, onS
               handleClear()
             }
           }}
-          onFocus={() => {
+          onFocus={(e) => {
+            e.target.select()
             if (onSlotFocus) onSlotFocus(index)
             if (!suppressDropdown) {
               setIsOpen(true)

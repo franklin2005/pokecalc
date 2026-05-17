@@ -4,7 +4,7 @@
  * with dynamic HP bar, Pokemon name, sprite, and item icon.
  */
 
-import { useId, useState } from 'react'
+import { useId, useState, useEffect } from 'react'
 import { getItemSpriteUrl, handleItemSpriteError } from '../../data/item-sprite-urls'
 import { getDexSpriteUrl } from '../../data/species-to-id'
 import './ChampionsHpBadge.css'
@@ -37,6 +37,11 @@ export function ChampionsHpBadge({
   // Sprite fallback: HOME → DEX → hidden
   const [spriteStage, setSpriteStage] = useState<'home' | 'dex' | 'none'>('home')
   const dexSpriteUrl = pokemonName ? getDexSpriteUrl(pokemonName) : null
+
+  // Reset sprite fallback when Pokémon changes
+  useEffect(() => {
+    setSpriteStage('home')
+  }, [spriteUrl])
 
   // Compute remaining HP based on average damage
   const damageAvg = damageRange ? (damageRange[0] + damageRange[1]) / 2 : 0

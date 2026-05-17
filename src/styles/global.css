@@ -58,6 +58,11 @@ img {
   vertical-align: middle;
 }
 
+/* Prevent FOUC: hide icon text until icon font is ready */
+.fonts-loading .material-symbols-outlined {
+  visibility: hidden;
+}
+
 /* Focus visible for accessibility */
 :focus-visible {
   outline: 0.2rem solid var(--primary);

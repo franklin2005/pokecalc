@@ -4,6 +4,8 @@
  */
 
 import './AppHeader.css'
+import lunatoneIcon from '../../assets/lunatone-icon.png'
+import solrockIcon from '../../assets/solrock-icon.png'
 
 interface AppHeaderProps {
   isDark: boolean
@@ -23,9 +25,11 @@ export function AppHeader({ isDark, onToggleTheme }: AppHeaderProps) {
         onClick={onToggleTheme}
         aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       >
-        <span className="material-symbols-outlined">
-          {isDark ? 'light_mode' : 'dark_mode'}
-        </span>
+        <img
+          className={`app-header__theme-icon ${isDark ? 'app-header__theme-icon--solrock' : ''}`}
+          src={isDark ? solrockIcon : lunatoneIcon}
+          alt={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+        />
       </button>
     </header>
   )

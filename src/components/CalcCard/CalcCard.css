@@ -98,6 +98,12 @@
   font-weight: 600;
 }
 
+.calc-card__result-placeholder {
+  font-size: 1.3rem;
+  color: var(--on-surface-variant);
+  font-style: italic;
+}
+
 /* Sections */
 .calc-card__section {
   width: 100%;

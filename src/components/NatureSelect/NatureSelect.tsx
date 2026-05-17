@@ -97,6 +97,7 @@ export function NatureSelect({ value, onChange, inputId = 'nature-select' }: Nat
       setQuery(formatNatureLabel(name))
       setIsOpen(false)
       onChange(name)
+      inputRef.current?.blur()
     },
     [onChange],
   )
@@ -130,7 +131,7 @@ export function NatureSelect({ value, onChange, inputId = 'nature-select' }: Nat
             setQuery(e.target.value)
             setIsOpen(true)
           }}
-          onFocus={() => setIsOpen(true)}
+          onFocus={(e) => { e.target.select(); setIsOpen(true) }}
         />
         <button
           type="button"

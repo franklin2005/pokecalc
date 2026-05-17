@@ -26,7 +26,6 @@ import { computeStats, getStatBarMax, getNatureEffect } from '../../utils/calc-s
 import { totalSPs } from '../../data/sp-presets'
 import { getSpriteUrl } from '../../data/species-to-id'
 import { getSpeciesAbilities } from '../../data/species-abilities'
-import { getDefaultMoves } from '../../data/default-moves'
 import { useLearnset } from '../../hooks/useLearnset'
 import megaButtonImg from '../../assets/megaButton.png'
 import './CalcCard.css'
@@ -106,23 +105,6 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
     }
   }, [state.species, state.forme])
 
-  // Auto-populate moves from Showdown sets when species is selected
-  // and all move slots are empty
-  useEffect(() => {
-    if (!state.species || state.moves.some(m => m !== '')) return
-
-    const defaultMoves = getDefaultMoves(state.species)
-    if (defaultMoves) {
-      // Pad to exactly 4 moves if fewer returned
-      const padded = [...defaultMoves, '', '', '', ''].slice(0, 4) as [string, string, string, string]
-      onStateChange({
-        ...state,
-        moves: padded,
-        activeMoveIndex: 0,
-      })
-    }
-  }, [state.species, state.forme])
-
   const spTotal = totalSPs(state.sps)
 
   // Compute available Mega formes for the selected species
@@ -152,6 +134,7 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
       ...state,
       species,
       forme,
+      item: undefined,
       ability: undefined,
       moves: ['', '', '', ''],
       activeMoveIndex: 0,
@@ -488,20 +471,24 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
           ) : (
             <>
               {/* Inline result display */}
-              {result && (
-                <div className="calc-card__result">
-                  <span className="calc-card__result-range">
-                    {result.damageRange[0].toFixed(1)} — {result.damageRange[1].toFixed(1)}%
-                  </span>
-                  <div className="calc-card__result-bar">
-                    <div
-                      className="calc-card__result-bar-fill"
-                      style={{ width: `${Math.min(result.damageRange[1], 100)}%` }}
-                    />
-                  </div>
-                  <span className="calc-card__result-ko">{result.koText}</span>
-                </div>
-              )}
+              <div className="calc-card__result">
+                {result ? (
+                  <>
+                    <span className="calc-card__result-range">
+                      {result.damageRange[0].toFixed(1)} — {result.damageRange[1].toFixed(1)}%
+                    </span>
+                    <div className="calc-card__result-bar">
+                      <div
+                        className="calc-card__result-bar-fill"
+                        style={{ width: `${Math.min(result.damageRange[1], 100)}%` }}
+                      />
+                    </div>
+                    <span className="calc-card__result-ko">{result.koText}</span>
+                  </>
+                ) : (
+                  <span className="calc-card__result-placeholder">Select a move to calculate damage</span>
+                )}
+              </div>
 
               {stats && (
                 <div className="calc-card__stats">

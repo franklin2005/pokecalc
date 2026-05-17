@@ -9,7 +9,7 @@
  * Falls back to calc's abilities if species not found in our mapping.
  */
 
-import { useMemo } from 'react'
+import { useMemo, useRef, useEffect } from 'react'
 import { toID } from '@smogon/calc'
 import { Generations } from '@smogon/calc'
 import { getSpeciesAbilities } from '../../data/species-abilities'
@@ -40,6 +40,14 @@ export function AbilitySelect({
   onQueryChange,
   gen,
 }: AbilitySelectProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!isOpen && inputRef.current) {
+      inputRef.current.blur()
+    }
+  }, [isOpen])
+
   // Get abilities list for the selected species
   const abilitiesList = useMemo(() => {
     if (!species) return []
@@ -68,6 +76,7 @@ export function AbilitySelect({
       </label>
       <div className="ability-select__wrapper">
         <input
+          ref={inputRef}
           className="ability-select__input"
           id="ability-select"
           type="text"

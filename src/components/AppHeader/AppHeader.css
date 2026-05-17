@@ -45,14 +45,21 @@
 
 
 
+.app-header__theme-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  object-fit: contain;
+}
+
+.app-header__theme-icon--solrock {
+  width: 4rem;
+  height: 4rem;
+}
+
 .app-header__theme-btn:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
 .app-header__theme-btn:active {
   transform: scale(0.92);
-}
-
-.app-header__theme-btn .material-symbols-outlined {
-  font-size: 2.4rem;
 }

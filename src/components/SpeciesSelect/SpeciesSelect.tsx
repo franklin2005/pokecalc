@@ -57,6 +57,7 @@ export function SpeciesSelect({
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [spriteStage, setSpriteStage] = useState<'home' | 'dex' | 'none'>('home')
+  const inputRef = useRef<HTMLInputElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   // Build species list from gen (cache in ref)
@@ -105,6 +106,11 @@ export function SpeciesSelect({
   const spriteUrl = value ? getSpriteUrl(value) : null
   const dexSpriteUrl = value ? getDexSpriteUrl(value) : null
 
+  // Reset sprite fallback when Pokémon changes
+  useEffect(() => {
+    setSpriteStage('home')
+  }, [spriteUrl])
+
   // Sync query with value
   useEffect(() => {
     if (value && !isOpen) {
@@ -119,10 +125,18 @@ export function SpeciesSelect({
     }
   }, [isOverlayOpen, isOpen])
 
+  // Blur input when overlay closes after selection so next click re-opens dropdown
+  useEffect(() => {
+    if (!isOverlayOpen && inputRef.current) {
+      inputRef.current.blur()
+    }
+  }, [isOverlayOpen])
+
   return (
     <div className="species-select" ref={wrapperRef}>
       <div className="species-select__input-wrapper">
         <input
+          ref={inputRef}
           className="species-select__input"
           type="text"
           placeholder="Search Pokémon..."
@@ -134,7 +148,8 @@ export function SpeciesSelect({
               onOverlayOpen()
             }
           }}
-          onFocus={() => {
+          onFocus={(e) => {
+            e.target.select()
             setIsOpen(true)
             onOverlayOpen()
           }}

@@ -5,6 +5,7 @@
  * The toggle button shows/hides the overlay (mimicking NatureSelect pattern).
  */
 
+import { useRef, useEffect } from 'react'
 import './ItemSelect.css'
 
 interface ItemSelectProps {
@@ -28,6 +29,14 @@ export function ItemSelect({
   query,
   onQueryChange,
 }: ItemSelectProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!isOpen && inputRef.current) {
+      inputRef.current.blur()
+    }
+  }, [isOpen])
+
   return (
     <div className="item-select">
       <label className="item-select__label" htmlFor="item-select">
@@ -35,6 +44,7 @@ export function ItemSelect({
       </label>
       <div className="item-select__wrapper">
         <input
+          ref={inputRef}
           className="item-select__input"
           id="item-select"
           type="text"
@@ -47,7 +57,8 @@ export function ItemSelect({
               onChange(undefined)
             }
           }}
-          onFocus={() => {
+          onFocus={(e) => {
+            e.target.select()
             if (!disabled) {
               onFocus()
             }

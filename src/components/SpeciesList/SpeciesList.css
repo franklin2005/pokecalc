@@ -8,7 +8,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--surface-container);
+  background-color: var(--surface-container-lowest);
   border-radius: 2rem;
   border: 0.35rem solid var(--card-border);
   overflow: hidden;
@@ -20,7 +20,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.4rem;
-  background-color: var(--surface-container-high);
+  background-color: var(--surface-container);
   border-bottom: 1px solid var(--outline-variant);
 }
 
@@ -67,7 +67,7 @@
   letter-spacing: 0.05em;
   position: sticky;
   top: 0;
-  background-color: var(--surface-container);
+  background-color: var(--surface-container-lowest);
   z-index: 1;
 }
 
@@ -143,7 +143,7 @@
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--outline);
-  background-color: var(--surface-container-high);
+  background-color: var(--surface-container);
   border-radius: 50%;
 }
 
