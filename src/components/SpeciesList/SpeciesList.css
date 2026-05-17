@@ -1,0 +1,246 @@
+/* ============================================
+   SpeciesList Component Styles
+   Table-style overlay for Pokémon species selection
+   with sprites, abilities, and full stat spread
+   ============================================ */
+
+.species-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-container);
+  border-radius: 2rem;
+  border: 0.35rem solid var(--card-border);
+  overflow: hidden;
+}
+
+/* Header */
+.species-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.4rem;
+  background-color: var(--surface-container-high);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.species-list__title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: var(--font-headline);
+  color: var(--on-surface);
+}
+
+.species-list__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  color: var(--on-surface-variant);
+  transition: background-color 0.15s;
+}
+
+.species-list__close:hover {
+  background-color: var(--surface-container-highest);
+}
+
+.species-list__close .material-symbols-outlined {
+  font-size: 2rem;
+}
+
+/* Table header row */
+.species-list__table-header {
+  display: grid;
+  grid-template-columns: 3.6rem minmax(8rem, 1fr) 10rem 8rem repeat(7, 3.5rem);
+  gap: 0.4rem;
+  padding: 0.6rem 1.4rem;
+  border-bottom: 1px solid var(--outline-variant);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: sticky;
+  top: 0;
+  background-color: var(--surface-container);
+  z-index: 1;
+}
+
+/* Scroll area */
+.species-list__scroll {
+  max-height: 24rem;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--outline) transparent;
+}
+
+.species-list__scroll::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.species-list__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.species-list__scroll::-webkit-scrollbar-thumb {
+  background-color: var(--outline);
+  border-radius: 9999px;
+}
+
+/* List items */
+.species-list__item {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 3.6rem minmax(8rem, 1fr) 10rem 8rem repeat(7, 3.5rem);
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.5rem 1.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.species-list__item:last-child {
+  border-bottom: none;
+}
+
+.species-list__item:hover,
+.species-list__item--focused {
+  background-color: var(--surface-container-highest);
+}
+
+.species-list__item--selected {
+  background-color: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+/* Column: Sprite */
+.species-list__col--sprite {
+  width: 3.6rem;
+  height: 3.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.species-list__sprite {
+  width: 3.6rem;
+  height: 3.6rem;
+  object-fit: contain;
+}
+
+.species-list__sprite-placeholder {
+  width: 3.6rem;
+  height: 3.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--outline);
+  background-color: var(--surface-container-high);
+  border-radius: 50%;
+}
+
+/* Column: Name */
+.species-list__col--name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* Column: Common Abilities */
+.species-list__col--abilities {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: var(--on-surface-variant);
+  opacity: 0.7;
+  overflow: hidden;
+}
+
+.species-list__col--abilities span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Column: Hidden Ability */
+.species-list__col--hidden {
+  font-size: 1.1rem;
+  color: var(--on-surface-variant);
+  opacity: 0.7;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Column: Stat */
+.species-list__col--stat {
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-surface);
+  text-align: center;
+}
+
+/* Column: BST */
+.species-list__col--bst {
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--on-surface);
+  text-align: center;
+}
+
+/* Empty state */
+.species-list__empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--on-surface-variant);
+  font-size: 1.3rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .species-list__table-header,
+  .species-list__item {
+    grid-template-columns: 3rem minmax(6rem, 1fr) 8rem 7rem repeat(7, 2.8rem);
+    gap: 0.2rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .species-list__scroll {
+    max-height: 18rem;
+  }
+
+  .species-list__col--name {
+    font-size: 1.3rem;
+  }
+
+  .species-list__col--stat,
+  .species-list__col--bst {
+    font-size: 1.1rem;
+  }
+
+  .species-list__col--abilities,
+  .species-list__col--hidden {
+    font-size: 1rem;
+  }
+
+  .species-list__col--sprite,
+  .species-list__sprite {
+    width: 3rem;
+    height: 3rem;
+  }
+}

@@ -47,7 +47,7 @@
   --surface-container: #ffe9e7;
   --surface-container-low: #fff0ef;
   --surface-container-high: #fde2e0;
-  --surface-container-lowest: #ffffff;
+  --surface-container-lowest: #fff0ef; /* card background */
   --surface-container-highest: #f7dcda;
 
   /* --- On-Surface Text --- */
@@ -72,7 +72,7 @@
   --sprite-width-max: 50rem;
 
   /* --- Control Surfaces (inputs, dropdowns, result panels) --- */
-  --control-surface: #fde2e0;
+  --control-surface: #fff8f7;
 
   /* --- Inverse --- */
   --inverse-surface: #3d2c2b;

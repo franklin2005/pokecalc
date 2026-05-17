@@ -271,6 +271,7 @@ export function getSpeciesId(speciesName: string): number | null {
     'Farfetchd': 'Farfetchd',
     'Sirfetchd': 'Sirfetchd',
     "Farfetch'd": 'Farfetchd',
+    "Farfetch\u2019d": 'farfetchd',
     "Sirfetch'd": 'Sirfetchd',
     "Mr. Mime": 'Mr-Mime',
     "Mr. Rime": 'Mr-Rime',
@@ -295,16 +296,36 @@ export function getSpeciesId(speciesName: string): number | null {
 }
 
 /**
- * Convert a @smogon/calc species name to the Showdown sprite filename format.
- * Handles the Mega-X/Y naming difference:
- * - @smogon/calc: "Charizard-Mega-X" → Showdown: "charizard-megax"
- * - @smogon/calc: "Mewtwo-Mega-Y" → Showdown: "mewtwo-megay"
- * - @smogon/calc: "Gengar-Mega" → Showdown: "gengar-mega"
+ * Unicode RIGHT SINGLE QUOTATION MARK — used by @smogon/calc species names
+ * like "Farfetch'd". Showdown CDN stores sprites WITHOUT apostrophes.
  */
-function toShowdownSpriteName(speciesName: string): string {
-  const lower = speciesName.toLowerCase()
+const UNICODE_APOSTROPHE_VARIANTS = /[\u2018\u2019\u02BC]/g
+
+/**
+ * Convert a @smogon/calc species name to the Showdown sprite filename format.
+ * Handles:
+ * - Unicode apostrophe removal: Farfetch\u2019d → farfetchd
+ * - Mega-X/Y naming: "Charizard-Mega-X" → "charizard-megax"
+ * - General lowercasing
+ */
+export function toShowdownSpriteName(speciesName: string): string {
+  const cleaned = speciesName.replace(UNICODE_APOSTROPHE_VARIANTS, '')
+  const lower = cleaned.toLowerCase()
   // Showdown uses "megax"/"megay" instead of "mega-x"/"mega-y"
   return lower.replace(/-mega-x$/, '-megax').replace(/-mega-y$/, '-megay')
+}
+
+const HOME_BASE = 'https://play.pokemonshowdown.com/sprites/home'
+const DEX_BASE = 'https://play.pokemonshowdown.com/sprites/dex'
+
+/**
+ * Get the DEX sprite URL for a species (lower quality, wider coverage).
+ * Fallback for newer Megas not yet available as HOME sprites.
+ */
+export function getDexSpriteUrl(speciesName: string): string | null {
+  if (!speciesName) return null
+  const formattedName = toShowdownSpriteName(speciesName)
+  return `${DEX_BASE}/${formattedName}.png`
 }
 
 /**
@@ -316,5 +337,5 @@ function toShowdownSpriteName(speciesName: string): string {
 export function getSpriteUrl(speciesName: string): string | null {
   if (!speciesName) return null
   const formattedName = toShowdownSpriteName(speciesName)
-  return `https://play.pokemonshowdown.com/sprites/home/${formattedName}.png`
+  return `${HOME_BASE}/${formattedName}.png`
 }

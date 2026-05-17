@@ -4,8 +4,9 @@
  * with dynamic HP bar, Pokemon name, sprite, and item icon.
  */
 
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import { getItemSpriteUrl, handleItemSpriteError } from '../../data/item-sprite-urls'
+import { getDexSpriteUrl } from '../../data/species-to-id'
 import './ChampionsHpBadge.css'
 
 interface ChampionsHpBadgeProps {
@@ -33,6 +34,10 @@ export function ChampionsHpBadge({
   const id = useId()
   const prefix = `champions-hp-badge-${id}`
 
+  // Sprite fallback: HOME → DEX → hidden
+  const [spriteStage, setSpriteStage] = useState<'home' | 'dex' | 'none'>('home')
+  const dexSpriteUrl = pokemonName ? getDexSpriteUrl(pokemonName) : null
+
   // Compute remaining HP based on average damage
   const damageAvg = damageRange ? (damageRange[0] + damageRange[1]) / 2 : 0
   const remainingHp = Math.max(0, maxHp - Math.round(damageAvg))
@@ -44,6 +49,15 @@ export function ChampionsHpBadge({
 
   return (
     <div className="champions-hp-badge">
+      {/* Sprite rendered outside SVG for reliable onError support */}
+      {spriteUrl && spriteStage !== 'none' && (
+        <img
+          className="champions-hp-badge__sprite-img"
+          src={spriteStage === 'dex' && dexSpriteUrl ? dexSpriteUrl : spriteUrl}
+          alt=""
+          onError={() => setSpriteStage((prev) => prev === 'home' ? 'dex' : 'none')}
+        />
+      )}
       <svg
         className="champions-hp-badge__svg"
         viewBox="-22 0 500 161"
@@ -258,17 +272,6 @@ export function ChampionsHpBadge({
           /{maxHp}
         </text>
 
-        {/* Pokemon sprite (conditional) */}
-        {spriteUrl && (
-          <image
-            href={spriteUrl}
-            x="10"
-            y="22"
-            width="132"
-            height="132"
-            preserveAspectRatio="xMidYMid meet"
-          />
-        )}
       </svg>
     </div>
   )

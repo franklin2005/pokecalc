@@ -6,15 +6,15 @@
 
 [data-theme="dark"] {
   /* --- Surface Hierarchy (inverted for dark) --- */
-  --surface: #1a1110;
+  --surface: #1f0f0c;
   --surface-bright: #2c1e1d;
   --surface-dim: #1a1110;
   --surface-tint: #ffb3ae;
   --surface-variant: #4e3533;
   --surface-container: #241716;
-  --surface-container-low: #201312;
+  --surface-container-low: #201312; 
   --surface-container-high: #2f201f;
-  --surface-container-lowest: #140c0b;
+  --surface-container-lowest: #2d2b2b;/* card background */
   --surface-container-highest: #3a2b2a;
 
   /* --- On-Surface Text (light on dark) --- */
@@ -23,7 +23,7 @@
   
 
   /* --- Background --- */
-  --background: #281a19;
+  --background: #1f0f0c;
   --on-background: #ffffff;
 
   /* --- Outline --- */
@@ -31,7 +31,7 @@
   --outline-variant: #4e3533;
 
   /* --- Card --- */
-  --card-border: #fdf6f6;
+  --card-border: #ebe5e5;
   --card-hover-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.2),
                        0 0 1.2rem rgba(0, 0, 0, 0.3),
                        0 0 2rem rgba(0, 0, 0, 0.15);
@@ -40,7 +40,7 @@
   --sprite-width-max: 50rem;
 
   /* --- Control Surfaces (inputs, dropdowns, result panels) --- */
-  --control-surface: #3e3434;
+  --control-surface: #1f0f0c;
 
   /* --- Inverse --- */
   --inverse-surface: #ffedeb;

@@ -1,6 +1,7 @@
 export { TypeBadge } from './TypeBadge/TypeBadge'
 export { StatBar } from './StatBar/StatBar'
 export { SpeciesSelect } from './SpeciesSelect/SpeciesSelect'
+export { SpeciesList } from './SpeciesList/SpeciesList'
 export { NatureSelect } from './NatureSelect/NatureSelect'
 export { AbilitySelect } from './AbilitySelect/AbilitySelect'
 export { AbilityList } from './AbilityList/AbilityList'

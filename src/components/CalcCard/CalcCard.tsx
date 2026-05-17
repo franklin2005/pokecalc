@@ -17,6 +17,7 @@ import { AbilitySelect } from '../AbilitySelect/AbilitySelect'
 import { ItemSelect } from '../ItemSelect/ItemSelect'
 import { MoveSlot } from '../MoveSlot/MoveSlot'
 import { MoveList } from '../MoveList/MoveList'
+import { SpeciesList } from '../SpeciesList/SpeciesList'
 import { AbilityList } from '../AbilityList/AbilityList'
 import { ItemList } from '../ItemList/ItemList'
 import { ChampionsHpBadge } from '../ChampionsHpBadge'
@@ -31,6 +32,7 @@ import megaButtonImg from '../../assets/megaButton.png'
 import './CalcCard.css'
 
 type Generation = ReturnType<typeof Generations.get>
+type Specie = NonNullable<ReturnType<Generation['species']['get']>>
 
 const STAT_CONFIG: { key: StatName; label: string; colorClass: string }[] = [
   { key: 'hp', label: 'HP', colorClass: 'stat-bar__fill--hp' },
@@ -60,6 +62,10 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
   const [activeOverlay, setActiveOverlay] = useState<OverlayType>(null)
   const [abilitySearchQuery, setAbilitySearchQuery] = useState('')
   const [itemSearchQuery, setItemSearchQuery] = useState('')
+
+  // Species overlay state
+  const [speciesOverlayOpen, setSpeciesOverlayOpen] = useState(false)
+  const [speciesFiltered, setSpeciesFiltered] = useState<Specie[]>([])
 
   const speciesName = state.forme ? `${state.species}-${state.forme}` : state.species
   const speciesData = state.species ? gen.species.get(toID(speciesName)) : null
@@ -176,9 +182,30 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
     onStateChange({ ...state, sps: newSPs })
   }
 
+  // Species overlay handlers
+  const handleSpeciesOverlayOpen = useCallback(() => {
+    setActiveMoveSlot(null)
+    setActiveOverlay(null)
+    setSpeciesOverlayOpen(true)
+  }, [])
+
+  const handleSpeciesOverlayClose = useCallback(() => {
+    setSpeciesOverlayOpen(false)
+  }, [])
+
+  const handleSpeciesFilteredChange = useCallback((filtered: Specie[]) => {
+    setSpeciesFiltered(filtered)
+  }, [])
+
+  const handleSpeciesListSelect = (name: string) => {
+    setSpeciesOverlayOpen(false)
+    handleSpeciesChange(name, null)
+  }
+
   // Move list overlay handlers
   const handleSlotFocus = useCallback((slotIndex: number) => {
     setActiveOverlay(null)
+    setSpeciesOverlayOpen(false)
     setActiveMoveSlot(slotIndex)
     setMoveSearchQuery(state.moves[slotIndex] || '')
   }, [state.moves])
@@ -199,6 +226,7 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
   // Ability overlay handlers
   const handleAbilityFocus = useCallback(() => {
     setActiveMoveSlot(null)
+    setSpeciesOverlayOpen(false)
     setActiveOverlay('ability')
     setAbilitySearchQuery(state.ability || '')
   }, [state.ability])
@@ -217,6 +245,7 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
   // Item overlay handlers
   const handleItemFocus = useCallback(() => {
     setActiveMoveSlot(null)
+    setSpeciesOverlayOpen(false)
     setActiveOverlay('item')
     setItemSearchQuery(state.item || '')
   }, [state.item])
@@ -233,6 +262,7 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
       setAbilitySearchQuery('')
     } else {
       setActiveMoveSlot(null)
+      setSpeciesOverlayOpen(false)
       setActiveOverlay('ability')
       setAbilitySearchQuery(state.ability || '')
     }
@@ -249,6 +279,7 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
       setItemSearchQuery('')
     } else {
       setActiveMoveSlot(null)
+      setSpeciesOverlayOpen(false)
       setActiveOverlay('item')
       setItemSearchQuery(state.item || '')
     }
@@ -295,6 +326,10 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
           value={state.species}
           onChange={handleSpeciesChange}
           gen={gen}
+          onOverlayOpen={handleSpeciesOverlayOpen}
+          onOverlayClose={handleSpeciesOverlayClose}
+          onFilteredChange={handleSpeciesFilteredChange}
+          isOverlayOpen={speciesOverlayOpen}
         />
       </div>
 
@@ -418,7 +453,7 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
             />
           </div>
 
-          {/* Stats or overlay (MoveList / AbilityList / ItemList) */}
+          {/* Stats or overlay (MoveList / SpeciesList / AbilityList / ItemList) */}
           {activeMoveSlot !== null ? (
             <MoveList
               slotIndex={activeMoveSlot}
@@ -427,6 +462,13 @@ export function CalcCard({ slotId, state, onStateChange, gen, result, incomingRe
               isLoading={isLearnsetLoading}
               onSelect={handleMoveSelect}
               onClose={handleMoveListClose}
+            />
+          ) : speciesOverlayOpen ? (
+            <SpeciesList
+              speciesList={speciesFiltered}
+              selectedValue={state.species}
+              onSelect={handleSpeciesListSelect}
+              onClose={handleSpeciesOverlayClose}
             />
           ) : activeOverlay === 'ability' ? (
             <AbilityList

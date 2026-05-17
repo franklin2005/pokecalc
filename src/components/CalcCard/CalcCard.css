@@ -4,7 +4,7 @@
 
 .calc-card {
   background-color: var(--surface-container-lowest);
-  border: 0.6rem solid var(--card-border);
+  border: 0.45rem solid var(--card-border);
   border-radius: 3.2rem;
   padding: 1.8rem;
   box-shadow: var(--shadow-sm);

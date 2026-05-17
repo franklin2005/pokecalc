@@ -28,10 +28,11 @@
 - **Glassmorphism**: Semi-transparent surfaces with backdrop blur
 - **Responsive**: Mobile-first, breakpoints at 640/768/1024/1280px
 
-### Testing Rules
-- Strict TDD: DISABLED (no runner yet)
-- Runner (planned): Vitest
-- Integration (planned): @testing-library/react
+### Testing
+- **Strict TDD**: ENABLED (Vitest v3.1.4 configured)
+- **Runner**: Vitest (`npm test` / `npm run test:watch`)
+- **Integration**: @testing-library/react + @testing-library/jest-dom
+- **Coverage**: Not configured
 
 ---
 
