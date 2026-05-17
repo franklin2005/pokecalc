@@ -30,8 +30,18 @@ Thumbs.db
 *.swo
 *~
 
+# Editor / tool config
+.codex/
+.cursor/
+.gemini/
+.zed/
+config/
+.mcp.json
+opencode.json
+
 # SDD artifacts (project-level, not for repo)
 sdd/
+exploration.md
 
 # Logs
 *.log
