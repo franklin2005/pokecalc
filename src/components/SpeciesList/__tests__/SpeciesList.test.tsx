@@ -10,15 +10,11 @@ describe('SpeciesList', () => {
   // Build a small species list for testing using iteration (same pattern as SpeciesSelect)
   // Sort alphabetically for consistent ordering in tests
   const speciesList = (() => {
-    const list: ReturnType<typeof gen.species.get>[] = []
     const targetNames = ['Venusaur', 'Charizard', 'Blastoise', 'Pikachu', 'Gengar']
-    for (const sp of gen.species) {
-      if (sp && targetNames.includes(sp.name)) {
-        list.push(sp)
-      }
-    }
-    // Sort alphabetically for consistent ordering
-    list.sort((a, b) => a!.name.localeCompare(b!.name))
+    const list = [...gen.species]
+      .filter((s): s is NonNullable<typeof s> => s !== undefined)
+      .filter((s) => targetNames.includes(s.name))
+    list.sort((a, b) => a.name.localeCompare(b.name))
     return list
   })()
 
@@ -65,9 +61,9 @@ describe('SpeciesList', () => {
   })
 
   it('should show individual base stats in separate columns', () => {
-    const venusaur = speciesList.find((s) => s!.name === 'Venusaur')!
+    const venusaur = speciesList.find((s) => s.name === 'Venusaur')!
     render(<SpeciesList {...defaultProps} speciesList={[venusaur]} />)
-    const bs = venusaur!.baseStats
+    const bs = venusaur.baseStats
     const itemEl = document.querySelector('.species-list__item')
     const statElements = itemEl!.querySelectorAll('.species-list__col--stat')
     const statValues = Array.from(statElements).map((el) => Number(el.textContent))
@@ -75,9 +71,9 @@ describe('SpeciesList', () => {
   })
 
   it('should show BST as sum of all base stats', () => {
-    const venusaur = speciesList.find((s) => s!.name === 'Venusaur')!
+    const venusaur = speciesList.find((s) => s.name === 'Venusaur')!
     render(<SpeciesList {...defaultProps} speciesList={[venusaur]} />)
-    const bs = venusaur!.baseStats
+    const bs = venusaur.baseStats
     const expectedBst = bs.hp + bs.atk + bs.def + bs.spa + bs.spd + bs.spe
     const bstEl = document.querySelector('.species-list__item .species-list__col--bst')
     expect(bstEl).toBeDefined()
@@ -85,9 +81,9 @@ describe('SpeciesList', () => {
   })
 
   it('should show common and hidden abilities from species-abilities data', () => {
-    const venusaur = speciesList.find((s) => s!.name === 'Venusaur')!
+    const venusaur = speciesList.find((s) => s.name === 'Venusaur')!
     render(<SpeciesList {...defaultProps} speciesList={[venusaur]} />)
-    const allAbilities = getSpeciesAbilities(toID(venusaur!.name))
+    const allAbilities = getSpeciesAbilities(toID(venusaur.name))
     const expectedCommon = allAbilities.length > 1 ? allAbilities.slice(0, -1) : allAbilities
     const expectedHidden = allAbilities.length > 1 ? allAbilities[allAbilities.length - 1] : ''
 

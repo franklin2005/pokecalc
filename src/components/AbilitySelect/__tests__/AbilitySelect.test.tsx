@@ -10,6 +10,8 @@ describe('AbilitySelect', () => {
     value: 'Overgrow' as const,
     onChange: vi.fn(),
     onFocus: vi.fn(),
+    onToggle: vi.fn(),
+    isOpen: false,
     query: '',
     onQueryChange: vi.fn(),
     gen,

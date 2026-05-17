@@ -47,7 +47,6 @@ export function getFormes(species: Specie): string[] {
 
 export function SpeciesSelect({
   value,
-  onChange,
   gen,
   onOverlayOpen,
   onOverlayClose,

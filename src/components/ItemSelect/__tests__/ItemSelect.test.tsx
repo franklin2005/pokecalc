@@ -7,6 +7,8 @@ describe('ItemSelect', () => {
     value: undefined as string | undefined,
     onChange: vi.fn(),
     onFocus: vi.fn(),
+    onToggle: vi.fn(),
+    isOpen: false,
     query: '',
     onQueryChange: vi.fn(),
   }
